@@ -84,12 +84,13 @@ public class Exam {
     }
 
     public Exam(@NotNull(message = "Exam date cannot be null") LocalDateTime date,
-            @NotBlank(message = "Exam location cannot be blank") String location, String notes) {
+            @NotBlank(message = "Exam location cannot be blank") String location, String notes, Course course) {
         this.date = date;
         this.location = location;
         this.notes = notes;
+        this.course = course;
     }
-    
+
     // # Methods
     @Override
     public String toString() {

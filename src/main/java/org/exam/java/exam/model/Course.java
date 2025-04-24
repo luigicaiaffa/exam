@@ -129,15 +129,18 @@ public class Course {
     public Course() {
     }
     
-    public Course(@NotBlank(message = "Exam name cannot be blank") String name,
-    @Positive(message = "Number of CFU must be positive") @NotNull(message = "Number of CFU cannot be null") Integer cfu,
-    @Positive(message = "Course year must be a positive number") @NotNull(message = "Course year cannot be null") Integer courseYear,
-    @NotNull Boolean isOptional, @NotNull Boolean isPassed) {
+    public Course(@NotBlank(message = "Course name cannot be blank") String name,
+            @Positive(message = "Number of CFU must be positive") @NotNull(message = "Number of CFU cannot be null") Integer cfu,
+            @Positive(message = "Course year must be a positive number") @NotNull(message = "Course year cannot be null") Integer courseYear,
+            @NotNull Boolean isOptional, @NotNull Boolean isPassed, User user, List<Grade> grades, List<Exam> exams) {
         this.name = name;
         this.cfu = cfu;
         this.courseYear = courseYear;
         this.isOptional = isOptional;
         this.isPassed = isPassed;
+        this.user = user;
+        this.grades = grades;
+        this.exams = exams;
     }
 
     // # Methods

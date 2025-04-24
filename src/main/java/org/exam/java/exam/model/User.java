@@ -132,7 +132,8 @@ public class User {
             @Email(message = "Email should be valid") @NotBlank(message = "Email cannot be blank") String email,
             @Size(min = 8, message = "Password must be at least 8 characters long") @NotBlank(message = "Password cannot be blank") String password,
             @NotBlank(message = "Degree Course cannot be blank") String degreeCourse,
-            @NotBlank(message = "Number of total CFU cannot be blank") Integer totalCfu) {
+            @Positive(message = "Number of total CFU must be positive") @NotNull(message = "Number of total CFU cannot be null") Integer totalCfu,
+            List<Course> courses) {
         this.name = name;
         this.surname = surname;
         this.username = username;
@@ -140,6 +141,7 @@ public class User {
         this.password = password;
         this.degreeCourse = degreeCourse;
         this.totalCfu = totalCfu;
+        this.courses = courses;
     }
 
     // # Methods
