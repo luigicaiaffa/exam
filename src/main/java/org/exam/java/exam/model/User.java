@@ -7,6 +7,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 
 @Entity
@@ -37,8 +39,9 @@ public class User {
     @NotBlank(message = "Degree Course cannot be blank")
     private String degreeCourse;
 
-    @NotBlank(message = "Number of total CFU cannot be blank")
-    private String totalCfu;
+    @Positive(message = "Number of total CFU must be positive")
+    @NotNull(message = "Number of total CFU cannot be null")
+    private Integer totalCfu;
 
     // # Getters / Setters
     public Integer getId() {
@@ -97,11 +100,11 @@ public class User {
         this.degreeCourse = degreeCourse;
     }
 
-    public String getTotalCfu() {
+    public Integer getTotalCfu() {
         return totalCfu;
     }
 
-    public void setTotalCfu(String totalCfu) {
+    public void setTotalCfu(Integer totalCfu) {
         this.totalCfu = totalCfu;
     }
 
@@ -115,7 +118,7 @@ public class User {
             @Email(message = "Email should be valid") @NotBlank(message = "Email cannot be blank") String email,
             @Size(min = 8, message = "Password must be at least 8 characters long") @NotBlank(message = "Password cannot be blank") String password,
             @NotBlank(message = "Degree Course cannot be blank") String degreeCourse,
-            @NotBlank(message = "Number of total CFU cannot be blank") String totalCfu) {
+            @NotBlank(message = "Number of total CFU cannot be blank") Integer totalCfu) {
         this.name = name;
         this.surname = surname;
         this.username = username;
@@ -130,4 +133,5 @@ public class User {
     public String toString() {
         return this.username;
     }
+
 }
