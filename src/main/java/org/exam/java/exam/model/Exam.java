@@ -71,6 +71,14 @@ public class Exam {
         this.notes = notes;
     }
 
+    public Course getCourse() {
+        return course;
+    }
+
+    public void setCourse(Course course) {
+        this.course = course;
+    }
+
     // # Constructors
     public Exam() {
     }
@@ -86,8 +94,7 @@ public class Exam {
     @Override
     public String toString() {
         return "Exam [date=" + date + ", location=" + location + "]";
-    } 
-
+    }
 
 }
 
