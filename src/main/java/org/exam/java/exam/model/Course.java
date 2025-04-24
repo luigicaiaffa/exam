@@ -10,14 +10,14 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
 @Entity
-@Table(name = "exams")
-public class Exam {
+@Table(name = "courses")
+public class Course {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @NotBlank(message = "Exam name cannot be blank")
+    @NotBlank(message = "Course name cannot be blank")
     private String name;
 
     @Positive(message = "Number of CFU must be positive")
@@ -84,10 +84,10 @@ public class Exam {
     }
     
     // # Constructors
-    public Exam() {
+    public Course() {
     }
     
-    public Exam(@NotBlank(message = "Exam name cannot be blank") String name,
+    public Course(@NotBlank(message = "Exam name cannot be blank") String name,
     @Positive(message = "Number of CFU must be positive") @NotNull(message = "Number of CFU cannot be null") Integer cfu,
     @Positive(message = "Course year must be a positive number") @NotNull(message = "Course year cannot be null") Integer courseYear,
     @NotNull Boolean isOptional, @NotNull Boolean isPassed) {
@@ -98,9 +98,10 @@ public class Exam {
         this.isPassed = isPassed;
     }
 
+    // # Methods
     @Override
     public String toString() {
-        return "Exam [name=" + name + "]";
+        return "Course [name=" + name + "]";
     }
-    
+
 }
