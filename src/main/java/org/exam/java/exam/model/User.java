@@ -1,9 +1,12 @@
 package org.exam.java.exam.model;
 
+import java.util.List;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -42,6 +45,9 @@ public class User {
     @Positive(message = "Number of total CFU must be positive")
     @NotNull(message = "Number of total CFU cannot be null")
     private Integer totalCfu;
+
+    @OneToMany(mappedBy = "user")
+    private List<Course> courses;
 
     // # Getters / Setters
     public Integer getId() {
@@ -106,6 +112,14 @@ public class User {
 
     public void setTotalCfu(Integer totalCfu) {
         this.totalCfu = totalCfu;
+    }
+
+    public List<Course> getCourses() {
+        return courses;
+    }
+
+    public void setCourses(List<Course> courses) {
+        this.courses = courses;
     }
 
     // # Constructors

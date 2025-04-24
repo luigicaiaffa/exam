@@ -1,9 +1,16 @@
 package org.exam.java.exam.model;
 
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -33,6 +40,17 @@ public class Course {
     
     @NotNull
     private Boolean isPassed;
+
+    @ManyToOne
+    @JsonBackReference
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
+    @OneToMany(mappedBy = "course")
+    private List<Grade> grades;
+
+    @OneToMany(mappedBy = "course")
+    private List<Exam> exams;
 
     // # Getters / Setters
     public Integer getId() {
@@ -83,6 +101,14 @@ public class Course {
         this.isPassed = isPassed;
     }
     
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     // # Constructors
     public Course() {
     }
@@ -103,5 +129,6 @@ public class Course {
     public String toString() {
         return "Course [name=" + name + "]";
     }
+
 
 }
