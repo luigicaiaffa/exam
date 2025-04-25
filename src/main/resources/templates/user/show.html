@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>User Show</title>
+
+    <div th:replace="~{fragments/fragments :: styles}"></div>
+  </head>
+  <body>
+    <div th:replace="~{fragments/fragments :: header}"></div>
+
+    <div class="container">
+      <main>
+        <h1 class="mt-5">User Show</h1>
+
+        <div>
+          <ul th:object="${user}">
+            <li>[[*{id}]]</li>
+            <li>[[*{name}]]</li>
+            <li>[[*{surname}]]</li>
+            <li>[[*{username}]]</li>
+            <li>[[*{email}]]</li>
+            <li>[[*{degreeCourse}]]</li>
+            <li>[[*{totalCfu}]]</li>
+            <li>[[*{courses}]]</li>
+          </ul>
+        </div>
+      </main>
+    </div>
+
+    <div th:replace="~{fragments/fragments :: scripts}"></div>
+  </body>
+</html>

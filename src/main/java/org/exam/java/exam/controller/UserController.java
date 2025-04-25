@@ -37,7 +37,7 @@ public class UserController {
             User user = userService.getById(id);
             model.addAttribute("user", user);
         } catch (EntityNotFoundException e) {
-            return "/user/notfound";
+            return "/main/notfound";
         }
 
         return "/user/show";
@@ -51,14 +51,14 @@ public class UserController {
     }
 
     @PostMapping("/create")
-    public String store(@Valid @ModelAttribute("user") User formUser, Model model, BindingResult bindingResult) {
+    public String store(@Valid @ModelAttribute("user") User formUser, BindingResult bindingResult, Model model) {
 
         if (bindingResult.hasErrors()) {
             return "/user/form";
         }
 
         userService.create(formUser);
-        return "redirect:/user/" + formUser.getId();
+        return "redirect:/user/index";
     }
 
     @GetMapping("/edit/{id}")
@@ -69,13 +69,13 @@ public class UserController {
             model.addAttribute("user", userService.getById(id));
             return "/user/form";
         } catch (EntityNotFoundException e) {
-            return "/user/notfound";
+            return "/main/notfound";
         }
     }
 
     @PostMapping("/edit/{id}")
-    public String update(@PathVariable Integer id, @Valid @ModelAttribute("user") User formUser, Model model,
-            BindingResult bindingResult) {
+    public String update(@PathVariable Integer id, @Valid @ModelAttribute("user") User formUser,
+            BindingResult bindingResult, Model model) {
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("edit", true);

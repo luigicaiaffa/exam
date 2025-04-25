@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>User Form</title>
+
+    <div th:replace="~{fragments/fragments :: styles}"></div>
+  </head>
+  <body>
+    <div th:replace="~{fragments/fragments :: header}"></div>
+
+    <div class="container">
+      <main>
+        <div class="d-flex justify-content-between align-items-center mt-5">
+          <div>
+            <h1 th:if="${edit}">Update your profile</h1>
+            <h1 th:unless="${edit}">Register</h1>
+          </div>
+        </div>
+
+        <hr />
+
+        <form
+          id="user-form"
+          method="POST"
+          th:action="${edit} ? @{/user/edit/{id}(id = ${user.id})} : @{/user/create}"
+          th:object="${user}"
+          class="row g-3 mt-3"
+        >
+          <div class="col-md-4">
+            <label for="name" class="form-label">Name</label>
+            <input
+              type="text"
+              class="form-control"
+              id="name"
+              th:field="*{name}"
+              th:errorClass="is-invalid"
+            />
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('name')}">
+              <ul>
+                <li
+                  th:each="error : ${#fields.errors('name')}"
+                  th:text="${error}"
+                ></li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <label for="surname" class="form-label">Surname</label>
+            <input
+              type="text"
+              class="form-control"
+              id="surname"
+              th:field="*{surname}"
+              th:errorClass="is-invalid"
+            />
+            <div
+              class="invalid-feedback"
+              th:if="${#fields.hasErrors('surname')}"
+            >
+              <ul>
+                <li
+                  th:each="error : ${#fields.errors('surname')}"
+                  th:text="${error}"
+                ></li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <label for="username" class="form-label">Username</label>
+            <input
+              type="text"
+              class="form-control"
+              id="username"
+              th:field="*{username}"
+              th:errorClass="is-invalid"
+            />
+            <div
+              class="invalid-feedback"
+              th:if="${#fields.hasErrors('username')}"
+            >
+              <ul>
+                <li
+                  th:each="error : ${#fields.errors('username')}"
+                  th:text="${error}"
+                ></li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <label for="email" class="form-label">Email</label>
+            <input
+              type="text"
+              class="form-control"
+              id="email"
+              th:field="*{email}"
+              th:errorClass="is-invalid"
+            />
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('email')}">
+              <ul>
+                <li
+                  th:each="error : ${#fields.errors('email')}"
+                  th:text="${error}"
+                ></li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <label for="password" class="form-label">Password</label>
+            <input
+              type="password"
+              class="form-control"
+              id="password"
+              th:field="*{password}"
+              th:errorClass="is-invalid"
+            />
+            <div
+              class="invalid-feedback"
+              th:if="${#fields.hasErrors('password')}"
+            >
+              <ul>
+                <li
+                  th:each="error : ${#fields.errors('password')}"
+                  th:text="${error}"
+                ></li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <label for="degreeCourse" class="form-label">Degree Course</label>
+            <input
+              type="text"
+              class="form-control"
+              id="degreeCourse"
+              th:field="*{degreeCourse}"
+              th:errorClass="is-invalid"
+            />
+            <div
+              class="invalid-feedback"
+              th:if="${#fields.hasErrors('degreeCourse')}"
+            >
+              <ul>
+                <li
+                  th:each="error : ${#fields.errors('degreeCourse')}"
+                  th:text="${error}"
+                ></li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <label for="totalCfu" class="form-label">Total CFU</label>
+            <input
+              type="number"
+              class="form-control"
+              id="totalCfu"
+              th:field="*{totalCfu}"
+              th:errorClass="is-invalid"
+            />
+            <div
+              class="invalid-feedback"
+              th:if="${#fields.hasErrors('totalCfu')}"
+            >
+              <ul>
+                <li
+                  th:each="error : ${#fields.errors('totalCfu')}"
+                  th:text="${error}"
+                ></li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="mt-4">
+            <button type="submit" class="btn btn-success">Save</button>
+          </div>
+        </form>
+      </main>
+    </div>
+
+    <div th:replace="~{fragments/fragments :: scripts}"></div>
+  </body>
+</html>
