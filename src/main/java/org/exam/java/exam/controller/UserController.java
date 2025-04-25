@@ -37,6 +37,7 @@ public class UserController {
             User user = userService.getById(id);
             model.addAttribute("user", user);
         } catch (EntityNotFoundException e) {
+            model.addAttribute("element", "User");
             return "/main/notfound";
         }
 
@@ -69,6 +70,7 @@ public class UserController {
             model.addAttribute("user", userService.getById(id));
             return "/user/form";
         } catch (EntityNotFoundException e) {
+            model.addAttribute("element", "User");
             return "/main/notfound";
         }
     }

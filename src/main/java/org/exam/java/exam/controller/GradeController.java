@@ -27,7 +27,7 @@ public class GradeController {
     public String index(Model model) {
 
         model.addAttribute("grades", gradeService.findAll());
-        return "/grades/index";
+        return "/grade/index";
     }
 
     @GetMapping("/{id}")
@@ -37,17 +37,18 @@ public class GradeController {
             Grade grade = gradeService.getById(id);
             model.addAttribute("grade", grade);
         } catch (EntityNotFoundException e) {
+            model.addAttribute("element", "Grade");
             return "/main/notfound";
         }
 
-        return "/grades/show";
+        return "/grade/show";
     }
 
     @GetMapping("/create")
     public String create(Model model) {
 
         model.addAttribute("grade", new Grade());
-        return "/grades/form";
+        return "/grade/form";
     }
 
     @PostMapping("/create")
@@ -55,11 +56,11 @@ public class GradeController {
             Model model) {
 
         if (bindingResult.hasErrors()) {
-            return "/grades/form";
+            return "/grade/form";
         }
 
         gradeService.create(formGrade);
-        return "redirect:/grades/index";
+        return "redirect:/grade/index";
     }
 
     @GetMapping("/edit/{id}")
@@ -68,8 +69,9 @@ public class GradeController {
         try {
             model.addAttribute("edit", true);
             model.addAttribute("grade", gradeService.getById(id));
-            return "/grades/form";
+            return "/grade/form";
         } catch (EntityNotFoundException e) {
+            model.addAttribute("element", "Grade");
             return "/main/notfound";
         }
     }
@@ -81,18 +83,18 @@ public class GradeController {
         if (bindingResult.hasErrors()) {
             model.addAttribute("edit", true);
             model.addAttribute("grade", formGrade);
-            return "/grades/form";
+            return "/grade/form";
         }
 
         gradeService.update(formGrade);
-        return "redirect:/grades/index";
+        return "redirect:/grade/index";
     }
 
     @PostMapping("/delete/{id}")
     public String delete(@PathVariable Integer id) {
 
         gradeService.deleteById(id);
-        return "redirect:/grades/index";
+        return "redirect:/grade/index";
     }
 
 }
