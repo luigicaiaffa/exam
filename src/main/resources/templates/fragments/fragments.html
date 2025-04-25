@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>Document</title>
+
+    <!-- # Styles -->
+    <div th:fragment="styles">
+      <link
+        rel="stylesheet"
+        th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}"
+      />
+      <link rel="stylesheet" th:href="@{/css/style.css}" />
+    </div>
+  </head>
+  <body>
+    <!-- # Header -->
+    <header th:fragment="header"></header>
+
+    <!-- # Delete Modal -->
+    <div th:fragment="deleteModal"></div>
+
+    <!-- # Scripts -->
+    <div th:fragment="scripts">
+      <script th:src="@{/webjars/jquery/3.7.1/jquery.min.js}"></script>
+      <script
+        th:src="@{/webjars/bootstrap/5.3.3/js/bootstrap.bundle.min.js}"
+      ></script>
+    </div>
+  </body>
+</html>

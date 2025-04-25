@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>HomePage</title>
+
+    <div th:replace="~{fragments/fragments :: styles}"></div>
+  </head>
+  <body>
+    <div th:replace="~{fragments/fragments :: header}"></div>
+
+    <div class="container">
+      <main>
+        <h1 class="mt-5">Welcome</h1>
+
+        <table th:if="${users.size() != 0}">
+          <tbody>
+            <tr th:each="user : ${users}" th:object="${user}">
+              <td>[[*{id}]]</td>
+              <td>[[*{name}]]</td>
+              <td>[[*{surname}]]</td>
+              <td>[[*{username}]]</td>
+              <td>[[*{email}]]</td>
+              <td>[[*{degreeCourse}]]</td>
+              <td>[[*{totalCfu}]]</td>
+              <td>[[*{courses}]]</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div th:unless="${users.size() != 0}">
+            <p>No Users registered</p>
+        </div>
+      </main>
+    </div>
+
+    <div th:replace="~{fragments/fragments :: scripts}"></div>
+  </body>
+</html>
