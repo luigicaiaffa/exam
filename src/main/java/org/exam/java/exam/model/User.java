@@ -3,9 +3,13 @@ package org.exam.java.exam.model;
 import java.util.List;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
@@ -48,6 +52,10 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private List<Course> courses;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private List<Role> roles;
 
     // # Getters / Setters
     public Integer getId() {
@@ -122,6 +130,14 @@ public class User {
         this.courses = courses;
     }
 
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
+    }
+
     // # Constructors
     public User() {
     }
@@ -133,7 +149,7 @@ public class User {
             @Size(min = 8, message = "Password must be at least 8 characters long") @NotBlank(message = "Password cannot be blank") String password,
             @NotBlank(message = "Degree Course cannot be blank") String degreeCourse,
             @Positive(message = "Number of total CFU must be positive") @NotNull(message = "Number of total CFU cannot be null") Integer totalCfu,
-            List<Course> courses) {
+            List<Course> courses, List<Role> roles) {
         this.name = name;
         this.surname = surname;
         this.username = username;
@@ -142,6 +158,7 @@ public class User {
         this.degreeCourse = degreeCourse;
         this.totalCfu = totalCfu;
         this.courses = courses;
+        this.roles = roles;
     }
 
     // # Methods

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>Grade Form</title>
+
+    <div th:replace="~{fragments/fragments :: styles}"></div>
+  </head>
+  <body>
+    <div th:replace="~{fragments/fragments :: header}"></div>
+
+    <div class="container">
+      <main>
+        <div class="d-flex justify-content-between align-items-center mt-5">
+          <div>
+            <h1 th:if="${edit}">Update your grade</h1>
+            <h1 th:unless="${edit}">Add grade</h1>
+          </div>
+        </div>
+
+        <hr />
+
+        <form
+          id="user-form"
+          method="POST"
+          th:action="${edit} ? @{/grades/edit/{id}(id = ${grade.id})} : @{/grades/create}"
+          th:object="${grade}"
+          class="row g-3 mt-3"
+        >
+          <div class="col-md-4">
+            <label for="value" class="form-label">Value</label>
+            <input
+              type="number"
+              class="form-control"
+              id="value"
+              th:field="*{value}"
+              th:errorClass="is-invalid"
+            />
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('value')}">
+              <ul>
+                <li
+                  th:each="error : ${#fields.errors('value')}"
+                  th:text="${error}"
+                ></li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <label for="date" class="form-label">Date</label>
+            <input
+              type="date"
+              class="form-control"
+              id="date"
+              th:field="*{date}"
+              th:errorClass="is-invalid"
+            />
+            <div
+              class="invalid-feedback"
+              th:if="${#fields.hasErrors('date')}"
+            >
+              <ul>
+                <li
+                  th:each="error : ${#fields.errors('date')}"
+                  th:text="${error}"
+                ></li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <label for="hasHonors" class="form-check-label">Has honors</label>
+            <input
+              type="checkbox"
+              class="form-check-input"
+              id="hasHonors"
+              th:field="*{hasHonors}"
+              th:errorClass="is-invalid"
+            />
+            <div
+              class="invalid-feedback"
+              th:if="${#fields.hasErrors('hasHonors')}"
+            >
+              <ul>
+                <li
+                  th:each="error : ${#fields.errors('hasHonors')}"
+                  th:text="${error}"
+                ></li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="mt-4">
+            <button type="submit" class="btn btn-success">Save</button>
+          </div>
+        </form>
+      </main>
+    </div>
+
+    <div th:replace="~{fragments/fragments :: scripts}"></div>
+  </body>
+</html>
