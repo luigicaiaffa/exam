@@ -16,7 +16,7 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 
 @Controller
-@RequestMapping("/course")
+@RequestMapping("/courses")
 public class CourseController {
 
     @Autowired
