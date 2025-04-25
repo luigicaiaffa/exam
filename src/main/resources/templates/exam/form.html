@@ -26,6 +26,8 @@
           th:object="${exam}"
           class="row g-3 mt-3"
         >
+          <input type="hidden" th:field="*{course.id}" />
+
           <div class="col-md-4">
             <label for="location" class="form-label">Location</label>
             <input
@@ -35,7 +37,10 @@
               th:field="*{location}"
               th:errorClass="is-invalid"
             />
-            <div class="invalid-feedback" th:if="${#fields.hasErrors('location')}">
+            <div
+              class="invalid-feedback"
+              th:if="${#fields.hasErrors('location')}"
+            >
               <ul>
                 <li
                   th:each="error : ${#fields.errors('location')}"
@@ -48,16 +53,13 @@
           <div class="col-md-4">
             <label for="date" class="form-label">Date</label>
             <input
-              type="date"
+              type="datetime-local"
               class="form-control"
               id="date"
               th:field="*{date}"
               th:errorClass="is-invalid"
             />
-            <div
-              class="invalid-feedback"
-              th:if="${#fields.hasErrors('date')}"
-            >
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('date')}">
               <ul>
                 <li
                   th:each="error : ${#fields.errors('date')}"
@@ -76,10 +78,7 @@
               th:field="*{notes}"
               th:errorClass="is-invalid"
             ></textarea>
-            <div
-              class="invalid-feedback"
-              th:if="${#fields.hasErrors('notes')}"
-            >
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('notes')}">
               <ul>
                 <li
                   th:each="error : ${#fields.errors('notes')}"

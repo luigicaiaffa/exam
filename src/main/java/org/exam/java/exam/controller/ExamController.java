@@ -43,13 +43,6 @@ public class ExamController {
         return "/exam/show";
     }
 
-    @GetMapping("/create")
-    public String create(Model model) {
-
-        model.addAttribute("exam", new Exam());
-        return "/exam/form";
-    }
-
     @PostMapping("/create")
     public String store(@Valid @ModelAttribute("exam") Exam formExam, BindingResult bindingResult, Model model) {
 
@@ -58,7 +51,7 @@ public class ExamController {
         }
 
         examService.create(formExam);
-        return "/exam/index";
+        return "redirect:/exams";
     }
 
     @GetMapping("/edit/{id}")

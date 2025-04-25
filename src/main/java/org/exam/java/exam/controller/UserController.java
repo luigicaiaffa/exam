@@ -59,7 +59,7 @@ public class UserController {
         }
 
         userService.create(formUser);
-        return "redirect:/user/index";
+        return "redirect:/user";
     }
 
     @GetMapping("/edit/{id}")
@@ -94,7 +94,7 @@ public class UserController {
     public String delete(@PathVariable Integer id) {
 
         userService.deleteById(id);
-        return "redirect:/homepage";
+        return "redirect:/home";
     }
 
 }

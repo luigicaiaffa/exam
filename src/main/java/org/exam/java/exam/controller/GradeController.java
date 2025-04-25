@@ -44,13 +44,6 @@ public class GradeController {
         return "/grade/show";
     }
 
-    @GetMapping("/create")
-    public String create(Model model) {
-
-        model.addAttribute("grade", new Grade());
-        return "/grade/form";
-    }
-
     @PostMapping("/create")
     public String store(@Valid @ModelAttribute("grade") Grade formGrade, BindingResult bindingResult,
             Model model) {
@@ -60,7 +53,7 @@ public class GradeController {
         }
 
         gradeService.create(formGrade);
-        return "redirect:/grade/index";
+        return "redirect:/grades";
     }
 
     @GetMapping("/edit/{id}")
@@ -88,14 +81,14 @@ public class GradeController {
         }
 
         gradeService.update(formGrade);
-        return "redirect:/grade/" + id;
+        return "redirect:/grades/" + id;
     }
 
     @PostMapping("/delete/{id}")
     public String delete(@PathVariable Integer id) {
 
         gradeService.deleteById(id);
-        return "redirect:/grade/index";
+        return "redirect:/grades";
     }
 
 }
