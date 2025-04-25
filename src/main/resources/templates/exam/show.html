@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
   <head>
-    <title>Grade Show</title>
+    <title>Exam Show</title>
 
     <div th:replace="~{fragments/fragments :: styles}"></div>
   </head>
@@ -10,14 +10,14 @@
 
     <div class="container">
       <main>
-        <h1 class="mt-5">Grade Show</h1>
+        <h1 class="mt-5">Exam Show</h1>
 
         <div>
-          <ul th:object="${grade}">
+          <ul th:object="${exam}">
             <li>[[*{id}]]</li>
-            <li>[[*{value}]]</li>
+            <li>[[*{location}]]</li>
             <li>[[*{date}]]</li>
-            <li>[[*{hasHonors}]]</li>
+            <li>[[*{notes}]]</li>
             <li>[[*{course}]]</li>
           </ul>
         </div>

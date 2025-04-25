@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
   <head>
-    <title>Grade Form</title>
+    <title>Exam Form</title>
 
     <div th:replace="~{fragments/fragments :: styles}"></div>
   </head>
@@ -12,8 +12,8 @@
       <main>
         <div class="d-flex justify-content-between align-items-center mt-5">
           <div>
-            <h1 th:if="${edit}">Update your grade</h1>
-            <h1 th:unless="${edit}">Add grade</h1>
+            <h1 th:if="${edit}">Update your Exam</h1>
+            <h1 th:unless="${edit}">Add Exam</h1>
           </div>
         </div>
 
@@ -22,23 +22,23 @@
         <form
           id="user-form"
           method="POST"
-          th:action="${edit} ? @{/grades/edit/{id}(id = ${grade.id})} : @{/grades/create}"
-          th:object="${grade}"
+          th:action="${edit} ? @{/exams/edit/{id}(id = ${exam.id})} : @{/exams/create}"
+          th:object="${exam}"
           class="row g-3 mt-3"
         >
           <div class="col-md-4">
-            <label for="value" class="form-label">Value</label>
+            <label for="location" class="form-label">Location</label>
             <input
-              type="number"
+              type="text"
               class="form-control"
-              id="value"
-              th:field="*{value}"
+              id="location"
+              th:field="*{location}"
               th:errorClass="is-invalid"
             />
-            <div class="invalid-feedback" th:if="${#fields.hasErrors('value')}">
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('location')}">
               <ul>
                 <li
-                  th:each="error : ${#fields.errors('value')}"
+                  th:each="error : ${#fields.errors('location')}"
                   th:text="${error}"
                 ></li>
               </ul>
@@ -68,21 +68,21 @@
           </div>
 
           <div class="col-md-6">
-            <label for="hasHonors" class="form-check-label">Has honors?</label>
-            <input
-              type="checkbox"
-              class="form-check-input"
-              id="hasHonors"
-              th:field="*{hasHonors}"
+            <label for="notes" class="form-label">Notes</label>
+            <textarea
+              type="text"
+              class="form-control"
+              id="notes"
+              th:field="*{notes}"
               th:errorClass="is-invalid"
-            />
+            ></textarea>
             <div
               class="invalid-feedback"
-              th:if="${#fields.hasErrors('hasHonors')}"
+              th:if="${#fields.hasErrors('notes')}"
             >
               <ul>
                 <li
-                  th:each="error : ${#fields.errors('hasHonors')}"
+                  th:each="error : ${#fields.errors('notes')}"
                   th:text="${error}"
                 ></li>
               </ul>
