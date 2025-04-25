@@ -69,11 +69,12 @@ public class GradeController {
         try {
             model.addAttribute("edit", true);
             model.addAttribute("grade", gradeService.getById(id));
-            return "/grade/form";
         } catch (EntityNotFoundException e) {
             model.addAttribute("element", "Grade");
             return "/main/notfound";
         }
+
+        return "/grade/form";
     }
 
     @PostMapping("/edit/{id}")
@@ -87,7 +88,7 @@ public class GradeController {
         }
 
         gradeService.update(formGrade);
-        return "redirect:/grade/index";
+        return "redirect:/grade/" + id;
     }
 
     @PostMapping("/delete/{id}")

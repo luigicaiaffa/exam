@@ -68,11 +68,12 @@ public class UserController {
         try {
             model.addAttribute("edit", true);
             model.addAttribute("user", userService.getById(id));
-            return "/user/form";
         } catch (EntityNotFoundException e) {
             model.addAttribute("element", "User");
             return "/main/notfound";
         }
+
+        return "/user/form";
     }
 
     @PostMapping("/edit/{id}")
