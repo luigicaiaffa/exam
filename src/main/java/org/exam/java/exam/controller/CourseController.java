@@ -2,7 +2,6 @@ package org.exam.java.exam.controller;
 
 import org.exam.java.exam.model.Course;
 import org.exam.java.exam.model.Exam;
-import org.exam.java.exam.model.Grade;
 import org.exam.java.exam.service.CourseService;
 import org.exam.java.exam.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -115,19 +114,4 @@ public class CourseController {
         return "/exam/form";
     }
 
-    @GetMapping("/{id}/grade")
-    public String createGrade(@PathVariable Integer id, Model model) {
-
-        try {
-            Grade grade = new Grade();
-            grade.setCourse(courseService.getById(id));
-            model.addAttribute("grade", grade);
-        } catch (EntityNotFoundException e) {
-            model.addAttribute("element", "Grade");
-            return "/main/notfound";
-        }
-
-        return "/grade/form";
-    }
-    
 }

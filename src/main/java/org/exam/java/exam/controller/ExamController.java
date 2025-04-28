@@ -1,6 +1,7 @@
 package org.exam.java.exam.controller;
 
 import org.exam.java.exam.model.Exam;
+import org.exam.java.exam.model.Grade;
 import org.exam.java.exam.service.ExamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -87,6 +88,21 @@ public class ExamController {
 
         examService.deleteById(id);
         return "redirect:/exams";
+    }
+
+    @GetMapping("/{id}/grade")
+    public String createGrade(@PathVariable Integer id, Model model) {
+
+        try {
+            Grade grade = new Grade();
+            grade.setExam(examService.getById(id));
+            model.addAttribute("grade", grade);
+        } catch (EntityNotFoundException e) {
+            model.addAttribute("element", "Grade");
+            return "/main/notfound";
+        }
+
+        return "/grade/form";
     }
 
 }

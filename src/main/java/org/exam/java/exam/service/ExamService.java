@@ -12,9 +12,12 @@ import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class ExamService {
-    
+
     @Autowired
     private ExamRepository examRepository;
+
+    @Autowired
+    private GradeService gradeService;
 
     public List<Exam> findAll() {
         return examRepository.findAll();
@@ -43,6 +46,10 @@ public class ExamService {
     }
 
     public void delete(Exam exam) {
+        if (exam.getGrade() != null) {
+            gradeService.delete(exam.getGrade());
+        }
+
         examRepository.delete(exam);
     }
 

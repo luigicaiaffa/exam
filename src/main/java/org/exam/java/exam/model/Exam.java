@@ -12,6 +12,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -37,6 +38,9 @@ public class Exam {
     @JsonBackReference
     @JoinColumn(name = "course_id", nullable = false)
     private Course course;
+
+    @OneToOne(mappedBy = "exam")
+    private Grade grade;
 
     // # Getters / Setters
     public Integer getId() {
@@ -79,16 +83,26 @@ public class Exam {
         this.course = course;
     }
 
+    public Grade getGrade() {
+        return grade;
+    }
+
+    public void setGrade(Grade grade) {
+        this.grade = grade;
+    }
+
     // # Constructors
     public Exam() {
     }
 
     public Exam(@NotNull(message = "Exam date cannot be null") LocalDateTime date,
-            @NotBlank(message = "Exam location cannot be blank") String location, String notes, Course course) {
+            @NotBlank(message = "Exam location cannot be blank") String location, String notes, Course course,
+            Grade grade) {
         this.date = date;
         this.location = location;
         this.notes = notes;
         this.course = course;
+        this.grade = grade;
     }
 
     // # Methods
