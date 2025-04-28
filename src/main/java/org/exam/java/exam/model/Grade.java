@@ -93,7 +93,12 @@ public class Grade {
     // # Methods
     @Override
     public String toString() {
-        return "Grade [value=" + value + "]";
+
+        if (this.hasHonors) {
+            return this.value + "L";
+        }
+
+        return this.value + "";
     }
 
 }

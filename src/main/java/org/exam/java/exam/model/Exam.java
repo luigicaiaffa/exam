@@ -94,7 +94,7 @@ public class Exam {
     // # Methods
     @Override
     public String toString() {
-        return "Exam [date=" + date + ", location=" + location + "]";
+        return this.date + " - " + this.location;
     }
 
 }
