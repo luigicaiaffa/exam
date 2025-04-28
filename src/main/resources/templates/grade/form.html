@@ -47,25 +47,6 @@
             </div>
           </div>
 
-          <div class="col-md-4">
-            <label for="date" class="form-label">Date</label>
-            <input
-              type="date"
-              class="form-control"
-              id="date"
-              th:field="*{date}"
-              th:errorClass="is-invalid"
-            />
-            <div class="invalid-feedback" th:if="${#fields.hasErrors('date')}">
-              <ul>
-                <li
-                  th:each="error : ${#fields.errors('date')}"
-                  th:text="${error}"
-                ></li>
-              </ul>
-            </div>
-          </div>
-
           <div class="col-md-6">
             <label for="hasHonors" class="form-check-label">Has honors</label>
             <input

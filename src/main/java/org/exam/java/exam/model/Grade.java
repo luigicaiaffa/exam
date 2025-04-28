@@ -1,7 +1,5 @@
 package org.exam.java.exam.model;
 
-import java.time.LocalDate;
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.Entity;
@@ -25,9 +23,6 @@ public class Grade {
     @Positive(message = "Value must be positive")
     @NotNull(message = "Value cannot be null")
     private Integer value;
-
-    @NotNull(message = "Date cannot be null")
-    private LocalDate date;
 
     @NotNull
     private Boolean hasHonors;
@@ -54,14 +49,6 @@ public class Grade {
         this.value = value;
     }
 
-    public LocalDate getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDate date) {
-        this.date = date;
-    }
-
     public Boolean getHasHonors() {
         return hasHonors;
     }
@@ -83,9 +70,8 @@ public class Grade {
     }
 
     public Grade(@Positive(message = "Value must be positive") @NotNull(message = "Value cannot be null") Integer value,
-            @NotNull(message = "Date cannot be null") LocalDate date, @NotNull Boolean hasHonors, Exam exam) {
+            @NotNull Boolean hasHonors, Exam exam) {
         this.value = value;
-        this.date = date;
         this.hasHonors = hasHonors;
         this.exam = exam;
     }

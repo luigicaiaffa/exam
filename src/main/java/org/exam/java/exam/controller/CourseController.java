@@ -72,6 +72,7 @@ public class CourseController {
         try {
             model.addAttribute("edit", true);
             model.addAttribute("course", courseService.getById(id));
+
         } catch (Exception e) {
             model.addAttribute("element", "Course");
             return "/main/notfound";
@@ -88,6 +89,7 @@ public class CourseController {
             return "/course/form";
         }
 
+        formCourse.setUser(userService.getById(1));
         courseService.update(formCourse);
         return "redirect:/courses/" + id;
     }

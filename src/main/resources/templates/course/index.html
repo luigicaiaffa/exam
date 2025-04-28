@@ -18,47 +18,102 @@
           </div>
 
           <div>
-            <a class="btn btn-dark" th:href="@{/courses/create}">Add course</a>
+            <a class="btn btn-primary" th:href="@{/courses/create}"
+              ><i class="fa-solid fa-plus"></i> Registra Corso</a
+            >
           </div>
         </div>
 
         <hr />
 
-        <div class="card" th:each="course : ${courses}" th:object="${course}">
-          <h5 class="card-header">Corso in: [[*{name}]]</h5>
-          <div class="card-body">
-            <ul class="list-group list-group-flush">
-              <li class="list-group-item">
-                <span class="fw-bold">Anno:</span> [[*{courseYear}]]
-              </li>
-              <li class="list-group-item"><span class="fw-bold">CFU:</span> [[*{cfu}]]</li>
-              <li class="list-group-item">
-                <div class="d-flex justify-content-between align items center">
-                  <div class="fw-bold">Appelli:</div>
-                  <div>
-                    <a
-                      class="btn btn-sm btn-outline-dark"
-                      th:href="@{/courses/{id}/exam(id = *{id})}"
-                      >Nuovo appello</a
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-3">
+          <div class="col" th:each="course : ${courses}" th:object="${course}">
+            <div class="card">
+              <div
+                class="card-header d-flex justify-content-between align-items-center"
+              >
+                <h5 class="fw-bold m-0">[[*{name}]]</h5>
+
+                <div>
+                  <span th:if="*{isOptional}" class="badge bg-dark">opz</span>
+                  <span th:if="*{isPassed}" class="fs-6 badge bg-success"
+                    ><i class="fa-solid fa-check"></i
+                  ></span>
+                  <span th:unless="*{isPassed}" class="fs-6 badge bg-danger"
+                    ><i class="fa-solid fa-book-open"></i
+                  ></span>
+                </div>
+              </div>
+              <div class="card-body">
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item d-flex justify-content-between">
+                    <span class="fw-bold">CFU</span>
+                    <span>[[*{cfu}]]</span>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between">
+                    <span class="fw-bold">Anno</span>
+                    <span>[[*{courseYear}]]</span>
+                  </li>
+                  <li class="list-group-item">
+                    <div
+                      class="d-flex justify-content-between align-items-center my-1"
                     >
-                  </div>
-                </div>
+                      <div class="fw-bold">Appelli:</div>
+                      <div>
+                        <a
+                          class="btn btn-sm btn-outline-primary"
+                          th:href="@{/courses/{id}/exam(id = *{id})}"
+                          ><i class="fa-solid fa-plus"></i> Appello</a
+                        >
+                      </div>
+                    </div>
 
-                <div class="d-flex justify-content-between align items center">
-                  <div>[[*{exams}]]</div>
+                    <div th:if="${course.exams.size() != 0}">
+                      <ul class="list-group list-group-flush">
+                        <li
+                          th:each="exam : ${course.exams}"
+                          th:object="${exam}"
+                          class="list-group-item d-flex justify-content-between align-items-center"
+                        >
+                          <div>
+                            [[*{date}]] <br />[[*{location}]] <br />Voto:
+                            [[*{grade}]]
+                          </div>
 
-                  <div>
-                    <a
-                      class="btn btn-sm btn-outline-dark"
-                      th:href="@{/exams/edit/{id}(id = *{id})}"
-                      >Modifica
-                    </a>
-                  </div>
-                </div>
-              </li>
-            </ul>
+                          <div class="d-flex flex-column gap-1">
+                            <a
+                              class="btn btn-sm btn-outline-dark"
+                              th:href="@{/exams/edit/{id}(id = *{id})}"
+                              ><i class="fa-solid fa-pen"></i>
+                            </a>
+                            <a
+                              class="btn btn-sm btn-outline-danger"
+                              th:href="@{/exams/delete/{id}(id = *{id})}"
+                              ><i class="fa-solid fa-trash"></i>
+                            </a>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
 
-            <a th:href="@{/courses/{id}/grade(id = *{id})}">Nuovo voto</a>
+                    <div th:unless="${course.exams.size() != 0}">
+                      <p class="">Aggiungi un appello</p>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+
+              <div class="card-footer d-flex justify-content-end gap-2">
+                <a
+                  class="btn btn-sm btn-dark"
+                  th:href="@{/courses/edit/{id}(id = *{id})}"
+                  ><i class="fa-solid fa-pen"></i
+                ></a>
+                <a class="btn btn-sm btn-danger" th:href="@{//{id}(id = *{id})}"
+                  ><i class="fa-solid fa-trash"></i
+                ></a>
+              </div>
+            </div>
           </div>
         </div>
 
