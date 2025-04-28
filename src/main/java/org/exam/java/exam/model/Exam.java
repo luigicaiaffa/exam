@@ -34,6 +34,9 @@ public class Exam {
     @Lob
     private String notes;
 
+    @NotNull
+    private Boolean isCancelled;
+
     @ManyToOne
     @JsonBackReference
     @JoinColumn(name = "course_id", nullable = false)
@@ -91,18 +94,27 @@ public class Exam {
         this.grade = grade;
     }
 
+    public Boolean getIsCancelled() {
+        return isCancelled;
+    }
+
+    public void setIsCancelled(Boolean isCancelled) {
+        this.isCancelled = isCancelled;
+    }
+
     // # Constructors
     public Exam() {
     }
 
     public Exam(@NotNull(message = "Exam date cannot be null") LocalDateTime date,
             @NotBlank(message = "Exam location cannot be blank") String location, String notes, Course course,
-            Grade grade) {
+            Grade grade, Boolean isCancelled) {
         this.date = date;
         this.location = location;
         this.notes = notes;
         this.course = course;
         this.grade = grade;
+        this.isCancelled = isCancelled;
     }
 
     // # Methods

@@ -1,7 +1,5 @@
 package org.exam.java.exam.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -10,7 +8,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 
 @Entity
 @Table(name = "grades")
@@ -20,7 +18,7 @@ public class Grade {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Positive(message = "Value must be positive")
+    @PositiveOrZero(message = "Value must be positive")
     @NotNull(message = "Value cannot be null")
     private Integer value;
 
@@ -28,7 +26,6 @@ public class Grade {
     private Boolean hasHonors;
 
     @OneToOne
-    @JsonBackReference
     @JoinColumn(name = "exam_id", nullable = false)
     private Exam exam;
 
@@ -69,8 +66,9 @@ public class Grade {
     public Grade() {
     }
 
-    public Grade(@Positive(message = "Value must be positive") @NotNull(message = "Value cannot be null") Integer value,
-            @NotNull Boolean hasHonors, Exam exam) {
+    public Grade(
+            @PositiveOrZero(message = "Value must be positive") @NotNull(message = "Value cannot be null") Integer value,
+            @NotNull Boolean hasHonors, Boolean isCancelled, Exam exam) {
         this.value = value;
         this.hasHonors = hasHonors;
         this.exam = exam;

@@ -1,6 +1,10 @@
 package org.exam.java.exam.controller;
 
+import org.exam.java.exam.model.Course;
+import org.exam.java.exam.model.Exam;
 import org.exam.java.exam.model.Grade;
+import org.exam.java.exam.service.CourseService;
+import org.exam.java.exam.service.ExamService;
 import org.exam.java.exam.service.GradeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,6 +26,12 @@ public class GradeController {
 
     @Autowired
     private GradeService gradeService;
+
+    @Autowired
+    private CourseService courseService;
+
+    @Autowired
+    private ExamService examService;
 
     @GetMapping
     public String index(Model model) {
@@ -52,8 +62,20 @@ public class GradeController {
             return "/grade/form";
         }
 
+        try {
+            Exam exam = examService.findById(formGrade.getExam().getId())
+                    .orElseThrow(() -> new RuntimeException("Exam not found"));
+            Course course = exam.getCourse();
+            course.setIsPassed(true);
+            courseService.update(course);
+        } catch (EntityNotFoundException e) {
+            model.addAttribute("element", "Grade");
+            return "/main/notfound";
+        }
+
         gradeService.create(formGrade);
-        return "redirect:/grades";
+
+        return "redirect:/courses";
     }
 
     @GetMapping("/edit/{id}")
@@ -80,7 +102,6 @@ public class GradeController {
             return "/grade/form";
         }
 
-        gradeService.update(formGrade);
         return "redirect:/grades/" + id;
     }
 

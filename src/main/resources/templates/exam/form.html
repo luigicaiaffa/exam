@@ -12,8 +12,8 @@
       <main>
         <div class="d-flex justify-content-between align-items-center mt-5">
           <div>
-            <h1 th:if="${edit}">Update your exam</h1>
-            <h1 th:unless="${edit}">Add exam</h1>
+            <h1 th:if="${edit}">Modifica il tuo appello</h1>
+            <h1 th:unless="${edit}">Aggiungi un appello</h1>
           </div>
         </div>
 
@@ -29,7 +29,7 @@
           <input type="hidden" th:field="*{course.id}" />
 
           <div class="col-md-4">
-            <label for="location" class="form-label">Location</label>
+            <label for="location" class="form-label">Luogo</label>
             <input
               type="text"
               class="form-control"
@@ -51,7 +51,7 @@
           </div>
 
           <div class="col-md-4">
-            <label for="date" class="form-label">Date</label>
+            <label for="date" class="form-label">Data</label>
             <input
               type="datetime-local"
               class="form-control"
@@ -70,7 +70,7 @@
           </div>
 
           <div class="col-md-6">
-            <label for="notes" class="form-label">Notes</label>
+            <label for="notes" class="form-label">Note</label>
             <textarea
               type="text"
               class="form-control"
@@ -82,6 +82,30 @@
               <ul>
                 <li
                   th:each="error : ${#fields.errors('notes')}"
+                  th:text="${error}"
+                ></li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="col-md-12">
+            <label for="isCancelled" class="form-check-label"
+              >Assente o da ripetere</label
+            >
+            <input
+              type="checkbox"
+              class="form-check-input"
+              id="isCancelled"
+              th:field="*{isCancelled}"
+              th:errorClass="is-invalid"
+            />
+            <div
+              class="invalid-feedback"
+              th:if="${#fields.hasErrors('isCancelled')}"
+            >
+              <ul>
+                <li
+                  th:each="error : ${#fields.errors('isCancelled')}"
                   th:text="${error}"
                 ></li>
               </ul>

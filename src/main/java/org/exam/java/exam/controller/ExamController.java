@@ -52,7 +52,7 @@ public class ExamController {
         }
 
         examService.create(formExam);
-        return "redirect:/exams";
+        return "redirect:/courses";
     }
 
     @GetMapping("/edit/{id}")
@@ -80,7 +80,7 @@ public class ExamController {
         }
 
         examService.update(formExam);
-        return "redirect:/exams/" + id;
+        return "redirect:/courses";
     }
 
     @PostMapping("/delete/{id}")

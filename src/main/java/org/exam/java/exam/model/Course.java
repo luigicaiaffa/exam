@@ -38,7 +38,6 @@ public class Course {
     @NotNull
     private Boolean isOptional;
 
-    @NotNull
     private Boolean isPassed;
 
     @ManyToOne
