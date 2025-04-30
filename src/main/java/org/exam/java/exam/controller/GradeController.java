@@ -63,6 +63,7 @@ public class GradeController {
         }
 
         try {
+            gradeService.create(formGrade);
             Exam exam = examService.findById(formGrade.getExam().getId())
                     .orElseThrow(() -> new RuntimeException("Exam not found"));
             Course course = exam.getCourse();
@@ -72,8 +73,6 @@ public class GradeController {
             model.addAttribute("element", "Grade");
             return "/main/notfound";
         }
-
-        gradeService.create(formGrade);
 
         return "redirect:/courses";
     }

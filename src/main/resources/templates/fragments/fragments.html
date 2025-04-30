@@ -24,7 +24,7 @@
     <header th:fragment="header">
       <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
-          <a class="navbar-brand" th:href="@{/home}">MyUniPlan</a>
+          <a class="navbar-brand" th:href="@{/home}">ExamsPlan</a>
           <button
             class="navbar-toggler"
             type="button"
@@ -42,13 +42,13 @@
           >
             <ul class="navbar-nav">
               <li class="nav-item">
-                <a class="nav-link" th:href="@{/courses}">Courses</a>
+                <a class="nav-link" th:href="@{/courses}">Corsi</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" th:href="@{/exams}">Exams</a>
+                <a class="nav-link" th:href="@{/exams}">Esami</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" th:href="@{/grades}">Grades</a>
+                <a class="nav-link" th:href="@{/grades}">Voti</a>
               </li>
             </ul>
 
@@ -58,7 +58,7 @@
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="/logout"
-                  ><button class="btn btn-sm btn-dark">Sign out</button></a
+                  ><button class="btn btn-sm btn-dark">log out</button></a
                 >
               </li>
             </ul>
@@ -67,8 +67,113 @@
       </nav>
     </header>
 
-    <!-- # Delete Modal -->
-    <div th:fragment="deleteModal"></div>
+    <!-- # Delete Course Modal -->
+    <div th:fragment="deleteCourseModal">
+      <button
+        type="button"
+        class="btn btn-sm btn-danger"
+        data-bs-toggle="modal"
+        th:data-bs-target="'#deleteModal' + *{id}"
+      >
+        <i class="fa-solid fa-trash"></i>
+      </button>
+
+      <div
+        class="modal fade"
+        th:id="'deleteModal' + *{id}"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">
+                Stai eliminando: [[*{name}]]
+              </h1>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              Sei sicuro di voler rimuovere il corso in: [[*{name}]]?
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-dark"
+                data-bs-dismiss="modal"
+              >
+                Annulla
+              </button>
+              <form
+                th:action="@{/courses/delete/{id}(id = *{id})}"
+                method="POST"
+              >
+                <button type="submit" class="btn btn-danger">Elimina</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- # Delete Exam Modal -->
+    <div th:fragment="deleteExamModal(title)">
+      <button
+        type="button"
+        th:class="'btn btn-sm ' + (${title} ? 'btn-danger' : 'btn-outline-danger')"
+        data-bs-toggle="modal"
+        th:data-bs-target="'#deleteExamModal' + *{id}"
+      >
+        <i class="fa-solid fa-trash"></i>
+      </button>
+
+      <div
+        class="modal fade"
+        th:id="'deleteExamModal' + *{id}"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">
+                Sei sicuro di voler rimuovere questo appello:
+              </h1>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <ul>
+                <li>[[*{date}]]</li>
+                <li>[[*{location}]]</li>
+              </ul>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-dark"
+                data-bs-dismiss="modal"
+              >
+                Annulla
+              </button>
+              <form th:action="@{/exams/delete/{id}(id = *{id})}" method="POST">
+                <button type="submit" class="btn btn-danger">Elimina</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <!-- # Scripts -->
     <div th:fragment="scripts">
