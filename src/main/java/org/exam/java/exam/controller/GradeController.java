@@ -101,7 +101,8 @@ public class GradeController {
             return "/grade/form";
         }
 
-        return "redirect:/grades/" + id;
+        gradeService.update(formGrade);
+        return "redirect:/courses";
     }
 
     @PostMapping("/delete/{id}")

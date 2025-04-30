@@ -112,8 +112,14 @@
             </div>
           </div>
 
-          <div class="mt-4">
-            <button type="submit" class="btn btn-success">Salva</button>
+          <div class="mt-4 d-flex gap-2">
+            <button type="submit" class="btn btn-sm btn-success">Salva</button>
+            <div th:if="${edit} AND *{grade == null} AND *{!isCancelled}">
+              <a th:href="@{/exams/{id}/grade(id = *{id})}" class="btn btn-sm btn-warning">Registra voto</a>
+            </div>
+            <div th:if="${edit} AND *{grade}">
+              <a th:href="@{/grades/edit/{id}(id = *{grade.id})}" class="btn btn-sm btn-warning">Modifica voto</a>
+            </div>
           </div>
         </form>
       </main>

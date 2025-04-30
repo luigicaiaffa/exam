@@ -44,6 +44,15 @@
             </li>
             <li
               class="list-group-item d-flex align-items-center justify-content-between my-2"
+              th:if="*{isPassed}"
+            >
+              <h5 class="fw-bold">Voto</h5>
+              <div th:each="exam : ${course.exams}" th:object="${exam}">
+                <i th:if="*{grade}" class="fa-solid">[[*{grade}]]</i>
+              </div>
+            </li>
+            <li
+              class="list-group-item d-flex align-items-center justify-content-between my-2"
             >
               <h5 class="fw-bold">CFU</h5>
               <i class="fa-solid">[[*{cfu}]]</i>
@@ -75,7 +84,10 @@
                   >
                     <div>
                       <a th:href="@{/exams/{id}(id = *{id})}">
-                        [[*{date}]] <br />[[*{location}]] <br />
+                        <span
+                          th:text="${#temporals.format(exam.date, 'yyyy-MM-dd | HH:mm')}"
+                        ></span>
+                        <br />[[*{location}]] <br />
 
                         <span th:if="*{grade}" class="badge bg-success"
                           >[[*{grade}]]</span
@@ -102,7 +114,9 @@
                         th:href="@{/exams/edit/{id}(id = *{id})}"
                         ><i class="fa-solid fa-pen"></i>
                       </a>
-                      <div th:replace="~{fragments/fragments :: deleteExamModal(false)}"></div>
+                      <div
+                        th:replace="~{fragments/fragments :: deleteExamModal(false)}"
+                      ></div>
                     </div>
                   </li>
                 </ul>

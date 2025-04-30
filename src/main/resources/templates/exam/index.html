@@ -10,22 +10,167 @@
 
     <div class="container">
       <main>
-        <h1 class="mt-5">Exams Index</h1>
+        <div
+          class="d-flex justify-content-between align-items-center mt-5 mb-3"
+        >
+          <div>
+            <h1 class="fw-bold">I MIEI APPELLI</h1>
+          </div>
+        </div>
 
-        <table class="table table-striped table-hover my-3" th:if="${exams.size() != 0}">
-          <tbody>
-            <tr th:each="exam : ${exams}" th:object="${exam}">
-              <td>[[*{id}]]</td>
-              <td>[[*{location}]]</td>
-              <td>[[*{date}]]</td>
-              <td>[[*{notes}]]</td>
-              <td>[[*{course}]]</td>
-            </tr>
-          </tbody>
-        </table>
+        <hr />
+
+        <!-- Appelli Registrati -->
+        <div class="mb-5">
+          <div>
+            <h5 class="fw-bold">Appelli registrati</h5>
+          </div>
+
+          <ul class="list-group list-group-flush">
+            <li
+              th:each="exam : ${exams}"
+              th:object="${exam}"
+              th:if="${!exam.isCancelled} and ${exam.grade == null}"
+              class="list-group-item"
+            >
+              <a th:href="@{/exams/{id}(id = *{id})}">
+                <div class="row">
+                  <div
+                    class="col-12 d-flex align-items-center justify-content-between"
+                  >
+                    <div class="fw-semibold">Data</div>
+                    <div
+                      th:text="${#temporals.format(exam.date, 'yyyy-MM-dd | HH:mm')}"
+                    ></div>
+                  </div>
+                  <div
+                    class="col-12 d-flex align-items-center justify-content-between"
+                  >
+                    <div class="fw-semibold">Luogo</div>
+                    <div>[[*{location}]]</div>
+                  </div>
+                  <div
+                    class="col-12 d-flex align-items-center justify-content-between"
+                  >
+                    <div class="fw-semibold">Corso</div>
+                    <div>[[*{course.name}]]</div>
+                  </div>
+                  <div
+                    class="col-12 d-flex align-items-center justify-content-between"
+                  >
+                    <div class="fw-semibold">Esito</div>
+                    <a
+                      th:href="@{/exams/{id}/grade(id = *{id})}"
+                      class="badge bg-warning"
+                      >Registra voto</a
+                    >
+                  </div>
+                </div>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <hr />
+
+        <!-- Appelli con Voto -->
+        <div class="mb-5">
+          <div>
+            <h5 class="fw-bold">Appelli con voto</h5>
+          </div>
+
+          <ul class="list-group list-group-flush">
+            <li
+              th:each="exam : ${exams}"
+              th:object="${exam}"
+              th:if="${!exam.isCancelled} and ${exam.grade != null}"
+              class="list-group-item"
+            >
+              <a th:href="@{/exams/{id}(id = *{id})}">
+                <div class="row">
+                  <div
+                    class="col-12 d-flex align-items-center justify-content-between"
+                  >
+                    <div class="fw-semibold">Data</div>
+                    <div
+                      th:text="${#temporals.format(exam.date, 'yyyy-MM-dd | HH:mm')}"
+                    ></div>
+                  </div>
+                  <div
+                    class="col-12 d-flex align-items-center justify-content-between"
+                  >
+                    <div class="fw-semibold">Luogo</div>
+                    <div>[[*{location}]]</div>
+                  </div>
+                  <div
+                    class="col-12 d-flex align-items-center justify-content-between"
+                  >
+                    <div class="fw-semibold">Corso</div>
+                    <div>[[*{course.name}]]</div>
+                  </div>
+                  <div
+                    class="col-12 d-flex align-items-center justify-content-between"
+                  >
+                    <div class="fw-semibold">Esito</div>
+                    <div class="badge bg-success">[[*{grade}]]</div>
+                  </div>
+                </div>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <hr />
+
+        <!-- Appelli Annullati -->
+        <div class="mb-5">
+          <div>
+            <h5 class="fw-bold">Appelli annullati</h5>
+          </div>
+
+          <ul class="list-group list-group-flush">
+            <li
+              th:each="exam : ${exams}"
+              th:object="${exam}"
+              th:if="${exam.isCancelled}"
+              class="list-group-item"
+            >
+              <a th:href="@{/exams/{id}(id = *{id})}">
+                <div class="row">
+                  <div
+                    class="col-12 d-flex align-items-center justify-content-between"
+                  >
+                    <div class="fw-semibold">Data</div>
+                    <div
+                      th:text="${#temporals.format(exam.date, 'yyyy-MM-dd | HH:mm')}"
+                    ></div>
+                  </div>
+                  <div
+                    class="col-12 d-flex align-items-center justify-content-between"
+                  >
+                    <div class="fw-semibold">Luogo</div>
+                    <div>[[*{location}]]</div>
+                  </div>
+                  <div
+                    class="col-12 d-flex align-items-center justify-content-between"
+                  >
+                    <div class="fw-semibold">Corso</div>
+                    <div>[[*{course.name}]]</div>
+                  </div>
+                  <div
+                    class="col-12 d-flex align-items-center justify-content-between"
+                  >
+                    <div class="fw-semibold">Esito</div>
+                    <div class="badge bg-danger">Annullato</div>
+                  </div>
+                </div>
+              </a>
+            </li>
+          </ul>
+        </div>
 
         <div th:unless="${exams.size() != 0}">
-            <p>No exams registered</p>
+          <p>No exams registered</p>
         </div>
       </main>
     </div>
