@@ -108,14 +108,14 @@ public class Exam {
     }
 
     public Exam(@NotNull(message = "Exam date cannot be null") LocalDateTime date,
-            @NotBlank(message = "Exam location cannot be blank") String location, String notes, Course course,
-            Grade grade, Boolean isCancelled) {
+            @NotBlank(message = "Exam location cannot be blank") String location, String notes,
+            @NotNull Boolean isCancelled, Course course, Grade grade) {
         this.date = date;
         this.location = location;
         this.notes = notes;
+        this.isCancelled = isCancelled;
         this.course = course;
         this.grade = grade;
-        this.isCancelled = isCancelled;
     }
 
     // # Methods

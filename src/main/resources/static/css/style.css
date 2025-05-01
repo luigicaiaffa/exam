@@ -1,5 +1,33 @@
 a {
-    text-decoration: none;
-    color: black;
+  text-decoration: none;
+  color: black;
 }
 
+
+/* # Courses Index */
+
+.courseCards {
+  height: 28rem;
+}
+
+.courseCards:has(.cardsTitle:hover) {
+    transform: scale(1.02);
+}
+
+.courseCardsExam {
+  max-height: 11rem;
+  overflow-y: scroll;
+  scrollbar-width: thin;
+}
+
+.courseCardsExam::-webkit-scrollbar {
+  display: thin;
+}
+
+.examLinks:hover {
+    text-decoration: underline;
+}
+
+.addVote:hover {
+    transform: scale(1.1);
+}

@@ -7,8 +7,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.PositiveOrZero;
 
 @Entity
 @Table(name = "grades")
@@ -18,7 +19,8 @@ public class Grade {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @PositiveOrZero(message = "Value must be positive")
+    @Min(value = 18, message = "Value must be at least 18")
+    @Max(value = 30, message = "Value must be at most 30")
     @NotNull(message = "Value cannot be null")
     private Integer value;
 
@@ -67,8 +69,8 @@ public class Grade {
     }
 
     public Grade(
-            @PositiveOrZero(message = "Value must be positive") @NotNull(message = "Value cannot be null") Integer value,
-            @NotNull Boolean hasHonors, Boolean isCancelled, Exam exam) {
+            @Min(value = 18, message = "Value must be at least 18") @Max(value = 30, message = "Value must be at most 30") @NotNull(message = "Value cannot be null") Integer value,
+            @NotNull Boolean hasHonors, Exam exam) {
         this.value = value;
         this.hasHonors = hasHonors;
         this.exam = exam;

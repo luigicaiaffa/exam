@@ -63,12 +63,9 @@ public class GradeService {
     }
 
     public Map<String, BigDecimal> getAveragesByUserId(Integer userId) {
-        // Prendiamo la lista di voti
-        // La filtriamo per userId passando per gli esami e i corsi
         List<Grade> grades = gradeRepository.findAll().stream()
                 .filter(grade -> grade.getExam().getCourse().getUser().getId().equals(userId)).toList();
 
-        // controllo se la lista è vuota e ritorno un errore
         if (grades.isEmpty()) {
             return Map.of("arithmetic", new BigDecimal(0).setScale(2), "weighted", new BigDecimal(0).setScale(2));
         }
@@ -88,12 +85,9 @@ public class GradeService {
             totalCfu = totalCfu.add(cfu);
         }
 
-        // Calcolo la media dei voti artimetica
         BigDecimal arithmeticAvg = sum.divide(totalVotes, 2, RoundingMode.HALF_UP);
-
-        // Calcolo la media dei voti ponderata per cfu
         BigDecimal weightedAvg = sumCfu.divide(totalCfu, 2, RoundingMode.HALF_UP);
 
-        return Map.of("arithmetic", arithmeticAvg, "weighted", weightedAvg);
+        return Map.of("arithmetic", arithmeticAvg, "weighted", weightedAvg, "totalCfu", totalCfu);
     }
 }

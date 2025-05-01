@@ -108,15 +108,19 @@ public class UserController {
     public String getMethodName(@PathVariable Integer id, Model model) {
 
         try {
+            User user = userService.getById(id);
             Map<String, BigDecimal> averages = gradeService.getAveragesByUserId(id);
             model.addAttribute("arithmeticAvg", averages.get("arithmetic"));
             model.addAttribute("weightedAvg", averages.get("weighted"));
-        } catch (Exception e) {
+            model.addAttribute("totalCfu", averages.get("totalCfu"));
+            model.addAttribute("user", user);
+        } catch (EntityNotFoundException e) {
+            model.addAttribute("element", "User");
             return "/main/notfound";
         }
 
         model.addAttribute("grades", gradeService.findAll());
-        return "/grade/index";
+        return "/user/grades";
     }
 
 }

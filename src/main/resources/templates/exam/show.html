@@ -56,10 +56,10 @@
             </li>
             <li
               th:if="*{notes.length() > 0}"
-              class="list-group-item d-flex align-items-center justify-content-between my-2"
+              class="list-group-item my-2"
             >
               <h5 class="fw-bold">Note</h5>
-              <div>[[*{notes}]]</div>
+              <div class="ms-4">[[*{notes}]]</div>
             </li>
             <li
               th:unless="*{notes.length() > 0}"

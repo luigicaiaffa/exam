@@ -8,11 +8,29 @@
   <body>
     <div th:replace="~{fragments/fragments :: header}"></div>
 
-    <div class="container">
+    <div class="container mb-5">
       <main>
-        <h1 class="fw-bold mt-5">I MIEI VOTI</h1>
+        <div class="mt-5 d-flex justify-content-between align-items-center">
+          <h1 class="fw-bold">VOTI</h1>
+        </div>
 
         <hr />
+
+        <div class="d-flex justify-content-between">
+          <div class="d-flex gap-3">
+            <div class="text-bg-success rounded-pill py-1 px-3">
+              Media Aritmetica: <span class="h5"> [[${arithmeticAvg}]]</span>
+            </div>
+
+            <div class="text-bg-success rounded-pill py-1 px-3">
+              Media Ponderata: <span class="h5"> [[${weightedAvg}]]</span>
+            </div>
+          </div>
+
+          <div>
+            <h5>CFU [[${totalCfu}]] / [[${user.totalCfu}]]</h5>
+          </div>
+        </div>
 
         <div>
           <div class="my-3" th:if="${grades.size() != 0}">
@@ -23,10 +41,14 @@
                 th:href="@{/courses/{id}(id = *{exam.course.id})}"
                 class="list-group-item d-flex align-items-center justify-content-between py-3 list-group-item-action"
               >
-                <h5 class="fw-bold h5">
-                  <i class="fa-solid fa-angle-right"></i>
-                  [[*{exam.course.name}]]
-                </h5>
+                <div>
+                  <div class="fw-bold h5">
+                    <i class="fa-solid fa-angle-right"></i>
+                    [[*{exam.course.name}]]
+                  </div>
+                  <span class="ms-3">[[*{exam.course.cfu}]] CFU</span>
+                </div>
+
                 <div>
                   <i class="fa-solid">[[*{value}]]</i>
                 </div>
