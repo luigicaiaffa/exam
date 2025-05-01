@@ -1,6 +1,10 @@
 package org.exam.java.exam.controller;
 
+import java.math.BigDecimal;
+import java.util.Map;
+
 import org.exam.java.exam.model.User;
+import org.exam.java.exam.service.GradeService;
 import org.exam.java.exam.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,6 +26,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private GradeService gradeService;
 
     @GetMapping
     public String index(Model model) {
@@ -95,6 +102,21 @@ public class UserController {
 
         userService.deleteById(id);
         return "redirect:/home";
+    }
+
+    @GetMapping("/{id}/grades")
+    public String getMethodName(@PathVariable Integer id, Model model) {
+
+        try {
+            Map<String, BigDecimal> averages = gradeService.getAveragesByUserId(id);
+            model.addAttribute("arithmeticAvg", averages.get("arithmetic"));
+            model.addAttribute("weightedAvg", averages.get("weighted"));
+        } catch (Exception e) {
+            return "/main/notfound";
+        }
+
+        model.addAttribute("grades", gradeService.findAll());
+        return "/grade/index";
     }
 
 }
