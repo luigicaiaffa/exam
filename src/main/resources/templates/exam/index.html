@@ -21,9 +21,9 @@
         <hr />
 
         <!-- Appelli Registrati -->
-        <div class="mb-5">
+        <div class="mb-5" th:if="${exams.size() != 0}">
           <div>
-            <h5 class="fw-bold">Appelli registrati</h5>
+            <h5 class="fw-bold">Prossimi appelli</h5>
           </div>
 
           <ul class="list-group list-group-flush">
@@ -31,7 +31,7 @@
               th:each="exam : ${exams}"
               th:object="${exam}"
               th:if="${!exam.isCancelled} and ${exam.grade == null}"
-              class="list-group-item"
+              class="list-group-item list-group-item-action"
             >
               <a th:href="@{/exams/{id}(id = *{id})}">
                 <div class="row">
@@ -74,7 +74,7 @@
         <hr />
 
         <!-- Appelli con Voto -->
-        <div class="mb-5">
+        <div class="mb-5" th:if="${exams.size() != 0}">
           <div>
             <h5 class="fw-bold">Appelli con voto</h5>
           </div>
@@ -84,7 +84,7 @@
               th:each="exam : ${exams}"
               th:object="${exam}"
               th:if="${!exam.isCancelled} and ${exam.grade != null}"
-              class="list-group-item"
+              class="list-group-item list-group-item-action"
             >
               <a th:href="@{/exams/{id}(id = *{id})}">
                 <div class="row">
@@ -123,7 +123,7 @@
         <hr />
 
         <!-- Appelli Annullati -->
-        <div class="mb-5">
+        <div class="mb-5" th:if="${exams.size() != 0}">
           <div>
             <h5 class="fw-bold">Appelli annullati</h5>
           </div>
@@ -133,7 +133,7 @@
               th:each="exam : ${exams}"
               th:object="${exam}"
               th:if="${exam.isCancelled}"
-              class="list-group-item"
+              class="list-group-item list-group-item-action"
             >
               <a th:href="@{/exams/{id}(id = *{id})}">
                 <div class="row">
@@ -170,7 +170,7 @@
         </div>
 
         <div th:unless="${exams.size() != 0}">
-          <p>No exams registered</p>
+          <p>Non ci sono esami registrati</p>
         </div>
       </main>
     </div>
