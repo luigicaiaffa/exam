@@ -21,6 +21,18 @@ public class ExamService {
         return examRepository.findAll();
     }
 
+    public List<Exam> findExamsWithGrade() {
+        return examRepository.findByGradeIsNotNull();
+    }
+
+    public List<Exam> findExamsCancelled() {
+        return examRepository.findByIsCancelledTrue();
+    }
+
+    public List<Exam> findExamsToDo() {
+        return examRepository.findByGradeIsNullAndIsCancelledFalse();
+    }
+
     public Optional<Exam> findById(Integer id) {
         return examRepository.findById(id);
     }
@@ -56,10 +68,9 @@ public class ExamService {
 
         if (exam.getGrade() != null) {
             exam.setGrade(null);
+            Course course = exam.getCourse();
+            course.setIsPassed(false);
         }
-
-        Course course = exam.getCourse();
-        course.setIsPassed(false);
 
         examRepository.delete(exam);
     }

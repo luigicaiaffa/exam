@@ -20,15 +20,17 @@
 
         <hr />
 
-        <!-- Appelli Registrati -->
-        <div class="mb-5" th:if="${exams.size() != 0}">
+        <div class="mb-5">
           <div>
             <h5 class="fw-bold">Prossimi appelli</h5>
           </div>
 
-          <ul class="list-group list-group-flush">
+          <ul
+            class="list-group list-group-flush"
+            th:if="${examsToDo.size() != 0}"
+          >
             <li
-              th:each="exam : ${exams}"
+              th:each="exam : ${examsToDo}"
               th:object="${exam}"
               th:if="${!exam.isCancelled} and ${exam.grade == null}"
               class="list-group-item list-group-item-action"
@@ -69,19 +71,28 @@
               </a>
             </li>
           </ul>
+
+          <ul
+            class="list-group list-group-flush"
+            th:unless="${examsToDo.size() != 0}"
+          >
+            <li class="list-group-item">Nessun appello in corso</li>
+          </ul>
         </div>
 
         <hr />
 
-        <!-- Appelli con Voto -->
-        <div class="mb-5" th:if="${exams.size() != 0}">
+        <div class="mb-5">
           <div>
             <h5 class="fw-bold">Appelli con voto</h5>
           </div>
 
-          <ul class="list-group list-group-flush">
+          <ul
+            class="list-group list-group-flush"
+            th:if="${examsGraded.size() != 0}"
+          >
             <li
-              th:each="exam : ${exams}"
+              th:each="exam : ${examsGraded}"
               th:object="${exam}"
               th:if="${!exam.isCancelled} and ${exam.grade != null}"
               class="list-group-item list-group-item-action"
@@ -118,19 +129,29 @@
               </a>
             </li>
           </ul>
+
+          <ul
+            class="list-group list-group-flush"
+            th:unless="${examsGraded.size() != 0}"
+          >
+            <li class="list-group-item">Nessun appello con voto</li>
+          </ul>
         </div>
 
         <hr />
 
         <!-- Appelli Annullati -->
-        <div class="mb-5" th:if="${exams.size() != 0}">
+        <div class="mb-5">
           <div>
             <h5 class="fw-bold">Appelli annullati</h5>
           </div>
 
-          <ul class="list-group list-group-flush">
+          <ul
+            class="list-group list-group-flush"
+            th:if="${examsCancelled.size() != 0}"
+          >
             <li
-              th:each="exam : ${exams}"
+              th:each="exam : ${examsCancelled}"
               th:object="${exam}"
               th:if="${exam.isCancelled}"
               class="list-group-item list-group-item-action"
@@ -167,10 +188,13 @@
               </a>
             </li>
           </ul>
-        </div>
 
-        <div th:unless="${exams.size() != 0}">
-          <p>Non ci sono esami registrati</p>
+          <ul
+            class="list-group list-group-flush"
+            th:unless="${examsCancelled.size() != 0}"
+          >
+            <li class="list-group-item">Nessun appello annullato</li>
+          </ul>
         </div>
       </main>
     </div>

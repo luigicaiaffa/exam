@@ -109,7 +109,7 @@ public class GradeController {
     public String delete(@PathVariable Integer id) {
 
         gradeService.deleteById(id);
-        return "redirect:/grades";
+        return "redirect:/courses";
     }
 
 }

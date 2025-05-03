@@ -27,7 +27,9 @@ public class ExamController {
     @GetMapping
     public String index(Model model) {
 
-        model.addAttribute("exams", examService.findAll());
+        model.addAttribute("examsGraded", examService.findExamsWithGrade());
+        model.addAttribute("examsCancelled", examService.findExamsCancelled());
+        model.addAttribute("examsToDo", examService.findExamsToDo());
         return "/exam/index";
     }
 
@@ -87,7 +89,7 @@ public class ExamController {
     public String delete(@PathVariable Integer id) {
 
         examService.deleteById(id);
-        return "redirect:/exams";
+        return "redirect:/courses";
     }
 
     @GetMapping("/{id}/grade")
