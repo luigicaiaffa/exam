@@ -1,5 +1,8 @@
 package org.exam.java.exam.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.exam.java.exam.model.Course;
 import org.exam.java.exam.model.Exam;
 import org.exam.java.exam.service.CourseService;
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
@@ -28,9 +32,18 @@ public class CourseController {
     private UserService userService;
 
     @GetMapping
-    public String index(Model model) {
+    public String index(Model model, @RequestParam(name = "name", required = false) String name,
+            @RequestParam(name = "year", required = false) Integer year) {
 
-        model.addAttribute("courses", courseService.findAll());
+        List<Course> courses = new ArrayList<>();
+
+        if (name != null && !name.isEmpty()) {
+            courses = courseService.findByName(name);
+        } else {
+            courses = courseService.findAllSortedByYear();
+        }
+
+        model.addAttribute("courses", courses);
         return "/course/index";
     }
 

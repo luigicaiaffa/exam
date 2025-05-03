@@ -7,6 +7,7 @@ import org.exam.java.exam.model.Course;
 import org.exam.java.exam.model.Exam;
 import org.exam.java.exam.repository.CourseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -22,6 +23,14 @@ public class CourseService {
 
     public List<Course> findAll() {
         return courseRepository.findAll();
+    }
+
+    public List<Course> findAllSortedByYear() {
+        return courseRepository.findAll(Sort.by("courseYear"));
+    }
+
+    public List<Course> findByName(String name) {
+        return courseRepository.findByNameContaining(name);
     }
 
     public Optional<Course> findById(Integer id) {

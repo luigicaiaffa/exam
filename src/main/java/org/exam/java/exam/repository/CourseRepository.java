@@ -8,6 +8,4 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface CourseRepository extends JpaRepository<Course, Integer> {
     
     public List<Course> findByNameContaining(String name);
-
-    public List<Course> findByCourseYear(Integer courseYear);
 }

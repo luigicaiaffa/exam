@@ -11,7 +11,7 @@ a {
 }
 
 .courseCards:has(.cardsTitle:hover) {
-    transform: scale(1.02);
+    transform: scale(1.04);
 }
 
 .courseCardsExam {
@@ -30,4 +30,17 @@ a {
 
 .addVote:hover {
     transform: scale(1.1);
+}
+
+
+/* # Exams Index */
+
+.examLists {
+  max-height: 30rem;
+  overflow-y: scroll;
+  scrollbar-width: thin;
+}
+
+.examLists::-webkit-scrollbar {
+  display: thin;
 }

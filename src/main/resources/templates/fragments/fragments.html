@@ -175,6 +175,69 @@
       </div>
     </div>
 
+    <!-- # Exams Index Lists -->
+    <div th:fragment="examsList(exams)">
+      <div class="examLists">
+        <ul class="list-group list-group-flush" th:if="${exams.size() != 0}">
+          <li
+            th:each="exam : ${exams}"
+            th:object="${exam}"
+            class="list-group-item list-group-item-action"
+          >
+            <a th:href="@{/exams/{id}(id = *{id})}">
+              <div class="row">
+                <div
+                  class="col-12 d-flex align-items-center justify-content-between"
+                >
+                  <div class="fw-semibold">Data</div>
+                  <div
+                    th:text="${#temporals.format(exam.date, 'yyyy-MM-dd | HH:mm')}"
+                  ></div>
+                </div>
+                <div
+                  class="col-12 d-flex align-items-center justify-content-between"
+                >
+                  <div class="fw-semibold">Luogo</div>
+                  <div>[[*{location}]]</div>
+                </div>
+                <div
+                  class="col-12 d-flex align-items-center justify-content-between"
+                >
+                  <div class="fw-semibold">Corso</div>
+                  <div>[[*{course.name}]]</div>
+                </div>
+                <div
+                  class="col-12 d-flex align-items-center justify-content-between"
+                >
+                  <div class="fw-semibold">Esito</div>
+                  
+                  <div th:if="${!exam.isCancelled} and ${exam.grade != null}" class="badge bg-success">
+                    [[*{grade}]]
+                  </div>
+                  <div th:if="${exam.isCancelled}" class="badge bg-danger">
+                    Annullato
+                  </div>
+                  <a
+                    th:if="${!exam.isCancelled} and ${exam.grade == null}"
+                    th:href="@{/exams/{id}/grade(id = *{id})}"
+                    class="badge bg-warning addVote"
+                    >Registra voto</a
+                  >
+                </div>
+              </div>
+            </a>
+          </li>
+        </ul>
+
+        <ul
+          class="list-group list-group-flush"
+          th:unless="${exams.size() != 0}"
+        >
+          <li class="list-group-item">Nessun appello in corso</li>
+        </ul>
+      </div>
+    </div>
+
     <!-- # Scripts -->
     <div th:fragment="scripts">
       <script th:src="@{/webjars/jquery/3.7.1/jquery.min.js}"></script>
