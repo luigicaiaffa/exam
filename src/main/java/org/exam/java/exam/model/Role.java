@@ -24,8 +24,8 @@ public class Role {
     @NotBlank
     private String name;
 
-    @JsonBackReference
     @ManyToMany(mappedBy = "roles", fetch = FetchType.EAGER)
+    @JsonBackReference
     private List<User> users;
 
     // # Getters / Setters
@@ -55,6 +55,10 @@ public class Role {
 
     // # Constructors
     public Role() {
+    }
+
+    public Role(@NotBlank String name) {
+        this.name = name;
     }
 
     public Role(@NotBlank String name, List<User> users) {

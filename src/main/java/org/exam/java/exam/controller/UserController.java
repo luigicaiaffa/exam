@@ -1,12 +1,15 @@
 package org.exam.java.exam.controller;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Map;
 
+import org.exam.java.exam.model.Role;
 import org.exam.java.exam.model.User;
 import org.exam.java.exam.service.GradeService;
 import org.exam.java.exam.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -30,7 +33,10 @@ public class UserController {
     @Autowired
     private GradeService gradeService;
 
-    @GetMapping
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @GetMapping("/admin/users")
     public String index(Model model) {
 
         model.addAttribute("users", userService.findAll());
@@ -51,22 +57,28 @@ public class UserController {
         return "/user/show";
     }
 
-    @GetMapping("/create")
+    @GetMapping("/register")
     public String create(Model model) {
 
         model.addAttribute("user", new User());
         return "/user/form";
     }
 
-    @PostMapping("/create")
+    @PostMapping("/register")
     public String store(@Valid @ModelAttribute("user") User formUser, BindingResult bindingResult, Model model) {
 
         if (bindingResult.hasErrors()) {
             return "/user/form";
         }
 
+        if (userService.findByUsername(formUser.getUsername()).isPresent()) {
+            return "/user/form";
+        }
+
+        formUser.setPassword(passwordEncoder.encode(formUser.getPassword()));
+        formUser.setRoles(List.of(new Role("USER")));
         userService.create(formUser);
-        return "redirect:/user";
+        return "redirect:/login";
     }
 
     @GetMapping("/edit/{id}")
