@@ -2,6 +2,7 @@ package org.exam.java.exam.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -17,10 +18,11 @@ public class SecurityConfig {
     @SuppressWarnings("removal")
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests()
-                .requestMatchers("/user/register").permitAll()
-                .requestMatchers("user/admin/**").hasRole("ADMIN")
+                .requestMatchers("/user/register", "/login").permitAll()
+                .requestMatchers(HttpMethod.POST, "/user/register").permitAll()
+                .requestMatchers("/webjars/**", "/css/**", "/js/**", "/images/**").permitAll()
                 .anyRequest().authenticated()
-                .and().formLogin()
+                .and().formLogin().loginPage("/login").defaultSuccessUrl("/", true)
                 .and().logout()
                 .and().exceptionHandling()
                 .and().csrf().disable();

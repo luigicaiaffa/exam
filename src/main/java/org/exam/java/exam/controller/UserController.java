@@ -57,14 +57,14 @@ public class UserController {
         return "/user/show";
     }
 
-    @GetMapping("/register")
+    @GetMapping("/create")
     public String create(Model model) {
 
         model.addAttribute("user", new User());
         return "/user/form";
     }
 
-    @PostMapping("/register")
+    @PostMapping("/create")
     public String store(@Valid @ModelAttribute("user") User formUser, BindingResult bindingResult, Model model) {
 
         if (bindingResult.hasErrors()) {
