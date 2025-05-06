@@ -21,16 +21,20 @@ public class ExamService {
         return examRepository.findAll();
     }
 
-    public List<Exam> findExamsWithGrade() {
-        return examRepository.findByGradeIsNotNull();
+    public List<Exam> findAllByUserId(Integer userId) {
+        return examRepository.findByCourseUserId(userId);
     }
 
-    public List<Exam> findExamsCancelled() {
-        return examRepository.findByIsCancelledTrue();
+    public List<Exam> findUserExamsWithGrade(Integer userId) {
+        return examRepository.findByCourseUserIdAndGradeIsNotNull(userId);
     }
 
-    public List<Exam> findExamsToDo() {
-        return examRepository.findByGradeIsNullAndIsCancelledFalse();
+    public List<Exam> findUserExamsCancelled(Integer userId) {
+        return examRepository.findByCourseUserIdAndIsCancelledTrue(userId);
+    }
+
+    public List<Exam> findUserExamsToDo(Integer userId) {
+        return examRepository.findByCourseUserIdAndGradeIsNullAndIsCancelledFalse(userId);
     }
 
     public Optional<Exam> findById(Integer id) {

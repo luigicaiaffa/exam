@@ -105,11 +105,19 @@ public class CourseController {
     }
 
     @GetMapping("/edit/{id}")
-    public String edit(@PathVariable Integer id, Model model) {
+    public String edit(@PathVariable Integer id, Model model, Authentication auth) {
 
         try {
-            model.addAttribute("edit", true);
-            model.addAttribute("course", courseService.getById(id));
+            Course course = courseService.getById(id);
+            Optional<User> user = userService.findByUsername(auth.getName());
+            Integer userId = user.get().getId();
+
+            if (course.getUser().getId().equals(userId)) {
+                model.addAttribute("edit", true);
+                model.addAttribute("course", course);
+            } else {
+                throw new EntityNotFoundException();
+            }
 
         } catch (Exception e) {
             model.addAttribute("element", "Course");
@@ -124,15 +132,22 @@ public class CourseController {
             BindingResult bindingResult, Model model, Authentication auth) {
 
         if (bindingResult.hasErrors()) {
+            model.addAttribute("edit", true);
+            model.addAttribute("exam", formCourse);
             return "/course/form";
         }
 
         try {
             Optional<User> user = userService.findByUsername(auth.getName());
             Integer userId = user.get().getId();
-
             formCourse.setUser(userService.getById(userId));
-            courseService.update(formCourse);
+
+            if (formCourse.getUser().getId().equals(userId)) {
+                model.addAttribute("edit", true);
+                courseService.update(formCourse);
+            } else {
+                throw new EntityNotFoundException();
+            }
 
         } catch (EntityNotFoundException e) {
             model.addAttribute("element", "Course");
@@ -150,12 +165,20 @@ public class CourseController {
     }
 
     @GetMapping("/{id}/exam")
-    public String createExam(@PathVariable Integer id, Model model) {
+    public String createExam(@PathVariable Integer id, Model model, Authentication auth) {
 
         try {
             Exam exam = new Exam();
+            Optional<User> user = userService.findByUsername(auth.getName());
+            Integer userId = user.get().getId();
             exam.setCourse(courseService.getById(id));
-            model.addAttribute("exam", exam);
+
+            if (exam.getCourse().getUser().getId().equals(userId)) {
+                model.addAttribute("exam", exam);
+            } else {
+                throw new EntityNotFoundException();
+            }
+
         } catch (EntityNotFoundException e) {
             model.addAttribute("element", "Course");
             return "/main/notfound";

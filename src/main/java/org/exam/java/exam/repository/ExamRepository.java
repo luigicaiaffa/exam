@@ -7,9 +7,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ExamRepository extends JpaRepository<Exam, Integer> {
     
-    public List<Exam> findByGradeIsNotNull();
+    public List<Exam> findByCourseUserId(Integer id);
 
-    public List<Exam> findByIsCancelledTrue();
+    public List<Exam> findByCourseUserIdAndGradeIsNotNull(Integer id);
 
-    public List<Exam> findByGradeIsNullAndIsCancelledFalse();
+    public List<Exam> findByCourseUserIdAndIsCancelledTrue(Integer id);
+
+    public List<Exam> findByCourseUserIdAndGradeIsNullAndIsCancelledFalse(Integer id);
 }
