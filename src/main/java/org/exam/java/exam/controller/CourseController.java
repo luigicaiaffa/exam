@@ -2,12 +2,15 @@ package org.exam.java.exam.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.exam.java.exam.model.Course;
 import org.exam.java.exam.model.Exam;
+import org.exam.java.exam.model.User;
 import org.exam.java.exam.service.CourseService;
 import org.exam.java.exam.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -33,25 +36,43 @@ public class CourseController {
 
     @GetMapping
     public String index(Model model, @RequestParam(name = "name", required = false) String name,
-            @RequestParam(name = "year", required = false) Integer year) {
+            @RequestParam(name = "year", required = false) Integer year, Authentication auth) {
 
-        List<Course> courses = new ArrayList<>();
+        try {
+            List<Course> courses = new ArrayList<>();
+            Optional<User> user = userService.findByUsername(auth.getName());
+            Integer userId = user.get().getId();
 
-        if (name != null && !name.isEmpty()) {
-            courses = courseService.findByName(name);
-        } else {
-            courses = courseService.findAllSortedByYear();
+            if (name != null && !name.isEmpty()) {
+                courses = courseService.findUserCoursesByName(userId, name);
+            } else {
+                courses = courseService.findUserCoursesSortedByYear(userId);
+            }
+
+            model.addAttribute("courses", courses);
+
+        } catch (Exception e) {
+            model.addAttribute("error", e.getMessage());
+            return "/main/error";
         }
 
-        model.addAttribute("courses", courses);
         return "/course/index";
     }
 
     @GetMapping("/{id}")
-    public String show(@PathVariable Integer id, Model model) {
+    public String show(@PathVariable Integer id, Model model, Authentication auth) {
 
         try {
-            model.addAttribute("course", courseService.getById(id));
+            Course course = courseService.getById(id);
+            Optional<User> user = userService.findByUsername(auth.getName());
+            Integer userId = user.get().getId();
+
+            if (course.getUser().getId().equals(userId)) {
+                model.addAttribute("course", course);
+            } else {
+                throw new EntityNotFoundException();
+            }
+
         } catch (EntityNotFoundException e) {
             model.addAttribute("element", "Course");
             return "/main/notfound";
@@ -68,13 +89,17 @@ public class CourseController {
     }
 
     @PostMapping("/create")
-    public String store(@Valid @ModelAttribute("course") Course formCourse, BindingResult bindingResult, Model model) {
+    public String store(@Valid @ModelAttribute("course") Course formCourse, BindingResult bindingResult, Model model,
+            Authentication auth) {
 
         if (bindingResult.hasErrors()) {
             return "/course/form";
         }
 
-        formCourse.setUser(userService.getById(1));
+        Optional<User> user = userService.findByUsername(auth.getName());
+        Integer userId = user.get().getId();
+
+        formCourse.setUser(userService.getById(userId));
         courseService.create(formCourse);
         return "redirect:/courses";
     }
@@ -96,14 +121,24 @@ public class CourseController {
 
     @PostMapping("/edit/{id}")
     public String update(@PathVariable Integer id, @Valid @ModelAttribute("course") Course formCourse,
-            BindingResult bindingResult, Model model) {
+            BindingResult bindingResult, Model model, Authentication auth) {
 
         if (bindingResult.hasErrors()) {
             return "/course/form";
         }
 
-        formCourse.setUser(userService.getById(1));
-        courseService.update(formCourse);
+        try {
+            Optional<User> user = userService.findByUsername(auth.getName());
+            Integer userId = user.get().getId();
+
+            formCourse.setUser(userService.getById(userId));
+            courseService.update(formCourse);
+
+        } catch (EntityNotFoundException e) {
+            model.addAttribute("element", "Course");
+            return "/main/notfound";
+        }
+
         return "redirect:/courses/" + id;
     }
 

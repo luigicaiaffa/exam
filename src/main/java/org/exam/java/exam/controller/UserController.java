@@ -134,10 +134,7 @@ public class UserController {
             return "/user/form";
         }
 
-        if (formUser.getPassword() != null && !formUser.getPassword().isBlank()) {
-            formUser.setPassword(passwordEncoder.encode(formUser.getPassword()));
-        }
-
+        formUser.setPassword(passwordEncoder.encode(formUser.getPassword()));
         userService.update(formUser);
         return "redirect:/user/" + id;
     }
@@ -150,7 +147,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}/grades")
-    public String getMethodName(@PathVariable Integer id, Model model) {
+    public String gradesIndex(@PathVariable Integer id, Model model) {
 
         try {
             User user = userService.getById(id);
