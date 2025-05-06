@@ -12,8 +12,8 @@
       <main>
         <div class="d-flex justify-content-between align-items-center mt-5">
           <div>
-            <h1 th:if="${edit}">Update your course</h1>
-            <h1 th:unless="${edit}">Add course</h1>
+            <h1 th:if="${edit}">Modifica il tuo corso</h1>
+            <h1 th:unless="${edit}">Aggiungi un corso</h1>
           </div>
         </div>
 
@@ -26,8 +26,10 @@
           th:object="${course}"
           class="row g-3 mt-3"
         >
+          <input type="hidden" th:field="*{isPassed}" />
+
           <div class="col-md-4">
-            <label for="name" class="form-label">Name</label>
+            <label for="name" class="form-label">Nome</label>
             <input
               type="text"
               class="form-control"
@@ -65,7 +67,7 @@
           </div>
 
           <div class="col-md-4">
-            <label for="courseYear" class="form-label">Course year</label>
+            <label for="courseYear" class="form-label">Anno</label>
             <input
               type="number"
               class="form-control"
@@ -87,7 +89,9 @@
           </div>
 
           <div class="col-md-12">
-            <label for="isOptional" class="form-check-label">Is optional</label>
+            <label for="isOptional" class="form-check-label"
+              >Corso opzionale</label
+            >
             <input
               type="checkbox"
               class="form-check-input"
@@ -108,30 +112,8 @@
             </div>
           </div>
 
-          <div class="col-md-12">
-            <label for="isPassed" class="form-check-label">Is passed</label>
-            <input
-              type="checkbox"
-              class="form-check-input"
-              id="isPassed"
-              th:field="*{isPassed}"
-              th:errorClass="is-invalid"
-            />
-            <div
-              class="invalid-feedback"
-              th:if="${#fields.hasErrors('isPassed')}"
-            >
-              <ul>
-                <li
-                  th:each="error : ${#fields.errors('isPassed')}"
-                  th:text="${error}"
-                ></li>
-              </ul>
-            </div>
-          </div>
-
           <div class="mt-4">
-            <button type="submit" class="btn btn-success">Save</button>
+            <button type="submit" class="btn btn-success">Salva</button>
           </div>
         </form>
       </main>

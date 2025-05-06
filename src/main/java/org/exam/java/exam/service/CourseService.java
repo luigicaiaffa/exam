@@ -5,7 +5,6 @@ import java.util.Optional;
 
 import org.exam.java.exam.model.Course;
 import org.exam.java.exam.model.Exam;
-import org.exam.java.exam.model.Grade;
 import org.exam.java.exam.repository.CourseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,11 +20,16 @@ public class CourseService {
     @Autowired
     private ExamService examService;
 
-    @Autowired
-    private GradeService gradeService;
-
     public List<Course> findAll() {
         return courseRepository.findAll();
+    }
+
+    public List<Course> findUserCoursesSortedByYear(Integer userId) {
+        return courseRepository.findByUserIdOrderByCourseYear(userId);
+    }
+
+    public List<Course> findUserCoursesByName(Integer userId, String name) {
+        return courseRepository.findByUserIdAndNameContainingIgnoreCase(userId, name);
     }
 
     public Optional<Course> findById(Integer id) {
@@ -55,10 +59,6 @@ public class CourseService {
             examService.delete(exam);
         }
 
-        for (Grade grade : course.getGrades()) {
-            gradeService.delete(grade);
-        }
-
         courseRepository.delete(course);
     }
 
@@ -67,10 +67,6 @@ public class CourseService {
 
         for (Exam exam : course.getExams()) {
             examService.delete(exam);
-        }
-
-        for (Grade grade : course.getGrades()) {
-            gradeService.delete(grade);
         }
 
         courseRepository.delete(course);

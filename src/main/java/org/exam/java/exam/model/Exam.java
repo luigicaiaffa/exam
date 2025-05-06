@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -12,6 +13,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -33,10 +35,16 @@ public class Exam {
     @Lob
     private String notes;
 
+    @NotNull
+    private Boolean isCancelled;
+
     @ManyToOne
     @JsonBackReference
     @JoinColumn(name = "course_id", nullable = false)
     private Course course;
+
+    @OneToOne(mappedBy = "exam", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private Grade grade;
 
     // # Getters / Setters
     public Integer getId() {
@@ -79,16 +87,35 @@ public class Exam {
         this.course = course;
     }
 
+    public Grade getGrade() {
+        return grade;
+    }
+
+    public void setGrade(Grade grade) {
+        this.grade = grade;
+    }
+
+    public Boolean getIsCancelled() {
+        return isCancelled;
+    }
+
+    public void setIsCancelled(Boolean isCancelled) {
+        this.isCancelled = isCancelled;
+    }
+
     // # Constructors
     public Exam() {
     }
 
     public Exam(@NotNull(message = "Exam date cannot be null") LocalDateTime date,
-            @NotBlank(message = "Exam location cannot be blank") String location, String notes, Course course) {
+            @NotBlank(message = "Exam location cannot be blank") String location, String notes,
+            @NotNull Boolean isCancelled, Course course, Grade grade) {
         this.date = date;
         this.location = location;
         this.notes = notes;
+        this.isCancelled = isCancelled;
         this.course = course;
+        this.grade = grade;
     }
 
     // # Methods

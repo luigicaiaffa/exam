@@ -1,6 +1,9 @@
 package org.exam.java.exam.service;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.exam.java.exam.model.Grade;
@@ -18,6 +21,10 @@ public class GradeService {
 
     public List<Grade> findAll() {
         return gradeRepository.findAll();
+    }
+
+    public List<Grade> findAllByUserId(Integer userId) {
+        return gradeRepository.findByExamCourseUserIdOrderByExamCourseCourseYear(userId);
     }
 
     public Optional<Grade> findById(Integer id) {
@@ -57,5 +64,33 @@ public class GradeService {
 
     public Boolean exists(Grade grade) {
         return gradeRepository.existsById(grade.getId());
+    }
+
+    public Map<String, BigDecimal> getAveragesByUserId(Integer userId) {
+        List<Grade> grades = gradeRepository.findByExamCourseUserId(userId);
+
+        if (grades.isEmpty()) {
+            return Map.of("arithmetic", new BigDecimal(0).setScale(2), "weighted", new BigDecimal(0).setScale(2));
+        }
+
+        BigDecimal sum = new BigDecimal(0);
+        BigDecimal totalVotes = new BigDecimal(0);
+        BigDecimal sumCfu = new BigDecimal(0);
+        BigDecimal totalCfu = new BigDecimal(0);
+
+        for (Grade grade : grades) {
+            BigDecimal vote = BigDecimal.valueOf(grade.getValue());
+            sum = sum.add(vote);
+            totalVotes = totalVotes.add(BigDecimal.ONE);
+
+            BigDecimal cfu = BigDecimal.valueOf(grade.getExam().getCourse().getCfu());
+            sumCfu = sumCfu.add(vote.multiply(cfu));
+            totalCfu = totalCfu.add(cfu);
+        }
+
+        BigDecimal arithmeticAvg = sum.divide(totalVotes, 2, RoundingMode.HALF_UP);
+        BigDecimal weightedAvg = sumCfu.divide(totalCfu, 2, RoundingMode.HALF_UP);
+
+        return Map.of("arithmetic", arithmeticAvg, "weighted", weightedAvg, "totalCfu", totalCfu);
     }
 }

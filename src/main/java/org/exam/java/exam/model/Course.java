@@ -19,7 +19,7 @@ import jakarta.validation.constraints.Positive;
 @Entity
 @Table(name = "courses")
 public class Course {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -30,24 +30,20 @@ public class Course {
     @Positive(message = "Number of CFU must be positive")
     @NotNull(message = "Number of CFU cannot be null")
     private Integer cfu;
-    
+
     @Positive(message = "Course year must be a positive number")
     @NotNull(message = "Course year cannot be null")
     private Integer courseYear;
-    
+
     @NotNull
     private Boolean isOptional;
-    
-    @NotNull
+
     private Boolean isPassed;
 
     @ManyToOne
     @JsonBackReference
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
-
-    @OneToMany(mappedBy = "course")
-    private List<Grade> grades;
 
     @OneToMany(mappedBy = "course")
     private List<Exam> exams;
@@ -100,21 +96,13 @@ public class Course {
     public void setIsPassed(Boolean isPassed) {
         this.isPassed = isPassed;
     }
-    
+
     public User getUser() {
         return user;
     }
 
     public void setUser(User user) {
         this.user = user;
-    }
-
-    public List<Grade> getGrades() {
-        return grades;
-    }
-
-    public void setGrades(List<Grade> grades) {
-        this.grades = grades;
     }
 
     public List<Exam> getExams() {
@@ -128,18 +116,17 @@ public class Course {
     // # Constructors
     public Course() {
     }
-    
+
     public Course(@NotBlank(message = "Course name cannot be blank") String name,
             @Positive(message = "Number of CFU must be positive") @NotNull(message = "Number of CFU cannot be null") Integer cfu,
             @Positive(message = "Course year must be a positive number") @NotNull(message = "Course year cannot be null") Integer courseYear,
-            @NotNull Boolean isOptional, @NotNull Boolean isPassed, User user, List<Grade> grades, List<Exam> exams) {
+            @NotNull Boolean isOptional, Boolean isPassed, User user, List<Exam> exams) {
         this.name = name;
         this.cfu = cfu;
         this.courseYear = courseYear;
         this.isOptional = isOptional;
         this.isPassed = isPassed;
         this.user = user;
-        this.grades = grades;
         this.exams = exams;
     }
 
@@ -148,6 +135,5 @@ public class Course {
     public String toString() {
         return "Course [name=" + name + "]";
     }
-
 
 }

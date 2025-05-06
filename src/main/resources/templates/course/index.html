@@ -8,63 +8,157 @@
   <body>
     <div th:replace="~{fragments/fragments :: header}"></div>
 
-    <div class="container">
+    <div class="container mb-5">
       <main>
         <div
-          class="d-flex justify-content-between align-items-center mt-5 mb-3"
+        class="d-flex justify-content-between align-items-center mt-5 mb-3"
         >
           <div>
-            <h1>I tuoi corsi</h1>
+            <h1 class="fw-bold">CORSI</h1>
           </div>
-
           <div>
-            <a class="btn btn-dark" th:href="@{/courses/create}">Add course</a>
+            <a class="btn btn-sm btn-dark" th:href="@{/courses/create}"
+            ><i class="fa-solid fa-plus"></i> Registra Corso</a
+            >
           </div>
         </div>
+      
+        <div th:object="${courses}">
+          <form th:action="@{/courses}" method="GET">
+            <div class="input-group input-group-sm">
+              <input type="text" th:value="${name}" name="name" placeholder="Cerca corso per nome" class="form-control">
+              <button type="submit" class="btn btn-sm btn-dark"><i class="fa-solid fa-magnifying-glass"></i></button>
+              <a class="btn btn-sm btn-dark" th:href=@{/courses}><i class="fa-solid fa-rotate-left"></i></a>
+            </div>
+          </form>
+        </div>
 
-        <hr />
+        
+        <hr class="mb-4" />
 
-        <div class="card" th:each="course : ${courses}" th:object="${course}">
-          <h5 class="card-header">Corso in: [[*{name}]]</h5>
-          <div class="card-body">
-            <ul class="list-group list-group-flush">
-              <li class="list-group-item">
-                <span>Anno:</span> [[*{courseYear}]]
-              </li>
-              <li class="list-group-item"><span>CFU:</span> [[*{cfu}]]</li>
-              <li class="list-group-item"><span>Voti:</span> [[*{grades}]]</li>
-              <li class="list-group-item">
-                <div class="d-flex justify-content-between align items center">
-                  <div class="fw-bold">Appelli:</div>
+        <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4">
+          <div class="col" th:each="course : ${courses}" th:object="${course}">
+            <div class="card courseCards">
+              <div class="card-header cardsTitle">
+                <a
+                  th:href="@{/courses/{id}(id = *{id})}"
+                  class="d-flex justify-content-between align-items-center"
+                >
+                  <h5 class="fw-bold m-0">
+                    <i class="fa-solid fa-angle-right"></i> [[*{name}]]
+                  </h5>
                   <div>
-                    <a
-                      class="btn btn-sm btn-outline-dark"
-                      th:href="@{/courses/{id}/exam(id = *{id})}"
-                      >Nuovo appello</a
+                    <span th:if="*{isOptional}" class="fs-6 badge bg-secondary"
+                      ><i class="fas fa-tag"></i
+                    ></span>
+                    <span th:if="*{isPassed}" class="fs-6 badge bg-success"
+                      ><i class="fa-solid fa-check"></i
+                    ></span>
+                    <span th:unless="*{isPassed}" class="fs-6 badge bg-warning"
+                      ><i class="fa-solid fa-book-open"></i
+                    ></span>
+                  </div>
+                </a>
+              </div>
+              <div class="card-body">
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item d-flex justify-content-between">
+                    <span class="fw-bold">CFU</span>
+                    <span>[[*{cfu}]]</span>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between">
+                    <span class="fw-bold">Anno</span>
+                    <span>[[*{courseYear}]]</span>
+                  </li>
+                  <li class="list-group-item">
+                    <div
+                      class="d-flex justify-content-between align-items-center my-1"
                     >
-                  </div>
-                </div>
+                      <div class="fw-bold">Appelli</div>
+                      <div th:unless="*{isPassed}">
+                        <a
+                          class="btn btn-sm btn-outline-secondary"
+                          th:href="@{/courses/{id}/exam(id = *{id})}"
+                          ><i class="fa-solid fa-plus"></i> Appello</a
+                        >
+                      </div>
+                    </div>
 
-                <div class="d-flex justify-content-between align items center">
-                  <div>[[*{exams}]]</div>
+                    <div
+                      class="courseCardsExam"
+                      th:if="${course.exams.size() != 0}"
+                    >
+                      <ul class="list-group list-group-flush">
+                        <li
+                          th:each="exam : ${course.exams}"
+                          th:object="${exam}"
+                          class="list-group-item d-flex justify-content-between align-items-center"
+                        >
+                          <div>
+                            <a
+                              class="examLinks"
+                              th:href="@{/exams/{id}(id = *{id})}"
+                            >
+                              <span
+                                th:text="${#temporals.format(exam.date, 'yyyy-MM-dd | HH:mm')}"
+                              ></span>
+                              <br />[[*{location}]] <br />
 
-                  <div>
-                    <a
-                      class="btn btn-sm btn-outline-dark"
-                      th:href="@{/grades/edit/{id}(id = *{id})}"
-                      >Modifica
-                    </a>
-                  </div>
-                </div>
-              </li>
-            </ul>
+                              <span th:if="*{grade}" class="badge bg-success"
+                                >[[*{grade}]]</span
+                              >
 
-            <a th:href="@{/courses/{id}/grade(id = *{id})}">Nuovo voto</a>
+                              <div th:unless="*{grade}">
+                                <a
+                                  class="badge bg-warning addVote"
+                                  th:unless="${exam.isCancelled}"
+                                  th:href="@{/exams/{id}/grade(id = *{id})}"
+                                  >Registra voto</a
+                                >
+
+                                <span
+                                  th:if="*{isCancelled}"
+                                  class="badge bg-danger"
+                                  >Annullato</span
+                                >
+                              </div>
+                            </a>
+                          </div>
+
+                          <div>
+                            <a
+                              class="btn btn-sm btn-outline-secondary"
+                              th:href="@{/exams/edit/{id}(id = *{id})}"
+                              ><i class="fa-solid fa-pen"></i>
+                            </a>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+
+                    <div th:unless="${course.exams.size() != 0}">
+                      <p>Aggiungi un appello</p>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+
+              <div class="card-footer d-flex justify-content-end gap-2">
+                <a
+                  class="btn btn-sm btn-dark"
+                  th:href="@{/courses/edit/{id}(id = *{id})}"
+                  ><i class="fa-solid fa-pen"></i
+                ></a>
+                <div
+                  th:replace="~{fragments/fragments :: deleteCourseModal}"
+                ></div>
+              </div>
+            </div>
           </div>
         </div>
 
-        <div th:unless="${courses.size() != 0}">
-          <p>No courses registered</p>
+        <div th:unless="${courses.size() != 0}" class="m-3">
+          <p>Nessun corso registrato</p>
         </div>
       </main>
     </div>

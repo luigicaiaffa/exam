@@ -2,8 +2,12 @@ package org.exam.java.exam.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
@@ -14,12 +18,37 @@ public class SecurityConfig {
     @SuppressWarnings("removal")
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests()
-                .requestMatchers("/**").permitAll()
-                .and().formLogin()
+                .requestMatchers("/webjars/**", "/css/**", "/js/**", "/images/**").permitAll()
+                .requestMatchers("/user/create", "/login").permitAll()
+                .requestMatchers(HttpMethod.POST, "/user/create").permitAll()
+                .anyRequest().authenticated()
+                .and().formLogin().loginPage("/login").defaultSuccessUrl("/", true)
                 .and().logout()
-                .and().exceptionHandling();
+                .and().exceptionHandling()
+                .and().csrf().disable();
 
         return http.build();
+    }
+
+    @Bean
+    DaoAuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+
+        authProvider.setUserDetailsService(userDetailService());
+
+        authProvider.setPasswordEncoder(passwordEncoder());
+
+        return authProvider;
+    }
+
+    @Bean
+    DatabaseUserDetailService userDetailService() {
+        return new DatabaseUserDetailService();
+    }
+
+    @Bean
+    PasswordEncoder passwordEncoder() {
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
 }

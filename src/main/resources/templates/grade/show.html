@@ -10,15 +10,12 @@
 
     <div class="container">
       <main>
-        <h1 class="mt-5">Grade Show</h1>
+        <h1 class="mt-5">Voto:</h1>
 
         <div>
           <ul th:object="${grade}">
-            <li>[[*{id}]]</li>
             <li>[[*{value}]]</li>
-            <li>[[*{date}]]</li>
             <li>[[*{hasHonors}]]</li>
-            <li>[[*{course}]]</li>
           </ul>
         </div>
       </main>

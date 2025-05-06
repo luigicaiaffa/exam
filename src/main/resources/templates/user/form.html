@@ -6,18 +6,25 @@
     <div th:replace="~{fragments/fragments :: styles}"></div>
   </head>
   <body>
-    <div th:replace="~{fragments/fragments :: header}"></div>
+    <div th:if="${edit}">
+      <div th:replace="~{fragments/fragments :: header}"></div>
+    </div>
 
     <div class="container">
       <main>
         <div class="d-flex justify-content-between align-items-center mt-5">
           <div>
-            <h1 th:if="${edit}">Update your profile</h1>
-            <h1 th:unless="${edit}">Register</h1>
+            <h1 th:if="${edit}">Modifica il tuo profilo</h1>
+            <h1 th:unless="${edit}">Registrazione</h1>
           </div>
         </div>
 
         <hr />
+
+        <div th:if="*{success}" class="alert alert-success">
+          <strong>Account creato correttamente!</strong>
+          <a class="text-primary" th:href="@{/login}">Login</a>
+        </div>
 
         <form
           id="user-form"
@@ -27,7 +34,7 @@
           class="row g-3 mt-3"
         >
           <div class="col-md-4">
-            <label for="name" class="form-label">Name</label>
+            <label for="name" class="form-label">Nome</label>
             <input
               type="text"
               class="form-control"
@@ -46,7 +53,7 @@
           </div>
 
           <div class="col-md-4">
-            <label for="surname" class="form-label">Surname</label>
+            <label for="surname" class="form-label">Cognome</label>
             <input
               type="text"
               class="form-control"
@@ -68,7 +75,7 @@
           </div>
 
           <div class="col-md-4">
-            <label for="username" class="form-label">Username</label>
+            <label for="username" class="form-label">Numero di matricola</label>
             <input
               type="text"
               class="form-control"
@@ -131,7 +138,7 @@
           </div>
 
           <div class="col-md-6">
-            <label for="degreeCourse" class="form-label">Degree Course</label>
+            <label for="degreeCourse" class="form-label">Corso di Laurea</label>
             <input
               type="text"
               class="form-control"
@@ -153,7 +160,7 @@
           </div>
 
           <div class="col-md-6">
-            <label for="totalCfu" class="form-label">Total CFU</label>
+            <label for="totalCfu" class="form-label">CFU totali</label>
             <input
               type="number"
               class="form-control"
@@ -175,7 +182,7 @@
           </div>
 
           <div class="mt-4">
-            <button type="submit" class="btn btn-success">Save</button>
+            <button type="submit" class="btn btn-success">Salva</button>
           </div>
         </form>
       </main>

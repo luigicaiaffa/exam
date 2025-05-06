@@ -1,41 +1,35 @@
 package org.exam.java.exam.model;
 
-import java.time.LocalDate;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
 
 @Entity
 @Table(name = "grades")
 public class Grade {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Positive(message = "Value must be positive")
+    @Min(value = 18, message = "Value must be at least 18")
+    @Max(value = 30, message = "Value must be at most 30")
     @NotNull(message = "Value cannot be null")
-    private Integer value; 
-
-    @NotNull(message = "Date cannot be null")
-    private LocalDate date; 
+    private Integer value;
 
     @NotNull
     private Boolean hasHonors;
 
-    @ManyToOne
-    @JsonBackReference
-    @JoinColumn(name = "course_id", nullable = false)
-    private Course course;
+    @OneToOne
+    @JoinColumn(name = "exam_id", nullable = false)
+    private Exam exam;
 
     // # Getters / Setters
     public Integer getId() {
@@ -54,14 +48,6 @@ public class Grade {
         this.value = value;
     }
 
-    public LocalDate getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDate date) {
-        this.date = date;
-    }
-
     public Boolean getHasHonors() {
         return hasHonors;
     }
@@ -70,24 +56,24 @@ public class Grade {
         this.hasHonors = hasHonors;
     }
 
-    public Course getCourse() {
-        return course;
+    public Exam getExam() {
+        return exam;
     }
 
-    public void setCourse(Course course) {
-        this.course = course;
+    public void setExam(Exam exam) {
+        this.exam = exam;
     }
 
     // # Constructors
     public Grade() {
-    } 
+    }
 
-    public Grade(@Positive(message = "Value must be positive") @NotNull(message = "Value cannot be null") Integer value,
-            @NotNull(message = "Date cannot be null") LocalDate date, @NotNull Boolean hasHonors, Course course) {
+    public Grade(
+            @Min(value = 18, message = "Value must be at least 18") @Max(value = 30, message = "Value must be at most 30") @NotNull(message = "Value cannot be null") Integer value,
+            @NotNull Boolean hasHonors, Exam exam) {
         this.value = value;
-        this.date = date;
         this.hasHonors = hasHonors;
-        this.course = course;
+        this.exam = exam;
     }
 
     // # Methods

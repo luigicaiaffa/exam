@@ -3,6 +3,7 @@ package org.exam.java.exam.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.exam.java.exam.model.Course;
 import org.exam.java.exam.model.Exam;
 import org.exam.java.exam.repository.ExamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,12 +13,28 @@ import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class ExamService {
-    
+
     @Autowired
     private ExamRepository examRepository;
 
     public List<Exam> findAll() {
         return examRepository.findAll();
+    }
+
+    public List<Exam> findAllByUserId(Integer userId) {
+        return examRepository.findByCourseUserId(userId);
+    }
+
+    public List<Exam> findUserExamsWithGrade(Integer userId) {
+        return examRepository.findByCourseUserIdAndGradeIsNotNullOrderByDateDesc(userId);
+    }
+
+    public List<Exam> findUserExamsCancelled(Integer userId) {
+        return examRepository.findByCourseUserIdAndIsCancelledTrueOrderByDateDesc(userId);
+    }
+
+    public List<Exam> findUserExamsToDo(Integer userId) {
+        return examRepository.findByCourseUserIdAndGradeIsNullAndIsCancelledFalseOrderByDateDesc(userId);
     }
 
     public Optional<Exam> findById(Integer id) {
@@ -43,11 +60,22 @@ public class ExamService {
     }
 
     public void delete(Exam exam) {
+        if (exam.getGrade() != null) {
+            exam.setGrade(null);
+        }
+
         examRepository.delete(exam);
     }
 
     public void deleteById(Integer id) {
         Exam exam = getById(id);
+
+        if (exam.getGrade() != null) {
+            exam.setGrade(null);
+            Course course = exam.getCourse();
+            course.setIsPassed(false);
+        }
+
         examRepository.delete(exam);
     }
 

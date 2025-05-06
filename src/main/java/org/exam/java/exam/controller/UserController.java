@@ -1,11 +1,16 @@
 package org.exam.java.exam.controller;
 
+import java.util.List;
+
 import org.exam.java.exam.model.User;
+import org.exam.java.exam.repository.RoleRepository;
 import org.exam.java.exam.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -23,7 +28,13 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping
+    @Autowired
+    private RoleRepository roleRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @GetMapping("/admin/users")
     public String index(Model model) {
 
         model.addAttribute("users", userService.findAll());
@@ -48,6 +59,7 @@ public class UserController {
     public String create(Model model) {
 
         model.addAttribute("user", new User());
+        model.addAttribute("success", false);
         return "/user/form";
     }
 
@@ -58,8 +70,38 @@ public class UserController {
             return "/user/form";
         }
 
-        userService.create(formUser);
-        return "redirect:/user";
+        if (userService.findByUsername(formUser.getUsername()).isPresent()) {
+            bindingResult.addError(new FieldError("formUser", "username", "Username is already used"));
+            return "/user/form";
+        }
+
+        if (userService.findByEmail(formUser.getEmail()).isPresent()) {
+            bindingResult.addError(new FieldError("formUser", "email", "Email is already used"));
+            return "/user/form";
+        }
+
+        try {
+            User newUser = new User();
+
+            newUser.setName(formUser.getName());
+            newUser.setSurname(formUser.getSurname());
+            newUser.setUsername(formUser.getUsername());
+            newUser.setEmail(formUser.getEmail());
+            newUser.setTotalCfu(formUser.getTotalCfu());
+            newUser.setDegreeCourse(formUser.getDegreeCourse());
+            newUser.setRoles(List.of(roleRepository.findByName("USER")));
+            newUser.setPassword(passwordEncoder.encode(formUser.getPassword()));
+
+            userService.create(newUser);
+
+            model.addAttribute("user", new User());
+            model.addAttribute("success", true);
+        } catch (Exception e) {
+            model.addAttribute("error", e.getMessage());
+            return "main/error";
+        }
+
+        return "/user/form";
     }
 
     @GetMapping("/edit/{id}")
@@ -86,6 +128,7 @@ public class UserController {
             return "/user/form";
         }
 
+        formUser.setPassword(passwordEncoder.encode(formUser.getPassword()));
         userService.update(formUser);
         return "redirect:/user/" + id;
     }

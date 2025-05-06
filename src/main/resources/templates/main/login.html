@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>Login</title>
+
+    <div th:replace="~{fragments/fragments :: styles}"></div>
+  </head>
+  <body>
+    <div class="container">
+      <main class="d-flex justify-content-center py-5">
+        <div class="card mx-auto mt-5">
+          <div class="card-body p-5">
+            <div class="text-center mb-4">
+              <h1 >EXAMS</h1>
+            </div>
+            <div class="text-center mb-4">Accedi al tuo account</div>
+
+          
+            
+            <form
+              id="user-form"
+              method="POST"
+              th:action=" @{/login}"
+              class="row-col-12"
+            >
+              <div class="col mb-3">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="username"
+                  name="username"
+                  placeholder="Numero di matricola"
+                />
+              </div>
+
+              <div class="col mb-3">
+                <input
+                  type="password"
+                  class="form-control"
+                  id="password"
+                  name="password"
+                  placeholder="Password"
+                />
+              </div>
+
+              <div class="mt-4">
+                <button type="submit" class="w-100 btn btn-success">
+                  Login
+                </button>
+              </div>
+            </form>
+
+            <div class="mt-2">
+              <span
+                >Non hai un account?
+                <a class="text-primary" th:href="@{/user/create}">Registrati</a></span
+              >
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <div th:replace="~{fragments/fragments :: scripts}"></div>
+  </body>
+</html>
