@@ -23,6 +23,10 @@ public class GradeService {
         return gradeRepository.findAll();
     }
 
+    public List<Grade> findAllByUserId(Integer userId) {
+        return gradeRepository.findByExamCourseUserIdOrderByExamCourseCourseYear(userId);
+    }
+
     public Optional<Grade> findById(Integer id) {
         return gradeRepository.findById(id);
     }
@@ -63,8 +67,7 @@ public class GradeService {
     }
 
     public Map<String, BigDecimal> getAveragesByUserId(Integer userId) {
-        List<Grade> grades = gradeRepository.findAll().stream()
-                .filter(grade -> grade.getExam().getCourse().getUser().getId().equals(userId)).toList();
+        List<Grade> grades = gradeRepository.findByExamCourseUserId(userId);
 
         if (grades.isEmpty()) {
             return Map.of("arithmetic", new BigDecimal(0).setScale(2), "weighted", new BigDecimal(0).setScale(2));

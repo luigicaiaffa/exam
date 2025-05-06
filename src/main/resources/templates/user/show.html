@@ -16,24 +16,62 @@
             <a
               class="btn btn-sm btn-dark"
               th:href="@{/user/edit/{id}(id = *{id})}"
-              ><i class="fa-solid fa-pen px-1"></i
-            > Modifica</a>
+              ><i class="fa-solid fa-pen px-1"></i> Modifica</a
+            >
           </div>
         </div>
 
         <hr />
 
-        <div>
-          <ul>
-            <li>[[*{name}]]</li>
-            <li>[[*{surname}]]</li>
-            <li>[[*{username}]]</li>
-            <li>[[*{email}]]</li>
-            <li>[[*{degreeCourse}]]</li>
-            <li>[[*{totalCfu}]]</li>
-            <li>[[*{courses}]]</li>
-          </ul>
+        <div class="d-flex justify-content-center my-5">
+          <div class="card mx-2">
+            <div class="card-body">
+              <div
+                class="d-flex justify-content-between border-bottom mb-4 align-items-center"
+              >
+                <h4 class="card-title ms-3">Dati personali</h4>
+                <h4 class="card-title me-3">
+                  <i class="fa-solid fa-user"></i>
+                </h4>
+              </div>
+
+              <div class="row row-cols-1 row-cols-md-2 g-4 p-2 mb-4">
+                <div class="col">
+                  <div class="card-subtitle text-body-secondary">Nome</div>
+                  <span class="ps-3">- [[*{name}]]</span>
+                </div>
+                <div class="col">
+                  <div class="card-subtitle text-body-secondary">Cognome</div>
+                  <span class="ps-3">- [[*{surname}]]</span>
+                </div>
+                <div class="col">
+                  <div class="card-subtitle text-body-secondary">
+                    Numero di matricola
+                  </div>
+                  <span class="ps-3">- [[*{username}]]</span>
+                </div>
+                <div class="col">
+                  <div class="card-subtitle text-body-secondary">Email</div>
+                  <span class="ps-3">- [[*{email}]]</span>
+                </div>
+                <div class="col">
+                  <div class="card-subtitle text-body-secondary">
+                    Corso di Laurea
+                  </div>
+                  <span class="ps-3">- [[*{degreeCourse}]]</span>
+                </div>
+                <div class="col">
+                  <div class="card-subtitle text-body-secondary">
+                    Cfu totali
+                  </div>
+                  <span class="ps-3">- [[*{totalCfu}]]</span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+
+        <div></div>
       </main>
     </div>
 

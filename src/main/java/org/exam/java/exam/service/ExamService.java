@@ -26,15 +26,15 @@ public class ExamService {
     }
 
     public List<Exam> findUserExamsWithGrade(Integer userId) {
-        return examRepository.findByCourseUserIdAndGradeIsNotNull(userId);
+        return examRepository.findByCourseUserIdAndGradeIsNotNullOrderByDateDesc(userId);
     }
 
     public List<Exam> findUserExamsCancelled(Integer userId) {
-        return examRepository.findByCourseUserIdAndIsCancelledTrue(userId);
+        return examRepository.findByCourseUserIdAndIsCancelledTrueOrderByDateDesc(userId);
     }
 
     public List<Exam> findUserExamsToDo(Integer userId) {
-        return examRepository.findByCourseUserIdAndGradeIsNullAndIsCancelledFalse(userId);
+        return examRepository.findByCourseUserIdAndGradeIsNullAndIsCancelledFalseOrderByDateDesc(userId);
     }
 
     public Optional<Exam> findById(Integer id) {

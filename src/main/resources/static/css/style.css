@@ -7,7 +7,7 @@ a {
 /* # Courses Index */
 
 .courseCards {
-  height: 28rem;
+  height: 25rem;
 }
 
 .courseCards:has(.cardsTitle:hover) {
@@ -15,7 +15,7 @@ a {
 }
 
 .courseCardsExam {
-  max-height: 11rem;
+  max-height: 8rem;
   overflow-y: scroll;
   scrollbar-width: thin;
 }

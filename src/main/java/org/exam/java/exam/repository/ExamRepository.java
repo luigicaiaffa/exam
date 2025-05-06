@@ -9,9 +9,9 @@ public interface ExamRepository extends JpaRepository<Exam, Integer> {
     
     public List<Exam> findByCourseUserId(Integer id);
 
-    public List<Exam> findByCourseUserIdAndGradeIsNotNull(Integer id);
+    public List<Exam> findByCourseUserIdAndGradeIsNotNullOrderByDateDesc(Integer id);
 
-    public List<Exam> findByCourseUserIdAndIsCancelledTrue(Integer id);
+    public List<Exam> findByCourseUserIdAndIsCancelledTrueOrderByDateDesc(Integer id);
 
-    public List<Exam> findByCourseUserIdAndGradeIsNullAndIsCancelledFalse(Integer id);
+    public List<Exam> findByCourseUserIdAndGradeIsNullAndIsCancelledFalseOrderByDateDesc(Integer id);
 }

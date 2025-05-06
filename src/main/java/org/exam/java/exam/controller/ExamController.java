@@ -127,12 +127,12 @@ public class ExamController {
                 throw new EntityNotFoundException();
             }
 
-        } catch (Exception e) {
+        } catch (EntityNotFoundException e) {
             model.addAttribute("element", "Exam");
             return "/main/notfound";
         }
 
-        return "redirect:/courses";
+        return "redirect:/exams/" + id;
     }
 
     @PostMapping("/delete/{id}")
@@ -143,14 +143,22 @@ public class ExamController {
     }
 
     @GetMapping("/{id}/grade")
-    public String createGrade(@PathVariable Integer id, Model model) {
+    public String createGrade(@PathVariable Integer id, Model model, Authentication auth) {
 
         try {
             Grade grade = new Grade();
+            Optional<User> user = userService.findByUsername(auth.getName());
+            Integer userId = user.get().getId();
             grade.setExam(examService.getById(id));
-            model.addAttribute("grade", grade);
+
+            if (grade.getExam().getCourse().getUser().getId().equals(userId)) {
+                model.addAttribute("grade", grade);
+            } else {
+                throw new EntityNotFoundException();
+            }
+
         } catch (EntityNotFoundException e) {
-            model.addAttribute("element", "Grade");
+            model.addAttribute("element", "Exam");
             return "/main/notfound";
         }
 

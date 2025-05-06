@@ -1,12 +1,9 @@
 package org.exam.java.exam.controller;
 
-import java.math.BigDecimal;
 import java.util.List;
-import java.util.Map;
 
 import org.exam.java.exam.model.User;
 import org.exam.java.exam.repository.RoleRepository;
-import org.exam.java.exam.service.GradeService;
 import org.exam.java.exam.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -30,9 +27,6 @@ public class UserController {
 
     @Autowired
     private UserService userService;
-
-    @Autowired
-    private GradeService gradeService;
 
     @Autowired
     private RoleRepository roleRepository;
@@ -144,25 +138,6 @@ public class UserController {
 
         userService.deleteById(id);
         return "redirect:/home";
-    }
-
-    @GetMapping("/{id}/grades")
-    public String gradesIndex(@PathVariable Integer id, Model model) {
-
-        try {
-            User user = userService.getById(id);
-            Map<String, BigDecimal> averages = gradeService.getAveragesByUserId(id);
-            model.addAttribute("arithmeticAvg", averages.get("arithmetic"));
-            model.addAttribute("weightedAvg", averages.get("weighted"));
-            model.addAttribute("totalCfu", averages.get("totalCfu"));
-            model.addAttribute("user", user);
-        } catch (EntityNotFoundException e) {
-            model.addAttribute("element", "User");
-            return "/main/notfound";
-        }
-
-        model.addAttribute("grades", gradeService.findAll());
-        return "/user/grades";
     }
 
 }

@@ -28,6 +28,7 @@
         >
           <input type="hidden" th:field="*{course.id}" />
           <input th:if="${edit} AND *{grade}" type="hidden" th:field="*{grade}" />
+          <input th:if="${edit} AND *{course}" type="hidden" th:field="*{course}" />
 
           <div class="col-md-4">
             <label for="location" class="form-label">Luogo</label>

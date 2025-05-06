@@ -48,11 +48,7 @@
                 <a class="nav-link" th:href="@{/exams}">Appelli</a>
               </li>
               <li class="nav-item">
-                <a
-                  class="nav-link"
-                  th:href="@{/user/{id}/grades(id = ${#authentication.principal.id})}"
-                  >Voti</a
-                >
+                <a class="nav-link" th:href="@{/grades}">Voti</a>
               </li>
             </ul>
 
@@ -197,6 +193,12 @@
                 <div
                   class="col-12 d-flex align-items-center justify-content-between"
                 >
+                  <div class="fw-semibold">Corso</div>
+                  <div>[[*{course.name}]]</div>
+                </div>
+                <div
+                  class="col-12 d-flex align-items-center justify-content-between"
+                >
                   <div class="fw-semibold">Data</div>
                   <div
                     th:text="${#temporals.format(exam.date, 'yyyy-MM-dd | HH:mm')}"
@@ -207,12 +209,6 @@
                 >
                   <div class="fw-semibold">Luogo</div>
                   <div>[[*{location}]]</div>
-                </div>
-                <div
-                  class="col-12 d-flex align-items-center justify-content-between"
-                >
-                  <div class="fw-semibold">Corso</div>
-                  <div>[[*{course.name}]]</div>
                 </div>
                 <div
                   class="col-12 d-flex align-items-center justify-content-between"
