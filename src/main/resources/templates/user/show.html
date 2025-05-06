@@ -9,12 +9,22 @@
     <div th:replace="~{fragments/fragments :: header}"></div>
 
     <div class="container">
-      <main>
-        <h1 class="mt-5">Il mio profilo</h1>
+      <main th:object="${user}">
+        <div class="mt-5 d-flex justify-content-between align-items-center">
+          <h1 class="fw-bold">PROFILO</h1>
+          <div class="d-flex gap-2">
+            <a
+              class="btn btn-sm btn-dark"
+              th:href="@{/user/edit/{id}(id = *{id})}"
+              ><i class="fa-solid fa-pen px-1"></i
+            > Modifica</a>
+          </div>
+        </div>
+
+        <hr />
 
         <div>
-          <ul th:object="${user}">
-            <li>[[*{id}]]</li>
+          <ul>
             <li>[[*{name}]]</li>
             <li>[[*{surname}]]</li>
             <li>[[*{username}]]</li>

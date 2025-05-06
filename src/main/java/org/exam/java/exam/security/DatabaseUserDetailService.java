@@ -22,7 +22,7 @@ public class DatabaseUserDetailService implements UserDetailsService {
         Optional<User> userAttempt = userRepository.findByUsername(username);
 
         if (userAttempt.isEmpty()) {
-            throw new UsernameNotFoundException("Unimplemented method");
+            throw new UsernameNotFoundException("Username not found");
         }
 
         return new DatabaseUserDetails(userAttempt.get());

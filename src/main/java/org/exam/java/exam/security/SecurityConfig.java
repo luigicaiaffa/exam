@@ -18,8 +18,8 @@ public class SecurityConfig {
     @SuppressWarnings("removal")
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests()
-                .requestMatchers("/user/register", "/login").permitAll()
-                .requestMatchers(HttpMethod.POST, "/user/register").permitAll()
+                .requestMatchers("/user/create", "/login").permitAll()
+                .requestMatchers(HttpMethod.POST, "/user/create").permitAll()
                 .requestMatchers("/webjars/**", "/css/**", "/js/**", "/images/**").permitAll()
                 .anyRequest().authenticated()
                 .and().formLogin().loginPage("/login").defaultSuccessUrl("/", true)
