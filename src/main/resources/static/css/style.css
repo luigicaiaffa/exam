@@ -3,6 +3,35 @@ a {
   color: black;
 }
 
+/* # Home Page */
+
+.homeUpperCards {
+  height: 19rem;
+}
+
+.upperCardsExam {
+  max-height: 8rem;
+  overflow-y: scroll;
+  scrollbar-width: thin;
+}
+
+.upperCardsExam::-webkit-scrollbar {
+  display: thin;
+}
+
+.homeLowerCards {
+  height: 25rem;
+}
+
+.lowerCardsExam {
+  max-height: 13rem;
+  overflow-y: scroll;
+  scrollbar-width: thin;
+}
+
+.lowerCardsExam::-webkit-scrollbar {
+  display: thin;
+}
 
 /* # Courses Index */
 
@@ -11,7 +40,7 @@ a {
 }
 
 .courseCards:has(.cardsTitle:hover) {
-    transform: scale(1.04);
+  transform: scale(1.04);
 }
 
 .courseCardsExam {
@@ -25,13 +54,12 @@ a {
 }
 
 .examLinks:hover {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 
 .addVote:hover {
-    transform: scale(1.1);
+  transform: scale(1.1);
 }
-
 
 /* # Exams Index */
 
