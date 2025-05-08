@@ -112,11 +112,47 @@
             <div class="card homeLowerCards">
               <div class="card-body">
                 <div class="d-flex justify-content-between card-title">
-                  <h4 class="fw-semibold mb-0">Ricerca</h4>
-                  <div class="fs-6 badge bg-success">
-                    <i class="fa-solid"></i>
+                  <h4 class="fw-semibold mb-0">Cerca corso</h4>
+                  <div class="fs-6 badge bg-dark">
+                    <i class="fa-solid fa-magnifying-glass"></i>
                   </div>
                 </div>
+
+                <hr />
+
+                <form th:action="@{/courses}" method="GET">
+                  <div class="input-group my-5">
+                    <label></label>
+                    <input
+                      type="text"
+                      th:value="${name}"
+                      name="name"
+                      placeholder="Cerca per nome"
+                      class="form-control"
+                    />
+                  </div>
+
+                  <div class="input-group my-5">
+                    <select
+                      class="form-select"
+                      aria-label="Default select example"
+                      th:value="${year}"
+                      name="year"
+                    >
+                      <option selected th:value="0">Anno accademico</option>
+                      <option th:each="year : ${coursesYears}" th:value="${year}">[[${year}]]</option>
+                    </select>
+                  </div>
+
+                  <div class="my-5">
+                    <button
+                      type="submit"
+                      class="btn btn-sm btn-outline-secondary w-100"
+                    >
+                      Cerca corso
+                    </button>
+                  </div>
+                </form>
               </div>
             </div>
           </div>
@@ -125,9 +161,9 @@
             <div class="card homeLowerCards">
               <div class="card-body">
                 <div class="d-flex justify-content-between card-title">
-                  <h4 class="fw-semibold mb-0">Percorso</h4>
+                  <h4 class="fw-semibold mb-0">Percorso studente</h4>
                   <div class="fs-6 badge bg-success">
-                    <i class="fa-solid fa-check"></i>
+                    <i class="fa-solid fa-book"></i>
                   </div>
                 </div>
 

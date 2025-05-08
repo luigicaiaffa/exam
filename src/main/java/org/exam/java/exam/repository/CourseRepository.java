@@ -11,5 +11,10 @@ public interface CourseRepository extends JpaRepository<Course, Integer> {
 
     public List<Course> findByUserIdOrderByCourseYear(Integer id);
 
+    public List<Course> findByUserIdAndCourseYear(Integer id, Integer year);
+
     public List<Course> findByUserIdAndNameContainingIgnoreCase(Integer id, String name);
+
+    public List<Course> findByUserIdAndCourseYearAndNameContainingIgnoreCase(Integer id, Integer year, String name);
+
 }

@@ -3,6 +3,7 @@ package org.exam.java.exam.controller;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.exam.java.exam.model.Course;
 import org.exam.java.exam.model.Exam;
@@ -43,13 +44,21 @@ public class CourseController {
             Optional<User> user = userService.findByUsername(auth.getName());
             Integer userId = user.get().getId();
 
-            if (name != null && !name.isEmpty()) {
+            if (name != null && !name.isEmpty() && year != null && year != 0) {
+                courses = courseService.findUserCoursesByYearAndName(userId, year, name);
+            } else if (year != null && year != 0) {
+                courses = courseService.findUserCoursesByYear(userId, year);
+            } else if (name != null && !name.isEmpty()) {
                 courses = courseService.findUserCoursesByName(userId, name);
             } else {
                 courses = courseService.findUserCoursesSortedByYear(userId);
             }
 
+            List<Integer> coursesYears = courseService.findUserCoursesSortedByYear(userId).stream()
+                    .map(Course::getCourseYear).distinct().sorted().collect(Collectors.toList());
+
             model.addAttribute("courses", courses);
+            model.addAttribute("coursesYears", coursesYears);
 
         } catch (Exception e) {
             model.addAttribute("error", e.getMessage());

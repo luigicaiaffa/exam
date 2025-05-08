@@ -32,6 +32,14 @@ public class CourseService {
         return courseRepository.findByUserIdAndNameContainingIgnoreCase(userId, name);
     }
 
+    public List<Course> findUserCoursesByYear(Integer userId, Integer year) {
+        return courseRepository.findByUserIdAndCourseYear(userId, year);
+    }
+
+    public List<Course> findUserCoursesByYearAndName(Integer userId, Integer year, String name) {
+        return courseRepository.findByUserIdAndCourseYearAndNameContainingIgnoreCase(userId, year, name);
+    }
+
     public Optional<Course> findById(Integer id) {
         return courseRepository.findById(id);
     }
