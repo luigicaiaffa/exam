@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import org.exam.java.exam.model.Course;
 import org.exam.java.exam.model.Grade;
 import org.exam.java.exam.repository.GradeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,6 +56,10 @@ public class GradeService {
 
     public void deleteById(Integer id) {
         Grade grade = getById(id);
+
+        Course course = grade.getExam().getCourse();
+        course.setIsPassed(false);
+
         gradeRepository.delete(grade);
     }
 

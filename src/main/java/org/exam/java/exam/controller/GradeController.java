@@ -97,6 +97,11 @@ public class GradeController {
         }
 
         try {
+
+            if (formGrade.getValue() != 30) {
+                formGrade.setHasHonors(false);
+            }
+
             gradeService.create(formGrade);
             Exam exam = examService.findById(formGrade.getExam().getId())
                     .orElseThrow(() -> new EntityNotFoundException());

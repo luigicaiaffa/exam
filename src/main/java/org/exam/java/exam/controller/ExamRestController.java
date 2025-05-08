@@ -8,6 +8,7 @@ import org.exam.java.exam.model.Course;
 import org.exam.java.exam.model.Exam;
 import org.exam.java.exam.model.Grade;
 import org.exam.java.exam.model.User;
+import org.exam.java.exam.service.CourseService;
 import org.exam.java.exam.service.ExamService;
 import org.exam.java.exam.service.GradeService;
 import org.exam.java.exam.service.UserService;
@@ -40,6 +41,9 @@ public class ExamRestController {
 
     @Autowired
     private GradeService gradeService;
+
+    @Autowired
+    private CourseService courseService;
 
     @GetMapping
     public ResponseEntity<?> index(Authentication auth) {
@@ -179,6 +183,10 @@ public class ExamRestController {
                 if (grade.getExam().getCourse().getIsPassed() || grade.getExam().getIsCancelled()) {
                     return new ResponseEntity<Grade>(HttpStatus.UNAUTHORIZED);
                 }
+
+                Course course = grade.getExam().getCourse();
+                course.setIsPassed(true);
+                courseService.update(course);
 
                 return new ResponseEntity<Grade>(gradeService.create(grade), HttpStatus.CREATED);
             } else {

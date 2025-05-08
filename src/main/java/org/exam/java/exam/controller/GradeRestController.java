@@ -150,6 +150,7 @@ public class GradeRestController {
             Grade grade = gradeService.getById(id);
 
             if (grade.getExam().getCourse().getUser().getId().equals(userId)) {
+                grade.getExam().setGrade(null);
                 gradeService.deleteById(id);
                 return new ResponseEntity<Grade>(HttpStatus.NO_CONTENT);
             } else {
