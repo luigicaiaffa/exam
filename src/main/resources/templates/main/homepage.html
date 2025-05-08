@@ -140,7 +140,12 @@
                       name="year"
                     >
                       <option selected th:value="0">Anno accademico</option>
-                      <option th:each="year : ${coursesYears}" th:value="${year}">[[${year}]]</option>
+                      <option
+                        th:each="year : ${coursesYears}"
+                        th:value="${year}"
+                      >
+                        [[${year}]]
+                      </option>
                     </select>
                   </div>
 

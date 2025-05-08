@@ -48,7 +48,6 @@
           </form>
         </div>
 
-        
         <hr class="mb-4" />
 
         <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4">
@@ -110,10 +109,7 @@
                           class="list-group-item d-flex justify-content-between align-items-center"
                         >
                           <div>
-                            <a
-                              class="examLinks"
-                              th:href="@{/exams/{id}(id = *{id})}"
-                            >
+                           
                               <span
                                 th:text="${#temporals.format(exam.date, 'yyyy-MM-dd | HH:mm')}"
                               ></span>
@@ -128,7 +124,7 @@
                                   class="badge bg-warning addVote"
                                   th:unless="${exam.isCancelled}"
                                   th:href="@{/exams/{id}/grade(id = *{id})}"
-                                  >Registra voto</a
+                                  ><i class="fa-solid fa-plus"></i> Voto</a
                                 >
 
                                 <span
@@ -143,8 +139,8 @@
                           <div>
                             <a
                               class="btn btn-sm btn-outline-secondary"
-                              th:href="@{/exams/edit/{id}(id = *{id})}"
-                              ><i class="fa-solid fa-pen"></i>
+                              th:href="@{/exams/{id}(id = *{id})}"
+                              ><i class="fa-solid fa-eye"></i>
                             </a>
                           </div>
                         </li>
