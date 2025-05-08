@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import org.exam.java.exam.model.Course;
 import org.exam.java.exam.model.Exam;
+import org.exam.java.exam.model.Grade;
 import org.exam.java.exam.model.User;
 import org.exam.java.exam.service.CourseService;
 import org.exam.java.exam.service.ExamService;
@@ -219,6 +220,11 @@ public class CourseRestController {
             exam.setCourse(courseService.getById(id));
 
             if (exam.getCourse().getUser().getId().equals(userId)) {
+
+                if (exam.getCourse().getIsPassed()) {
+                    return new ResponseEntity<Grade>(HttpStatus.UNAUTHORIZED);
+                }
+
                 return new ResponseEntity<Exam>(examService.create(exam), HttpStatus.CREATED);
             } else {
                 return new ResponseEntity<Exam>(HttpStatus.UNAUTHORIZED);
