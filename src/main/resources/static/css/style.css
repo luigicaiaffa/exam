@@ -10,7 +10,7 @@ a {
 }
 
 .upperCardsExam {
-  max-height: 8rem;
+  max-height: 12.5rem;
   overflow-y: scroll;
   scrollbar-width: thin;
 }
@@ -51,10 +51,6 @@ a {
 
 .courseCardsExam::-webkit-scrollbar {
   display: thin;
-}
-
-.examLinks:hover {
-  text-decoration: underline;
 }
 
 .addVote:hover {

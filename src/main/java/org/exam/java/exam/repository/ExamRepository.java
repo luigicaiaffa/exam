@@ -13,5 +13,5 @@ public interface ExamRepository extends JpaRepository<Exam, Integer> {
 
     public List<Exam> findByCourseUserIdAndIsCancelledTrueOrderByDateDesc(Integer id);
 
-    public List<Exam> findByCourseUserIdAndGradeIsNullAndIsCancelledFalseOrderByDateDesc(Integer id);
+    public List<Exam> findByCourseUserIdAndGradeIsNullAndIsCancelledFalseOrderByDateAsc(Integer id);
 }

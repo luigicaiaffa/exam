@@ -34,7 +34,7 @@ public class ExamService {
     }
 
     public List<Exam> findUserExamsToDo(Integer userId) {
-        return examRepository.findByCourseUserIdAndGradeIsNullAndIsCancelledFalseOrderByDateDesc(userId);
+        return examRepository.findByCourseUserIdAndGradeIsNullAndIsCancelledFalseOrderByDateAsc(userId);
     }
 
     public Optional<Exam> findById(Integer id) {
