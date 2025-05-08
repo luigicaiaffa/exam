@@ -21,6 +21,7 @@ public class SecurityConfig {
                 .requestMatchers("/webjars/**", "/css/**", "/js/**", "/images/**").permitAll()
                 .requestMatchers("/user/create", "/login").permitAll()
                 .requestMatchers(HttpMethod.POST, "/user/create").permitAll()
+                .requestMatchers("/user/admin/**", "/api/user/admin/**").hasAuthority("ADMIN")
                 .anyRequest().authenticated()
                 .and().formLogin().loginPage("/login").defaultSuccessUrl("/", true)
                 .and().logout()
