@@ -25,6 +25,10 @@ public class ExamService {
         return examRepository.findByCourseUserId(userId);
     }
 
+    public List<Exam> findAllByCourseId(Integer courseId) {
+        return examRepository.findByCourseIdOrderByDateDesc(courseId);
+    }
+
     public List<Exam> findUserExamsWithGrade(Integer userId) {
         return examRepository.findByCourseUserIdAndGradeIsNotNullOrderByDateDesc(userId);
     }
