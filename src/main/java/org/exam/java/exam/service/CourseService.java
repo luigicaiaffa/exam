@@ -25,7 +25,7 @@ public class CourseService {
     }
 
     public List<Course> findUserCoursesSortedByYear(Integer userId) {
-        return courseRepository.findByUserIdOrderByCourseYear(userId);
+        return courseRepository.findByUserIdOrderByCourseYearDesc(userId);
     }
 
     public List<Course> findUserCoursesByName(Integer userId, String name) {

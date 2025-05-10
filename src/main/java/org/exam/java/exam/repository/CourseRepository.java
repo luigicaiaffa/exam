@@ -9,7 +9,7 @@ public interface CourseRepository extends JpaRepository<Course, Integer> {
 
     public List<Course> findByUserId(Integer id);
 
-    public List<Course> findByUserIdOrderByCourseYear(Integer id);
+    public List<Course> findByUserIdOrderByCourseYearDesc(Integer id);
 
     public List<Course> findByUserIdAndCourseYear(Integer id, Integer year);
 

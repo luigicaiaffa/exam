@@ -19,7 +19,7 @@ public class SecurityConfig {
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests()
                 .requestMatchers("/webjars/**", "/css/**", "/js/**", "/images/**").permitAll()
-                .requestMatchers("/user/create", "/login").permitAll()
+                .requestMatchers("/user/create", "/login", "/api/public/**").permitAll()
                 .requestMatchers(HttpMethod.POST, "/user/create").permitAll()
                 .requestMatchers("/user/admin/**", "/api/user/admin/**").hasAuthority("ADMIN")
                 .anyRequest().authenticated()
