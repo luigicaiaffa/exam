@@ -1,4 +1,4 @@
-package org.exam.java.exam.controller;
+package org.exam.java.exam.controller.rest;
 
 import java.math.BigDecimal;
 import java.util.HashMap;

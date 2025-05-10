@@ -1,4 +1,4 @@
-package org.exam.java.exam.controller;
+package org.exam.java.exam.controller.rest;
 
 import java.util.ArrayList;
 import java.util.List;
