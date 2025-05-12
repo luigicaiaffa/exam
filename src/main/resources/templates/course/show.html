@@ -95,7 +95,7 @@
 
                         <div th:unless="*{grade}">
                           <a
-                            class="badge bg-warning addVote"
+                            class="btn btn-warning btn-sm badge"
                             th:unless="${exam.isCancelled}"
                             th:href="@{/exams/{id}/grade(id = *{id})}"
                             >Registra voto</a

@@ -42,6 +42,9 @@
           >
             <ul class="navbar-nav">
               <li class="nav-item">
+                <a class="nav-link" th:href="@{/}">Home</a>
+              </li>
+              <li class="nav-item">
                 <a class="nav-link" th:href="@{/courses}">Corsi</a>
               </li>
               <li class="nav-item">
@@ -227,7 +230,7 @@
                   <a
                     th:if="${!exam.isCancelled} and ${exam.grade == null}"
                     th:href="@{/exams/{id}/grade(id = *{id})}"
-                    class="badge bg-warning addVote"
+                    class="btn btn-warning btn-sm badge"
                     >Registra voto</a
                   >
                 </div>

@@ -61,7 +61,7 @@
               <a
                 th:if="*{!isCancelled} and *{grade == null}"
                 th:href="@{/exams/{id}/grade(id = *{id})}"
-                class="addVote badge bg-warning"
+                class="btn btn-warning btn-sm badge"
                 >Registra voto</a
               >
               <span

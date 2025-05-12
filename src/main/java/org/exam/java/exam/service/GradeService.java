@@ -25,7 +25,7 @@ public class GradeService {
     }
 
     public List<Grade> findAllByUserId(Integer userId) {
-        return gradeRepository.findByExamCourseUserIdOrderByExamCourseCourseYear(userId);
+        return gradeRepository.findByExamCourseUserIdOrderByExamCourseCourseYearDesc(userId);
     }
 
     public Optional<Grade> findById(Integer id) {
