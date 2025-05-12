@@ -30,7 +30,7 @@ public class ExamService {
     }
 
     public List<Exam> findUserExamsWithGrade(Integer userId) {
-        return examRepository.findByCourseUserIdAndGradeIsNotNullOrderByDateDesc(userId);
+        return examRepository.findByCourseUserIdAndGradeIsNotNullOrderByCourseCourseYearDesc(userId);
     }
 
     public List<Exam> findUserExamsCancelled(Integer userId) {
