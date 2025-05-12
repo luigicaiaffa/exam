@@ -1,9 +1,6 @@
 package org.exam.java.exam.controller.rest;
 
-import java.math.BigDecimal;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -11,6 +8,7 @@ import org.exam.java.exam.model.Course;
 import org.exam.java.exam.model.Exam;
 import org.exam.java.exam.model.Grade;
 import org.exam.java.exam.model.User;
+import org.exam.java.exam.service.ExamService;
 import org.exam.java.exam.service.GradeService;
 import org.exam.java.exam.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +39,9 @@ public class GradeRestController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private ExamService examService;
+
     @GetMapping
     public ResponseEntity<?> index() {
 
@@ -52,17 +53,9 @@ public class GradeRestController {
                 return new ResponseEntity<List<Grade>>(HttpStatus.UNAUTHORIZED);
             }
 
-            Map<String, BigDecimal> averages = gradeService.getAveragesByUserId(guestId);
-            List<Grade> grades = gradeService.findAllByUserId(guestId);
+            List<Exam> grades = examService.findUserExamsWithGrade(guestId);
 
-            Map<String, Object> response = new HashMap<>();
-            response.put("arithmeticAvg", averages.get("arithmetic"));
-            response.put("weightedAvg", averages.get("weighted"));
-            response.put("totalCfu", averages.get("totalCfu"));
-            response.put("maxCfu", user.get().getTotalCfu());
-            response.put("grades", grades);
-
-            return new ResponseEntity<>(response, HttpStatus.OK);
+            return new ResponseEntity<>(grades, HttpStatus.OK);
 
         } catch (Exception e) {
             return new ResponseEntity<>("Error: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -95,6 +88,7 @@ public class GradeRestController {
         }
     }
 
+    // !!!
     @PutMapping("/{id}")
     public ResponseEntity<?> update(@PathVariable Integer id, @RequestBody @Valid Grade grade,
             BindingResult bindingResult, Authentication auth) {

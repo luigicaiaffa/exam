@@ -102,6 +102,7 @@ public class CourseRestController {
         }
     }
 
+    // !!!
     @PostMapping
     public ResponseEntity<?> create(@RequestBody @Valid Course course, BindingResult bindingResult,
             Authentication auth) {

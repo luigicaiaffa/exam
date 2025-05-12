@@ -93,6 +93,7 @@ public class ExamRestController {
         }
     }
 
+    // !!!
     @PutMapping("/{id}")
     public ResponseEntity<?> update(@PathVariable Integer id, @RequestBody @Valid Exam exam,
             BindingResult bindingResult, Authentication auth) {

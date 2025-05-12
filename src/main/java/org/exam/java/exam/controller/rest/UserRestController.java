@@ -41,6 +41,7 @@ public class UserRestController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    // !!!
     @GetMapping("/admin/users")
     public ResponseEntity<?> index(Authentication auth) {
         try {

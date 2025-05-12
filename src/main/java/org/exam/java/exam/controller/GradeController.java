@@ -62,7 +62,6 @@ public class GradeController {
             return "/main/error";
         }
 
-        model.addAttribute("grades", gradeService.findAll());
         return "/grade/index";
     }
 
