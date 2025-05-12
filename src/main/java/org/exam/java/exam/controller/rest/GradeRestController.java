@@ -18,6 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,7 +31,8 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/api/grades")
+@RequestMapping("/api/public/grades")
+@CrossOrigin(origins = "http://localhost:5173")
 public class GradeRestController {
 
     @Autowired
@@ -40,18 +42,18 @@ public class GradeRestController {
     private UserService userService;
 
     @GetMapping
-    public ResponseEntity<?> index(Authentication auth) {
+    public ResponseEntity<?> index() {
 
         try {
-            Optional<User> user = userService.findByUsername(auth.getName());
+            Integer guestId = 999;
+            Optional<User> user = userService.findById(guestId);
 
             if (user.isEmpty()) {
                 return new ResponseEntity<List<Grade>>(HttpStatus.UNAUTHORIZED);
             }
 
-            Integer userId = user.get().getId();
-            Map<String, BigDecimal> averages = gradeService.getAveragesByUserId(userId);
-            List<Grade> grades = gradeService.findAllByUserId(userId);
+            Map<String, BigDecimal> averages = gradeService.getAveragesByUserId(guestId);
+            List<Grade> grades = gradeService.findAllByUserId(guestId);
 
             Map<String, Object> response = new HashMap<>();
             response.put("arithmeticAvg", averages.get("arithmetic"));
@@ -68,19 +70,19 @@ public class GradeRestController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> show(@PathVariable Integer id, Authentication auth) {
+    public ResponseEntity<?> show(@PathVariable Integer id) {
 
         try {
-            Optional<User> user = userService.findByUsername(auth.getName());
+            Integer guestId = 999;
+            Optional<User> user = userService.findById(guestId);
 
             if (user.isEmpty()) {
                 return new ResponseEntity<Exam>(HttpStatus.UNAUTHORIZED);
             }
 
             Grade grade = gradeService.getById(id);
-            Integer userId = user.get().getId();
 
-            if (grade.getExam().getCourse().getUser().getId().equals(userId)) {
+            if (grade.getExam().getCourse().getUser().getId().equals(guestId)) {
                 return new ResponseEntity<Grade>(grade, HttpStatus.OK);
             } else {
                 return new ResponseEntity<Grade>(HttpStatus.UNAUTHORIZED);

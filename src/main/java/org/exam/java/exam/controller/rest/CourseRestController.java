@@ -17,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,7 +32,8 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/api/courses")
+@RequestMapping("/api/public/courses")
+@CrossOrigin(origins = "http://localhost:5173")
 public class CourseRestController {
 
     @Autowired
@@ -45,26 +47,26 @@ public class CourseRestController {
 
     @GetMapping
     public ResponseEntity<?> index(@RequestParam(name = "name", required = false) String name,
-            @RequestParam(name = "year", required = false) Integer year, Authentication auth) {
+            @RequestParam(name = "year", required = false) Integer year) {
 
         try {
-            List<Course> courses = new ArrayList<>();
-            Optional<User> user = userService.findByUsername(auth.getName());
+            Integer guestId = 999;
+            Optional<User> user = userService.findById(guestId);
 
             if (user.isEmpty()) {
                 return new ResponseEntity<List<Course>>(HttpStatus.UNAUTHORIZED);
             }
 
-            Integer userId = user.get().getId();
+            List<Course> courses = new ArrayList<>();
 
             if (name != null && !name.isEmpty() && year != null && year != 0) {
-                courses = courseService.findUserCoursesByYearAndName(userId, year, name);
+                courses = courseService.findUserCoursesByYearAndName(guestId, year, name);
             } else if (year != null && year != 0) {
-                courses = courseService.findUserCoursesByYear(userId, year);
+                courses = courseService.findUserCoursesByYear(guestId, year);
             } else if (name != null && !name.isEmpty()) {
-                courses = courseService.findUserCoursesByName(userId, name);
+                courses = courseService.findUserCoursesByName(guestId, name);
             } else {
-                courses = courseService.findUserCoursesSortedByYear(userId);
+                courses = courseService.findUserCoursesSortedByYear(guestId);
             }
 
             return new ResponseEntity<List<Course>>(courses, HttpStatus.OK);
@@ -75,19 +77,19 @@ public class CourseRestController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> show(@PathVariable Integer id, Authentication auth) {
+    public ResponseEntity<?> show(@PathVariable Integer id) {
 
         try {
-            Optional<User> user = userService.findByUsername(auth.getName());
+            Integer guestId = 999;
+            Optional<User> user = userService.findById(999);
 
             if (user.isEmpty()) {
                 return new ResponseEntity<Course>(HttpStatus.UNAUTHORIZED);
             }
 
             Course course = courseService.getById(id);
-            Integer userId = user.get().getId();
 
-            if (course.getUser().getId().equals(userId)) {
+            if (course.getUser().getId().equals(guestId)) {
                 return new ResponseEntity<Course>(course, HttpStatus.OK);
             } else {
                 return new ResponseEntity<Course>(HttpStatus.UNAUTHORIZED);

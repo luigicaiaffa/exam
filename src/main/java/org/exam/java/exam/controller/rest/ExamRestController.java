@@ -17,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,7 +31,8 @@ import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @RestController
-@RequestMapping("/api/exams")
+@RequestMapping("/api/public/exams")
+@CrossOrigin(origins = "http://localhost:5173")
 public class ExamRestController {
 
     @Autowired
@@ -46,17 +48,17 @@ public class ExamRestController {
     private CourseService courseService;
 
     @GetMapping
-    public ResponseEntity<?> index(Authentication auth) {
+    public ResponseEntity<?> index() {
 
         try {
-            Optional<User> user = userService.findByUsername(auth.getName());
+            Integer guestId = 999;
+            Optional<User> user = userService.findById(guestId);
 
             if (user.isEmpty()) {
                 return new ResponseEntity<List<Exam>>(HttpStatus.UNAUTHORIZED);
             }
 
-            Integer userId = user.get().getId();
-            List<Exam> exams = examService.findAllByUserId(userId);
+            List<Exam> exams = examService.findAllByUserId(guestId);
 
             return new ResponseEntity<List<Exam>>(exams, HttpStatus.OK);
 
@@ -66,19 +68,19 @@ public class ExamRestController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> show(@PathVariable Integer id, Authentication auth) {
+    public ResponseEntity<?> show(@PathVariable Integer id) {
 
         try {
-            Optional<User> user = userService.findByUsername(auth.getName());
+            Integer guestId = 999;
+            Optional<User> user = userService.findById(guestId);
 
             if (user.isEmpty()) {
                 return new ResponseEntity<Exam>(HttpStatus.UNAUTHORIZED);
             }
 
             Exam exam = examService.getById(id);
-            Integer userId = user.get().getId();
 
-            if (exam.getCourse().getUser().getId().equals(userId)) {
+            if (exam.getCourse().getUser().getId().equals(guestId)) {
                 return new ResponseEntity<Exam>(exam, HttpStatus.OK);
             } else {
                 return new ResponseEntity<Exam>(HttpStatus.UNAUTHORIZED);

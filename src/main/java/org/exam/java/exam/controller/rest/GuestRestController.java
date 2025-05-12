@@ -26,7 +26,7 @@ public class GuestRestController {
     @Autowired
     GradeService gradeService;
 
-    @GetMapping("/data")
+    @GetMapping("/guest")
     public ResponseEntity<User> getGuestData() {
 
         Optional<User> guest = userService.findById(999);
