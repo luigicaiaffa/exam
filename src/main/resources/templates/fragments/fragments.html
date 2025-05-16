@@ -143,7 +143,7 @@
     <div th:fragment="deleteExamModal(title)">
       <button
         type="button"
-        th:class="'btn btn-sm ' + (${title} ? 'btn-danger' : 'btn-outline-danger')"
+        th:class="'btn btn-sm ' + (${title} ? 'btn-danger px-3' : 'btn-outline-danger')"
         data-bs-toggle="modal"
         th:data-bs-target="'#deleteExamModal' + *{id}"
       >
@@ -219,7 +219,7 @@
                 >
                   <div class="fw-semibold">Data</div>
                   <div
-                    th:text="${#temporals.format(exam.date, 'dd-MM-yyyy | HH:mm')}"
+                    th:text="${#temporals.format(exam.date, 'dd-MM-yyyy  HH:mm')}"
                   ></div>
                 </div>
                 <div
@@ -235,7 +235,7 @@
 
                   <div
                     th:if="${!exam.isCancelled} and ${exam.grade != null}"
-                    class="badge bg-success"
+                    class="badge bg-success px-3"
                   >
                     [[*{grade}]]
                   </div>
@@ -246,7 +246,7 @@
                     th:if="${!exam.isCancelled} and ${exam.grade == null}"
                     th:href="@{/exams/{id}/grade(id = *{id})}"
                     class="btn btn-warning btn-sm badge"
-                    >Registra voto</a
+                    ><i class="fa-solid fa-plus me-2"></i> Voto</a
                   >
                 </div>
               </div>

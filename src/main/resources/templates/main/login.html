@@ -7,16 +7,13 @@
   </head>
   <body>
     <div class="container">
-      <main class="d-flex justify-content-center py-5">
-        <div class="card mx-auto mt-5">
+      <main class="d-flex justify-content-center">
+        <div class="card mx-auto coursesSection">
           <div class="card-body p-5">
-            <div class="text-center mb-4">
-              <h1><i class="fa-solid fa-book-open"></i></h1>
+            <div class="text-center mb-5">
+              <h1><i class="text-success fa-solid fa-book-open fa-xl"></i></h1>
             </div>
-            <div class="text-center mb-4">Accedi al tuo account</div>
 
-          
-            
             <form
               id="user-form"
               method="POST"
@@ -53,7 +50,9 @@
             <div class="mt-2">
               <span
                 >Non hai un account?
-                <a class="text-primary" th:href="@{/user/create}">Registrati</a></span
+                <a class="text-primary" th:href="@{/user/create}"
+                  >Registrati</a
+                ></span
               >
             </div>
           </div>

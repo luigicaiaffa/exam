@@ -10,61 +10,69 @@
 
     <div class="container mb-5">
       <main>
-        <div class="mt-5 d-flex justify-content-between align-items-center">
-          <h1 class="fw-bold">VOTI</h1>
-
-          <div th:if="${totalCfu}">
-            <h5>
-              CFU
-              <span>[[${totalCfu}]] / [[${user.totalCfu}]]</span>
-            </h5>
-          </div>
-          <div th:unless="${totalCfu}">
-            <h5>CFU 0 / [[${user.totalCfu}]]</h5>
-          </div>
-        </div>
-
-        <hr />
-
-        <div class="text-center row row-cols-1 row-cols-md-2 g-2">
-          <div class="col py-2 border">
-            <div>Media Aritmetica</div>
-            <div class="fw-semibold">[[${arithmeticAvg}]]</div>
-          </div>
-
-          <div class="col py-2 border">
-            <div>Media Ponderata</div>
-            <div class="fw-semibold">[[${weightedAvg}]]</div>
-          </div>
-        </div>
-
-        <div>
-          <div class="my-3" th:if="${grades.size() != 0}">
-            <div class="list-group list-group-flush">
-              <a
-                th:each="grade : ${grades}"
-                th:object="${grade}"
-                th:href="@{/courses/{id}(id = *{exam.course.id})}"
-                class="list-group-item d-flex align-items-center justify-content-between py-3 list-group-item-action"
-              >
-                <div>
-                  <div class="fw-bold h5">
-                    <i class="fa-solid fa-angle-right"></i>
-                    [[*{exam.course.name}]]
-                  </div>
-                  <span class="ms-3">Anno [[*{exam.course.courseYear}]]</span>
-                  <span class="ms-3">[[*{exam.course.cfu}]] CFU</span>
-                </div>
-
-                <div>
-                  <i class="fa-solid">[[*{value}]]</i>
-                </div>
-              </a>
+        <div class="card gradesCard">
+          <div class="card-body p-4">
+            <div
+              class="pageTitle mb-4 d-flex justify-content-between align-items-center"
+            >
+              <h1 class="fw-bold">VOTI</h1>
             </div>
-          </div>
 
-          <div th:unless="${grades.size() != 0}" class="m-3">
-            <p>Nessun voto registrato</p>
+            <div
+              class="text-center row mb-4 row-cols-1 row-cols-md-3 justify-content-around g-3 mx-2"
+            >
+              <div class="col py-1 averages">
+                <div class="text-secondary">Media Aritmetica</div>
+                <div class="fw-semibold fs-5">[[${arithmeticAvg}]]</div>
+              </div>
+
+              <div class="col py-1 averages">
+                <div class="text-secondary">CFU</div>
+                <span th:if="${totalCfu}" class="fw-semibold fs-5"
+                  >[[${totalCfu}]] / [[${user.totalCfu}]]</span
+                >
+                <span th:unless="${totalCfu}" class="fw-semibold fs-5"
+                  >0 / [[${user.totalCfu}]]</span
+                >
+              </div>
+
+              <div class="col py-1 averages">
+                <div class="text-secondary">Media Ponderata</div>
+                <div class="fw-semibold fs-5">[[${weightedAvg}]]</div>
+              </div>
+            </div>
+
+            <div>
+              <div class="my-3" th:if="${grades.size() != 0}">
+                <div class="list-group list-group-flush">
+                  <a
+                    th:each="grade : ${grades}"
+                    th:object="${grade}"
+                    th:href="@{/courses/{id}(id = *{exam.course.id})}"
+                    class="list-group-item d-flex align-items-center justify-content-between py-3 list-group-item-action"
+                  >
+                    <div>
+                      <div class="fw-bold h5">
+                        <i class="fa-solid fa-angle-right"></i>
+                        [[*{exam.course.name}]]
+                      </div>
+                      <span class="ms-3"
+                        >Anno [[*{exam.course.courseYear}]]</span
+                      >
+                      <span class="ms-3">[[*{exam.course.cfu}]] CFU</span>
+                    </div>
+
+                    <div>
+                      <i class="fa-solid">[[*{value}]]</i>
+                    </div>
+                  </a>
+                </div>
+              </div>
+
+              <div th:unless="${grades.size() != 0}">
+                <p>Nessun voto registrato</p>
+              </div>
+            </div>
           </div>
         </div>
       </main>
