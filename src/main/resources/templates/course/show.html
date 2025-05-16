@@ -57,7 +57,7 @@
                 >
                   <h5 class="fw-bold">Voto</h5>
                   <div th:each="exam : ${course.exams}" th:object="${exam}">
-                    <i th:if="*{grade}" class="fa-solid">[[*{grade}]]</i>
+                    <span th:if="*{grade}" class="fs-5">[[*{grade}]]</span>
                   </div>
                 </li>
 
@@ -65,14 +65,14 @@
                   class="list-group-item d-flex align-items-center justify-content-between my-2"
                 >
                   <h5 class="fw-bold">CFU</h5>
-                  <i class="fa-solid">[[*{cfu}]]</i>
+                  <span class="fs-5">[[*{cfu}]]</span>
                 </li>
 
                 <li
                   class="list-group-item d-flex align-items-center justify-content-between my-2"
                 >
                   <h5 class="fw-bold">Anno del corso</h5>
-                  <i class="fa-solid">[[*{courseYear}]]</i>
+                  <span class="fs-5">[[*{courseYear}]]</span>
                 </li>
 
                 <li class="list-group-item my-2">
@@ -108,14 +108,14 @@
 
                           <span
                             th:if="*{grade}"
-                            class="fs-6 badge bg-success px-3"
+                            class="badge bg-success px-3"
                           >
                             [[*{grade}]]
                           </span>
 
                           <div th:unless="*{grade}">
                             <a
-                              class="btn btn-warning btn-sm badge fs-6"
+                              class="btn btn-warning btn-sm badge"
                               th:unless="${exam.isCancelled}"
                               th:href="@{/exams/{id}/grade(id = *{id})}"
                             >
@@ -124,7 +124,7 @@
 
                             <span
                               th:if="*{isCancelled}"
-                              class="fs-6 badge bg-danger"
+                              class="badge bg-danger"
                               >Annullato</span
                             >
                           </div>
