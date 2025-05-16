@@ -25,8 +25,12 @@ public class ExamService {
         return examRepository.findByCourseUserId(userId);
     }
 
+    public List<Exam> findAllByCourseId(Integer courseId) {
+        return examRepository.findByCourseIdOrderByDateDesc(courseId);
+    }
+
     public List<Exam> findUserExamsWithGrade(Integer userId) {
-        return examRepository.findByCourseUserIdAndGradeIsNotNullOrderByDateDesc(userId);
+        return examRepository.findByCourseUserIdAndGradeIsNotNullOrderByCourseCourseYearDesc(userId);
     }
 
     public List<Exam> findUserExamsCancelled(Integer userId) {
@@ -34,7 +38,7 @@ public class ExamService {
     }
 
     public List<Exam> findUserExamsToDo(Integer userId) {
-        return examRepository.findByCourseUserIdAndGradeIsNullAndIsCancelledFalseOrderByDateDesc(userId);
+        return examRepository.findByCourseUserIdAndGradeIsNullAndIsCancelledFalseOrderByDateAsc(userId);
     }
 
     public Optional<Exam> findById(Integer id) {

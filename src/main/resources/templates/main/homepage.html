@@ -10,12 +10,230 @@
 
     <div class="container">
       <main>
-        <div class="mt-5 d-flex justify-content-between align-items-center">
-          <h1 class="fw-bold">EXAMS</h1>
+        <div class="row g-4 my-4">
+          <div class="col-7">
+            <div class="card homeUpperCards" th:object="${user}">
+              <div class="card-body">
+                <div>
+                  <h3 class="card-title fw-bold">[[*{name}]] [[*{surname}]]</h3>
+
+                  <hr />
+
+                  <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                      <span class="card-subtitle text-body-secondary"
+                        >Numero di matricola</span
+                      >
+                      <div class="ms-2">- [[*{username}]]</div>
+                    </li>
+                    <li class="list-group-item">
+                      <span class="card-subtitle text-body-secondary"
+                        >Corso di Laurea</span
+                      >
+                      <div class="ms-2">- [[*{degreeCourse}]]</div>
+                    </li>
+                    <li class="list-group-item">
+                      <span class="card-subtitle text-body-secondary"
+                        >Totale CFU</span
+                      >
+                      <div class="ms-2" th:if="${totalCfu == 0}">
+                        - [[${user.totalCfu}]]
+                      </div>
+                      <div class="ms-2" th:unless="${totalCfu == 0}">
+                        - [[${totalCfu}]] / [[${user.totalCfu}]]
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-5">
+            <div class="card homeUpperCards">
+              <div class="card-body">
+                <div class="d-flex justify-content-between card-title">
+                  <h4 class="fw-semibold mb-0">Prossimi esami</h4>
+                  <div class="fs-6 badge bg-warning">
+                    <i class="fa-solid fa-book-open"></i>
+                  </div>
+                </div>
+
+                <hr />
+
+                <div class="upperCardsExam" th:if="${examsToDo.size() != 0}">
+                  <ul class="list-group list-group-flush">
+                    <li
+                      th:each="exam : ${examsToDo}"
+                      th:object="${exam}"
+                      class="list-group-item d-flex justify-content-between align-items-center"
+                    >
+                      <div>
+                        <a th:href="@{/courses/{id}(id = *{course.id})}"
+                          ><i class="fa-solid fa-angle-right"></i>
+                          [[*{course.name}]]</a
+                        >
+                        <div
+                          class="text-body-secondary ms-3"
+                          th:text="${#temporals.format(exam.date, 'dd-MM-yyyy | HH:mm')}"
+                        ></div>
+
+                        <div class="text-body-secondary ms-3">
+                          [[*{location}]]
+                        </div>
+                      </div>
+
+                      <a
+                        class="btn btn-warning btn-sm badge"
+                        th:unless="${exam.isCancelled}"
+                        th:href="@{/exams/{id}/grade(id = *{id})}"
+                        ><i class="fa-solid fa-plus"></i> Voto</a
+                      >
+                    </li>
+                  </ul>
+                </div>
+
+                <div th:unless="${examsToDo.size() != 0}">
+                  <ul class="list-group list-group-flush">
+                    <li
+                      class="list-group-item card-subtitle text-body-secondary"
+                    >
+                      Nessun appello registrato
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <div>
-          <p>[[${user}]]</p>
+        <div class="row g-4 mb-5">
+          <div class="col-5">
+            <div class="card homeLowerCards">
+              <div class="card-body">
+                <div class="d-flex justify-content-between card-title">
+                  <h4 class="fw-semibold mb-0">Cerca corso</h4>
+                  <div class="fs-6 badge bg-dark">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                  </div>
+                </div>
+
+                <hr />
+
+                <form th:action="@{/courses}" method="GET">
+                  <div class="input-group my-5">
+                    <label></label>
+                    <input
+                      type="text"
+                      th:value="${name}"
+                      name="name"
+                      placeholder="Cerca per nome"
+                      class="form-control"
+                    />
+                  </div>
+
+                  <div class="input-group my-5">
+                    <select
+                      class="form-select"
+                      aria-label="Default select example"
+                      th:value="${year}"
+                      name="year"
+                    >
+                      <option selected th:value="0">Anno accademico</option>
+                      <option
+                        th:each="year : ${coursesYears}"
+                        th:value="${year}"
+                      >
+                        [[${year}]]
+                      </option>
+                    </select>
+                  </div>
+
+                  <div class="my-5">
+                    <button
+                      type="submit"
+                      class="btn btn-sm btn-outline-secondary w-100"
+                    >
+                      Cerca corso
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-7">
+            <div class="card homeLowerCards">
+              <div class="card-body">
+                <div class="d-flex justify-content-between card-title">
+                  <h4 class="fw-semibold mb-0">Percorso studente</h4>
+                  <div class="fs-6 badge bg-success">
+                    <i class="fa-solid fa-book"></i>
+                  </div>
+                </div>
+
+                <hr />
+
+                <div
+                  class="d-flex justify-content-between align-items-center pb-1 mb-2 border-bottom"
+                >
+                  <h6>Media ponderata</h6>
+                  <span class="h5">[[${weightedAvg}]]</span>
+                </div>
+
+                <div
+                  class="d-flex justify-content-between align-items-center pb-1 mb-2 border-bottom"
+                >
+                  <h6>Esami svolti</h6>
+                  <span class="h5">[[${examsPassed.size()}]]</span>
+                </div>
+
+                <div
+                  class="lowerCardsExam py-2"
+                  th:if="${examsPassed.size() != 0}"
+                >
+                  <ul class="list-group list-group-flush">
+                    <li
+                      th:each="exam : ${examsPassed}"
+                      th:object="${exam}"
+                      class="list-group-item d-flex justify-content-between align-items-center"
+                    >
+                      <div>
+                        <a th:href="@{/courses/{id}(id = *{course.id})}"
+                          ><i class="fa-solid fa-angle-right"></i>
+                          [[*{course.name}]]</a
+                        >
+                        <div
+                          class="text-body-secondary ms-3"
+                          th:text="${#temporals.format(exam.date, 'dd-MM-yyyy | HH:mm')}"
+                        ></div>
+
+                        <div class="text-body-secondary ms-3">
+                          [[*{course.cfu}]] CFU
+                        </div>
+                      </div>
+
+                      <div
+                        class="text-bg-success border-success px-2 py-1 rounded"
+                      >
+                        [[*{grade}]]
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+
+                <div th:unless="${examsPassed.size() != 0}">
+                  <ul class="list-group list-group-flush">
+                    <li
+                      class="list-group-item card-subtitle text-body-secondary"
+                    >
+                      Nessun appello registrato
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </main>
     </div>

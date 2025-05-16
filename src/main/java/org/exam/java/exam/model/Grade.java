@@ -1,5 +1,7 @@
 package org.exam.java.exam.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -28,6 +30,7 @@ public class Grade {
     private Boolean hasHonors;
 
     @OneToOne
+    @JsonBackReference
     @JoinColumn(name = "exam_id", nullable = false)
     private Exam exam;
 

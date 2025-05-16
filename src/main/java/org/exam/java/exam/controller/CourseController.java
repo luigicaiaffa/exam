@@ -3,11 +3,13 @@ package org.exam.java.exam.controller;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.exam.java.exam.model.Course;
 import org.exam.java.exam.model.Exam;
 import org.exam.java.exam.model.User;
 import org.exam.java.exam.service.CourseService;
+import org.exam.java.exam.service.ExamService;
 import org.exam.java.exam.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -34,6 +36,9 @@ public class CourseController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private ExamService examService;
+
     @GetMapping
     public String index(Model model, @RequestParam(name = "name", required = false) String name,
             @RequestParam(name = "year", required = false) Integer year, Authentication auth) {
@@ -43,13 +48,26 @@ public class CourseController {
             Optional<User> user = userService.findByUsername(auth.getName());
             Integer userId = user.get().getId();
 
-            if (name != null && !name.isEmpty()) {
+            if (name != null && !name.isEmpty() && year != null && year != 0) {
+                courses = courseService.findUserCoursesByYearAndName(userId, year, name);
+            } else if (year != null && year != 0) {
+                courses = courseService.findUserCoursesByYear(userId, year);
+            } else if (name != null && !name.isEmpty()) {
                 courses = courseService.findUserCoursesByName(userId, name);
             } else {
                 courses = courseService.findUserCoursesSortedByYear(userId);
             }
 
+            for (Course course : courses) {
+                List<Exam> sortedExams = examService.findAllByCourseId(course.getId());
+                course.setExams(sortedExams);
+            }
+
+            List<Integer> coursesYears = courseService.findUserCoursesSortedByYear(userId).stream()
+                    .map(Course::getCourseYear).distinct().sorted().collect(Collectors.toList());
+
             model.addAttribute("courses", courses);
+            model.addAttribute("coursesYears", coursesYears);
 
         } catch (Exception e) {
             model.addAttribute("error", e.getMessage());

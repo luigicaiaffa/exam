@@ -2,6 +2,8 @@ package org.exam.java.exam.model;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -39,6 +41,7 @@ public class User {
     @NotBlank(message = "Email cannot be blank")
     private String email;
 
+    @JsonIgnore
     @Size(min = 8, message = "Password must be at least 8 characters long")
     @NotBlank(message = "Password cannot be blank")
     private String password;

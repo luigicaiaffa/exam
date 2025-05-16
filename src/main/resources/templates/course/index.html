@@ -11,29 +11,52 @@
     <div class="container mb-5">
       <main>
         <div
-        class="d-flex justify-content-between align-items-center mt-5 mb-3"
+          class="d-flex justify-content-between align-items-center mt-5 mb-3"
         >
           <div>
             <h1 class="fw-bold">CORSI</h1>
           </div>
           <div>
-            <a class="btn btn-sm btn-dark" th:href="@{/courses/create}"
-            ><i class="fa-solid fa-plus"></i> Registra Corso</a
-            >
+            <a class="btn btn-sm btn-dark" th:href="@{/courses/create}">
+              <i class="fa-solid fa-plus"></i> Registra Corso
+            </a>
           </div>
         </div>
-      
+
         <div th:object="${courses}">
           <form th:action="@{/courses}" method="GET">
             <div class="input-group input-group-sm">
-              <input type="text" th:value="${name}" name="name" placeholder="Cerca corso per nome" class="form-control">
-              <button type="submit" class="btn btn-sm btn-dark"><i class="fa-solid fa-magnifying-glass"></i></button>
-              <a class="btn btn-sm btn-dark" th:href=@{/courses}><i class="fa-solid fa-rotate-left"></i></a>
+              <input
+                type="text"
+                th:value="${name}"
+                name="name"
+                placeholder="Cerca per nome"
+                class="w-50 form-control"
+              />
+
+              <select
+                class="form-select"
+                aria-label="Default select example"
+                th:value="${year}"
+                name="year"
+              >
+                <option selected th:value="0">Anno accademico</option>
+                <option th:each="year : ${coursesYears}" th:value="${year}">
+                  [[${year}]]
+                </option>
+              </select>
+
+              <button type="submit" class="btn btn-sm btn-dark">
+                <i class="fa-solid fa-magnifying-glass"></i>
+              </button>
+              <a class="btn btn-sm btn-dark" th:href="@{/courses}">
+                <i class="fa-solid fa-rotate-left"></i>
+              </a>
             </div>
+            <div class="input-group input-group-sm"></div>
           </form>
         </div>
 
-        
         <hr class="mb-4" />
 
         <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4">
@@ -48,15 +71,15 @@
                     <i class="fa-solid fa-angle-right"></i> [[*{name}]]
                   </h5>
                   <div>
-                    <span th:if="*{isOptional}" class="fs-6 badge bg-secondary"
-                      ><i class="fas fa-tag"></i
-                    ></span>
-                    <span th:if="*{isPassed}" class="fs-6 badge bg-success"
-                      ><i class="fa-solid fa-check"></i
-                    ></span>
-                    <span th:unless="*{isPassed}" class="fs-6 badge bg-warning"
-                      ><i class="fa-solid fa-book-open"></i
-                    ></span>
+                    <span th:if="*{isOptional}" class="fs-6 badge bg-secondary">
+                      <i class="fas fa-tag"></i>
+                    </span>
+                    <span th:if="*{isPassed}" class="fs-6 badge bg-success">
+                      <i class="fa-solid fa-check"></i>
+                    </span>
+                    <span th:unless="*{isPassed}" class="fs-6 badge bg-warning">
+                      <i class="fa-solid fa-book-open"></i>
+                    </span>
                   </div>
                 </a>
               </div>
@@ -79,8 +102,9 @@
                         <a
                           class="btn btn-sm btn-outline-secondary"
                           th:href="@{/courses/{id}/exam(id = *{id})}"
-                          ><i class="fa-solid fa-plus"></i> Appello</a
                         >
+                          <i class="fa-solid fa-plus"></i> Appello
+                        </a>
                       </div>
                     </div>
 
@@ -95,41 +119,37 @@
                           class="list-group-item d-flex justify-content-between align-items-center"
                         >
                           <div>
-                            <a
-                              class="examLinks"
-                              th:href="@{/exams/{id}(id = *{id})}"
-                            >
-                              <span
-                                th:text="${#temporals.format(exam.date, 'yyyy-MM-dd | HH:mm')}"
-                              ></span>
-                              <br />[[*{location}]] <br />
-
-                              <span th:if="*{grade}" class="badge bg-success"
-                                >[[*{grade}]]</span
+                            <span
+                              th:text="${#temporals.format(exam.date, 'dd-MM-yyyy | HH:mm')}"
+                            ></span>
+                            <br />
+                            [[*{location}]] <br />
+                            <span th:if="*{grade}" class="badge bg-success">
+                              [[*{grade}]]
+                            </span>
+                            <div th:unless="*{grade}">
+                              <a
+                                class="btn btn-warning btn-sm badge"
+                                th:unless="${exam.isCancelled}"
+                                th:href="@{/exams/{id}/grade(id = *{id})}"
                               >
+                                <i class="fa-solid fa-plus"></i> Voto
+                              </a>
 
-                              <div th:unless="*{grade}">
-                                <a
-                                  class="badge bg-warning addVote"
-                                  th:unless="${exam.isCancelled}"
-                                  th:href="@{/exams/{id}/grade(id = *{id})}"
-                                  >Registra voto</a
-                                >
-
-                                <span
-                                  th:if="*{isCancelled}"
-                                  class="badge bg-danger"
-                                  >Annullato</span
-                                >
-                              </div>
-                            </a>
+                              <span
+                                th:if="*{isCancelled}"
+                                class="badge bg-danger"
+                              >
+                                Annullato
+                              </span>
+                            </div>
                           </div>
-
                           <div>
                             <a
                               class="btn btn-sm btn-outline-secondary"
-                              th:href="@{/exams/edit/{id}(id = *{id})}"
-                              ><i class="fa-solid fa-pen"></i>
+                              th:href="@{/exams/{id}(id = *{id})}"
+                            >
+                              <i class="fa-solid fa-eye"></i>
                             </a>
                           </div>
                         </li>
@@ -147,8 +167,9 @@
                 <a
                   class="btn btn-sm btn-dark"
                   th:href="@{/courses/edit/{id}(id = *{id})}"
-                  ><i class="fa-solid fa-pen"></i
-                ></a>
+                >
+                  <i class="fa-solid fa-pen"></i>
+                </a>
                 <div
                   th:replace="~{fragments/fragments :: deleteCourseModal}"
                 ></div>

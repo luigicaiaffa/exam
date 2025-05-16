@@ -25,11 +25,22 @@ public class CourseService {
     }
 
     public List<Course> findUserCoursesSortedByYear(Integer userId) {
-        return courseRepository.findByUserIdOrderByCourseYear(userId);
+        return courseRepository.findByUserIdOrderByIsPassedAscCourseYearDesc(userId);
     }
 
     public List<Course> findUserCoursesByName(Integer userId, String name) {
-        return courseRepository.findByUserIdAndNameContainingIgnoreCase(userId, name);
+        return courseRepository.findByUserIdAndNameContainingIgnoreCaseOrderByIsPassedAscCourseYearDesc(userId,
+                name);
+    }
+
+    public List<Course> findUserCoursesByYear(Integer userId, Integer year) {
+        return courseRepository.findByUserIdAndCourseYearOrderByIsPassedAscCourseYearDesc(userId, year);
+    }
+
+    public List<Course> findUserCoursesByYearAndName(Integer userId, Integer year, String name) {
+        return courseRepository.findByUserIdAndCourseYearAndNameContainingIgnoreCaseOrderByIsPassedAscCourseYearDesc(
+                userId, year,
+                name);
     }
 
     public Optional<Course> findById(Integer id) {

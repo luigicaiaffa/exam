@@ -5,6 +5,8 @@
 
     <!-- # Styles -->
     <div th:fragment="styles">
+      <link rel="icon" type="image/svg+xml" href="/img/book.svg" />
+
       <link
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
@@ -22,9 +24,11 @@
   <body>
     <!-- # Header -->
     <header th:fragment="header">
-      <nav class="navbar navbar-expand-lg bg-body-tertiary">
+      <nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top">
         <div class="container-fluid">
-          <a class="navbar-brand" th:href="@{/}">EXAMS</a>
+          <a class="navbar-brand text-success" th:href="@{/}"
+            ><i class="fa-solid fa-book-open fs-1"></i
+          ></a>
           <button
             class="navbar-toggler"
             type="button"
@@ -42,6 +46,9 @@
           >
             <ul class="navbar-nav">
               <li class="nav-item">
+                <a class="nav-link" th:href="@{/}">Home</a>
+              </li>
+              <li class="nav-item">
                 <a class="nav-link" th:href="@{/courses}">Corsi</a>
               </li>
               <li class="nav-item">
@@ -52,18 +59,19 @@
               </li>
             </ul>
 
-            <ul class="navbar-nav d-flex align-items-center">
+            <ul class="navbar-nav gap-3 flex-row justify-content-end">
               <li class="nav-item">
                 <a
-                  class="nav-link"
+                  class="btn btn-sm btn-success"
                   th:href="@{/user/{id}(id = ${#authentication.principal.id})}"
-                  ><i class="fa-solid fa-user"></i
-                ></a>
+                >
+                  <i class="fa-solid fa-user"></i> Profilo
+                </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="/logout"
-                  ><button class="btn btn-sm btn-dark">Log out</button></a
-                >
+                <a class="btn btn-sm btn-success" href="/logout">
+                  <i class="fa-solid fa-right-from-bracket"></i> Logout
+                </a>
               </li>
             </ul>
           </div>
@@ -201,7 +209,7 @@
                 >
                   <div class="fw-semibold">Data</div>
                   <div
-                    th:text="${#temporals.format(exam.date, 'yyyy-MM-dd | HH:mm')}"
+                    th:text="${#temporals.format(exam.date, 'dd-MM-yyyy | HH:mm')}"
                   ></div>
                 </div>
                 <div
@@ -227,7 +235,7 @@
                   <a
                     th:if="${!exam.isCancelled} and ${exam.grade == null}"
                     th:href="@{/exams/{id}/grade(id = *{id})}"
-                    class="badge bg-warning addVote"
+                    class="btn btn-warning btn-sm badge"
                     >Registra voto</a
                   >
                 </div>

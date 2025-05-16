@@ -9,7 +9,7 @@ public interface GradeRepository extends JpaRepository<Grade, Integer> {
 
     public List<Grade> findByExamCourseUserId(Integer id);
 
-    public List<Grade> findByExamCourseUserIdOrderByExamCourseCourseYear(Integer id);
+    public List<Grade> findByExamCourseUserIdOrderByExamCourseCourseYearDesc(Integer id);
 
     public List<Grade> findByExamCourseUserIdAndExamCourseCourseYear(Integer id, Integer year);
 }
