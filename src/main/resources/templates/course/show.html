@@ -10,123 +10,155 @@
 
     <div class="container">
       <main th:object="${course}">
-        <div class="mt-5 d-flex justify-content-between align-items-center">
-          <h1 class="fw-bold">[[*{name}]]</h1>
-          <div class="d-flex gap-2">
-            <a
-              class="btn btn-sm btn-dark"
-              th:href="@{/courses/edit/{id}(id = *{id})}"
-              ><i class="fa-solid fa-pen"></i
-            ></a>
-            <div th:replace="~{fragments/fragments :: deleteCourseModal}"></div>
-          </div>
-        </div>
-
-        <hr />
-
-        <div>
-          <ul class="list-group list-group-flush">
-            <li
-              class="list-group-item d-flex align-items-center justify-content-between my-2"
+        <div class="card courseCards h-100">
+          <div class="card-body p-4">
+            <div
+              class="pageTitle mb-4 d-flex justify-content-between align-items-center"
             >
-              <h5 class="fw-bold">Stato esame</h5>
-              <div>
-                <span th:if="*{isOptional}" class="fs-6 badge bg-secondary"
-                  ><i class="fas fa-tag"></i
-                ></span>
-                <span th:if="*{isPassed}" class="fs-6 badge bg-success"
-                  ><i class="fa-solid fa-check"></i
-                ></span>
-                <span th:unless="*{isPassed}" class="fs-6 badge bg-warning"
-                  ><i class="fa-solid fa-book-open"></i
-                ></span>
+              <h1 class="fw-bold">[[*{name}]]</h1>
+              <div class="d-flex gap-2">
+                <a
+                  class="btn btn-sm btn-outline-success px-3"
+                  th:href="@{/courses/edit/{id}(id = *{id})}"
+                  ><i class="fa-solid fa-pen"></i
+                ></a>
+                <div
+                  th:replace="~{fragments/fragments :: deleteCourseModal}"
+                ></div>
               </div>
-            </li>
-            <li
-              class="list-group-item d-flex align-items-center justify-content-between my-2"
-              th:if="*{isPassed}"
-            >
-              <h5 class="fw-bold">Voto</h5>
-              <div th:each="exam : ${course.exams}" th:object="${exam}">
-                <i th:if="*{grade}" class="fa-solid">[[*{grade}]]</i>
-              </div>
-            </li>
-            <li
-              class="list-group-item d-flex align-items-center justify-content-between my-2"
-            >
-              <h5 class="fw-bold">CFU</h5>
-              <i class="fa-solid">[[*{cfu}]]</i>
-            </li>
-            <li
-              class="list-group-item d-flex align-items-center justify-content-between my-2"
-            >
-              <h5 class="fw-bold">Anno del corso</h5>
-              <i class="fa-solid">[[*{courseYear}]]</i>
-            </li>
-            <li class="list-group-item my-2">
-              <div class="d-flex justify-content-between align-items-center">
-                <h5 class="fw-bold">Appelli</h5>
-                <div th:unless="*{isPassed}">
-                  <a
-                    class="btn btn-sm btn-outline-secondary"
-                    th:href="@{/courses/{id}/exam(id = *{id})}"
-                    ><i class="fa-solid fa-plus"></i> Appello</a
+            </div>
+
+            <div>
+              <ul class="list-group list-group-flush">
+                <li
+                  class="list-group-item d-flex align-items-center justify-content-between my-2"
+                >
+                  <h5 class="fw-bold">Stato esame</h5>
+                  <div>
+                    <span
+                      th:if="*{isOptional}"
+                      class="fs-6 badge text-secondary me-2"
+                      ><i class="fas fa-tag"></i
+                    ></span>
+                    <span th:if="*{isPassed}" class="fs-6 badge bg-success px-3"
+                      ><i class="fa-solid fa-check"></i
+                    ></span>
+                    <span
+                      th:unless="*{isPassed}"
+                      class="fs-6 badge bg-warning px-3"
+                      ><i class="fa-solid fa-book-open"></i
+                    ></span>
+                  </div>
+                </li>
+
+                <li
+                  class="list-group-item d-flex align-items-center justify-content-between my-2"
+                  th:if="*{isPassed}"
+                >
+                  <h5 class="fw-bold">Voto</h5>
+                  <div th:each="exam : ${course.exams}" th:object="${exam}">
+                    <i th:if="*{grade}" class="fa-solid">[[*{grade}]]</i>
+                  </div>
+                </li>
+
+                <li
+                  class="list-group-item d-flex align-items-center justify-content-between my-2"
+                >
+                  <h5 class="fw-bold">CFU</h5>
+                  <i class="fa-solid">[[*{cfu}]]</i>
+                </li>
+
+                <li
+                  class="list-group-item d-flex align-items-center justify-content-between my-2"
+                >
+                  <h5 class="fw-bold">Anno del corso</h5>
+                  <i class="fa-solid">[[*{courseYear}]]</i>
+                </li>
+
+                <li class="list-group-item my-2">
+                  <div
+                    class="d-flex justify-content-between align-items-center mb-3"
                   >
-                </div>
-              </div>
-
-              <div th:if="${course.exams.size() != 0}">
-                <ul class="list-group list-group-flush">
-                  <li
-                    th:each="exam : ${course.exams}"
-                    th:object="${exam}"
-                    class="list-group-item d-flex justify-content-between align-items-center"
-                  >
-                    <div>
-                      <a th:href="@{/exams/{id}(id = *{id})}">
-                        <span
-                          th:text="${#temporals.format(exam.date, 'dd-MM-yyyy | HH:mm')}"
-                        ></span>
-                        <br />[[*{location}]] <br />
-
-                        <span th:if="*{grade}" class="badge bg-success"
-                          >[[*{grade}]]</span
-                        >
-
-                        <div th:unless="*{grade}">
-                          <a
-                            class="btn btn-warning btn-sm badge"
-                            th:unless="${exam.isCancelled}"
-                            th:href="@{/exams/{id}/grade(id = *{id})}"
-                            >Registra voto</a
-                          >
-
-                          <span th:if="*{isCancelled}" class="badge bg-danger"
-                            >Annullato</span
-                          >
-                        </div>
-                      </a>
-                    </div>
-
-                    <div class="d-flex flex-column gap-1">
+                    <h5 class="fw-bold">Appelli</h5>
+                    <div th:unless="*{isPassed}">
                       <a
-                        class="btn btn-sm btn-outline-secondary"
-                        th:href="@{/exams/edit/{id}(id = *{id})}"
-                        ><i class="fa-solid fa-pen"></i>
-                      </a>
-                      <div
-                        th:replace="~{fragments/fragments :: deleteExamModal(false)}"
-                      ></div>
+                        class="btn btn-sm btn-outline-success"
+                        th:href="@{/courses/{id}/exam(id = *{id})}"
+                        ><i class="fa-solid fa-plus"></i> Appello</a
+                      >
                     </div>
-                  </li>
-                </ul>
-              </div>
+                  </div>
 
-              <div th:unless="${course.exams.size() != 0}">
-                <p>Aggiungi un appello</p>
-              </div>
-            </li>
-          </ul>
+                  <div th:if="${course.exams.size() != 0}">
+                    <ul class="list-group list-group-flush">
+                      <li
+                        th:each="exam : ${course.exams}"
+                        th:object="${exam}"
+                        class="list-group-item d-flex justify-content-between align-items-center examList"
+                      >
+                        <div>
+                          <div class="h5">
+                            <span
+                              th:text="${#temporals.format(exam.date, 'dd-MM-yyyy  HH:mm')}"
+                            ></span>
+                            <br />
+                            <span>[[*{location}]]</span>
+                            <br />
+                          </div>
+
+                          <span
+                            th:if="*{grade}"
+                            class="fs-6 badge bg-success px-3"
+                          >
+                            [[*{grade}]]
+                          </span>
+
+                          <div th:unless="*{grade}">
+                            <a
+                              class="btn btn-warning btn-sm badge fs-6"
+                              th:unless="${exam.isCancelled}"
+                              th:href="@{/exams/{id}/grade(id = *{id})}"
+                            >
+                              <i class="fa-solid fa-plus"></i> Voto
+                            </a>
+
+                            <span
+                              th:if="*{isCancelled}"
+                              class="fs-6 badge bg-danger"
+                              >Annullato</span
+                            >
+                          </div>
+                        </div>
+
+                        <div class="d-flex flex-column gap-1">
+                          <a
+                            class="btn btn-sm btn-outline-success px-1"
+                            th:href="@{/exams/{id}(id = *{id})}"
+                          >
+                            <i class="fa-solid fa-eye"></i>
+                          </a>
+                          <a
+                            class="btn btn-sm btn-outline-success px-1"
+                            th:href="@{/exams/edit/{id}(id = *{id})}"
+                            ><i class="fa-solid fa-pen"></i>
+                          </a>
+                          <div
+                            th:replace="~{fragments/fragments :: deleteExamModal(false)}"
+                          ></div>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div th:unless="${course.exams.size() != 0}">
+                    <ul class="list-group list-group-flush">
+                      <li class="list-group-item">Aggiungi un appello</li>
+                    </ul>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
       </main>
     </div>

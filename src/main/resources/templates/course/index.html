@@ -10,56 +10,60 @@
 
     <div class="container mb-5">
       <main>
-        <div
-          class="d-flex justify-content-between align-items-center mt-5 mb-3"
-        >
-          <div>
-            <h1 class="fw-bold">CORSI</h1>
-          </div>
-          <div>
-            <a class="btn btn-sm btn-dark" th:href="@{/courses/create}">
-              <i class="fa-solid fa-plus"></i> Registra Corso
-            </a>
-          </div>
-        </div>
-
-        <div th:object="${courses}">
-          <form th:action="@{/courses}" method="GET">
-            <div class="input-group input-group-sm">
-              <input
-                type="text"
-                th:value="${name}"
-                name="name"
-                placeholder="Cerca per nome"
-                class="w-50 form-control"
-              />
-
-              <select
-                class="form-select"
-                aria-label="Default select example"
-                th:value="${year}"
-                name="year"
-              >
-                <option selected th:value="0">Anno accademico</option>
-                <option th:each="year : ${coursesYears}" th:value="${year}">
-                  [[${year}]]
-                </option>
-              </select>
-
-              <button type="submit" class="btn btn-sm btn-dark">
-                <i class="fa-solid fa-magnifying-glass"></i>
-              </button>
-              <a class="btn btn-sm btn-dark" th:href="@{/courses}">
-                <i class="fa-solid fa-rotate-left"></i>
-              </a>
+        <div class="card my-5 coursesSection">
+          <div class="card-body">
+            <div
+              class="d-flex justify-content-between align-items-center my-3 pageTitle"
+            >
+              <div>
+                <h1 class="fw-bold">CORSI</h1>
+              </div>
+              <div>
+                <a class="btn btn-sm btn-success" th:href="@{/courses/create}">
+                  <i class="fa-solid fa-plus"></i> Registra Corso
+                </a>
+              </div>
             </div>
-            <div class="input-group input-group-sm"></div>
-          </form>
+
+            <div th:object="${courses}">
+              <form th:action="@{/courses}" method="GET">
+                <div class="input-group input-group-sm">
+                  <input
+                    type="text"
+                    th:value="${name}"
+                    name="name"
+                    placeholder="Cerca per nome"
+                    class="w-50 form-control"
+                  />
+
+                  <select
+                    class="form-select"
+                    aria-label="Default select example"
+                    th:value="${year}"
+                    name="year"
+                  >
+                    <option selected th:value="0">Anno accademico</option>
+                    <option th:each="year : ${coursesYears}" th:value="${year}">
+                      [[${year}]]
+                    </option>
+                  </select>
+
+                  <button type="submit" class="btn btn-sm btn-success">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                  </button>
+                  <a
+                    class="btn btn-sm btn-outline-success"
+                    th:href="@{/courses}"
+                  >
+                    <i class="fa-solid fa-rotate-left"></i>
+                  </a>
+                </div>
+              </form>
+            </div>
+          </div>
         </div>
 
-        <hr class="mb-4" />
-
-        <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4">
+        <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-5 mb-5">
           <div class="col" th:each="course : ${courses}" th:object="${course}">
             <div class="card courseCards">
               <div class="card-header cardsTitle">
@@ -67,17 +71,27 @@
                   th:href="@{/courses/{id}(id = *{id})}"
                   class="d-flex justify-content-between align-items-center"
                 >
-                  <h5 class="fw-bold m-0">
-                    <i class="fa-solid fa-angle-right"></i> [[*{name}]]
+                  <h5 class="fw-bold m-0 text-success">
+                    <i class="fa-solid fa-angle-right me-2"></i>
+                    [[*{name}]]
                   </h5>
                   <div>
-                    <span th:if="*{isOptional}" class="fs-6 badge bg-secondary">
+                    <span
+                      th:if="*{isOptional}"
+                      class="fs-6 badge text-secondary me-2"
+                    >
                       <i class="fas fa-tag"></i>
                     </span>
-                    <span th:if="*{isPassed}" class="fs-6 badge bg-success">
+                    <span
+                      th:if="*{isPassed}"
+                      class="fs-6 badge px-3 bg-success"
+                    >
                       <i class="fa-solid fa-check"></i>
                     </span>
-                    <span th:unless="*{isPassed}" class="fs-6 badge bg-warning">
+                    <span
+                      th:unless="*{isPassed}"
+                      class="fs-6 badge px-3 bg-warning"
+                    >
                       <i class="fa-solid fa-book-open"></i>
                     </span>
                   </div>
@@ -95,12 +109,12 @@
                   </li>
                   <li class="list-group-item">
                     <div
-                      class="d-flex justify-content-between align-items-center my-1"
+                      class="d-flex justify-content-between align-items-center mb-2"
                     >
                       <div class="fw-bold">Appelli</div>
                       <div th:unless="*{isPassed}">
                         <a
-                          class="btn btn-sm btn-outline-secondary"
+                          class="btn btn-sm btn-outline-success"
                           th:href="@{/courses/{id}/exam(id = *{id})}"
                         >
                           <i class="fa-solid fa-plus"></i> Appello
@@ -120,11 +134,15 @@
                         >
                           <div>
                             <span
-                              th:text="${#temporals.format(exam.date, 'dd-MM-yyyy | HH:mm')}"
+                              th:text="${#temporals.format(exam.date, 'dd-MM-yyyy  HH:mm')}"
                             ></span>
                             <br />
-                            [[*{location}]] <br />
-                            <span th:if="*{grade}" class="badge bg-success">
+                            <span>[[*{location}]]</span>
+                            <br />
+                            <span
+                              th:if="*{grade}"
+                              class="badge text-bg-success px-3"
+                            >
                               [[*{grade}]]
                             </span>
                             <div th:unless="*{grade}">
@@ -146,7 +164,7 @@
                           </div>
                           <div>
                             <a
-                              class="btn btn-sm btn-outline-secondary"
+                              class="btn btn-sm btn-outline-success"
                               th:href="@{/exams/{id}(id = *{id})}"
                             >
                               <i class="fa-solid fa-eye"></i>
@@ -156,16 +174,20 @@
                       </ul>
                     </div>
 
-                    <div th:unless="${course.exams.size() != 0}">
-                      <p>Aggiungi un appello</p>
+                    <div th:unless="${course.exams.size() != 0}" class="courseCardsExam">
+                      <ul class="list-group list-group-flush"> 
+                        <li class="list-group-item">Aggiungi un appello</li>
+                      </ul>
                     </div>
                   </li>
                 </ul>
               </div>
 
-              <div class="card-footer d-flex justify-content-end gap-2">
+              <div
+                class="card-footer cardsFooter d-flex justify-content-end gap-2"
+              >
                 <a
-                  class="btn btn-sm btn-dark"
+                  class="btn btn-sm btn-outline-success px-3"
                   th:href="@{/courses/edit/{id}(id = *{id})}"
                 >
                   <i class="fa-solid fa-pen"></i>
@@ -178,8 +200,12 @@
           </div>
         </div>
 
-        <div th:unless="${courses.size() != 0}" class="m-3">
-          <p>Nessun corso registrato</p>
+        <div th:unless="${courses.size() != 0}">
+          <div class="card coursesSection">
+            <div class="card-body">
+              <p>Nessun corso registrato</p>
+            </div>
+          </div>
         </div>
       </main>
     </div>

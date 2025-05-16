@@ -83,7 +83,7 @@
     <div th:fragment="deleteCourseModal">
       <button
         type="button"
-        class="btn btn-sm btn-danger"
+        class="btn btn-sm btn-danger px-3"
         data-bs-toggle="modal"
         th:data-bs-target="'#deleteModal' + *{id}"
       >
@@ -98,10 +98,10 @@
         aria-hidden="true"
       >
         <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content">
+          <div class="modal-content coursesSection">
             <div class="modal-header">
-              <h1 class="modal-title fs-5" id="exampleModalLabel">
-                Stai eliminando: [[*{name}]]
+              <h1 class="modal-title fw-bold fs-5" id="exampleModalLabel">
+                Elimina corso
               </h1>
               <button
                 type="button"
@@ -111,12 +111,16 @@
               ></button>
             </div>
             <div class="modal-body">
-              Sei sicuro di voler rimuovere il corso in: [[*{name}]]?
+              Sei sicuro di voler rimuovere il corso
+              <span class="fw-semibold">"[[*{name}]]"</span> ?
+              <br />
+              Perderai tutti i dati associati a questo corso, questa azione non
+              è reversibile.
             </div>
             <div class="modal-footer">
               <button
                 type="button"
-                class="btn btn-dark"
+                class="btn btn-sm btn-outline-secondary"
                 data-bs-dismiss="modal"
               >
                 Annulla
@@ -125,7 +129,9 @@
                 th:action="@{/courses/delete/{id}(id = *{id})}"
                 method="POST"
               >
-                <button type="submit" class="btn btn-danger">Elimina</button>
+                <button type="submit" class="btn btn-sm btn-danger">
+                  Elimina
+                </button>
               </form>
             </div>
           </div>
@@ -152,10 +158,10 @@
         aria-hidden="true"
       >
         <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content">
+          <div class="modal-content coursesSection">
             <div class="modal-header">
               <h1 class="modal-title fs-5" id="exampleModalLabel">
-                Sei sicuro di voler rimuovere questo appello:
+                Sei sicuro di voler rimuovere questo appello?
               </h1>
               <button
                 type="button"
@@ -165,21 +171,25 @@
               ></button>
             </div>
             <div class="modal-body">
-              <ul>
-                <li>[[*{date}]]</li>
-                <li>[[*{location}]]</li>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item"  th:text="${#temporals.format(exam.date, 'dd-MM-yyyy  HH:mm')}"></li>
+                <li class="list-group-item">[[*{location}]]</li>
+                <li th:if="*{grade}" class="list-group-item">[[*{grade}]]</li>
+                <li class="list-group-item">Ricorda, questa azione non è reversibile</li>
               </ul>
             </div>
             <div class="modal-footer">
               <button
                 type="button"
-                class="btn btn-dark"
+                class="btn btn-outline-secondary btn-sm"
                 data-bs-dismiss="modal"
               >
                 Annulla
               </button>
               <form th:action="@{/exams/delete/{id}(id = *{id})}" method="POST">
-                <button type="submit" class="btn btn-danger">Elimina</button>
+                <button type="submit" class="btn btn-danger btn-sm">
+                  Elimina
+                </button>
               </form>
             </div>
           </div>
