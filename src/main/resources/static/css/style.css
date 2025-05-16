@@ -1,70 +1,200 @@
+/* !!! */
+/* # RESET */
+
 a {
   text-decoration: none;
   color: black;
 }
 
-/* # Home Page */
+body {
+  background-color: #7c7c7c2a;
+}
+
+.navbar {
+  background-color: #f8f9fa !important;
+  box-shadow: 0px 5px 10px #198754 !important;
+}
+
+main {
+  margin: 9rem 0 5rem 0;
+}
+
+.list-group {
+  border-radius: 15px;
+}
+
+.list-group-item {
+  border-radius: 15px;
+  border: 1px solid #7c7c7c2a;
+  margin-bottom: 5px;
+}
+
+.list-group-item-action:hover {
+  background-color: #7c7c7c2a !important;
+}
+
+/* !!! */
+/* # HOME PAGE */
+
+.homeTitle {
+  border-bottom: 3px solid #198754;
+  color: #198754;
+}
 
 .homeUpperCards {
-  height: 19rem;
+  background-color: #f8f9fa;
+  border: 0px !important;
+  border-radius: 15px;
+  box-shadow: 0px 2px 12px #198754;
+  height: 20rem;
+  padding: 5px 10px;
 }
 
 .upperCardsExam {
   max-height: 12.5rem;
   overflow-y: scroll;
-  scrollbar-width: thin;
+  scrollbar-width: none;
 }
 
 .upperCardsExam::-webkit-scrollbar {
-  display: thin;
+  display: none;
 }
 
 .homeLowerCards {
-  height: 25rem;
+  height: 26rem;
+  background-color: #f8f9fa;
+  border: 0px !important;
+  border-radius: 15px;
+  box-shadow: 0px 2px 12px #198754;
+  padding: 5px 10px;
 }
 
 .lowerCardsExam {
   max-height: 13rem;
   overflow-y: scroll;
-  scrollbar-width: thin;
+  scrollbar-width: none;
 }
 
 .lowerCardsExam::-webkit-scrollbar {
-  display: thin;
+  display: none;
 }
 
-/* # Courses Index */
+/* !!! */
+/* # COURSES INDEX */
+
+.pageTitle {
+  border-bottom: 3px solid #198754;
+  color: #198754;
+}
+
+.coursesSection {
+  background-color: #f8f9fa;
+  border: 0px !important;
+  border-radius: 15px;
+  box-shadow: 0px 2px 12px #198754;
+  padding: 5px 10px;
+}
 
 .courseCards {
-  height: 25rem;
+  height: 26rem;
+  background-color: #f8f9fa;
+  border: 0px !important;
+  border-radius: 15px;
+  box-shadow: 0px 2px 12px #198754;
 }
 
 .courseCards:has(.cardsTitle:hover) {
-  transform: scale(1.04);
+  transform: scale(1.05);
+}
+
+.cardsTitle {
+  background-color: #f8f9fa;
+  border-bottom: 3px solid #198754;
+  border-radius: 15px !important;
+  box-shadow: 0px 2px 4px #198754;
+}
+
+.cardsTitle:hover {
+  background-color: #7c7c7c2a !important;
 }
 
 .courseCardsExam {
   max-height: 8rem;
   overflow-y: scroll;
-  scrollbar-width: thin;
+  scrollbar-width: none;
 }
 
 .courseCardsExam::-webkit-scrollbar {
-  display: thin;
+  display: none;
 }
 
-.addVote:hover {
-  transform: scale(1.1);
+.courseCardsExam .list-group-item {
+  border-bottom: 1px solid #d4d4d4;
+  border-radius: 0px;
 }
 
-/* # Exams Index */
+.cardsFooter {
+  background-color: #f8f9fa;
+  border-radius: 15px !important;
+  border-top: 0px;
+}
+
+.examList {
+  background-color: #f8f9fa;
+}
+
+/* !!! */
+/* # EXAMS INDEX */
+
+.examsCard {
+  background-color: #f8f9fa;
+  border: 0px !important;
+  border-radius: 15px;
+  box-shadow: 0px 2px 12px #198754;
+}
+
+.examsCard .accordion-body {
+  background-color: #f8f9fa;
+}
+
+.examsCard .accordion-button {
+  color: #198754;
+  background-color: #ffffff;
+}
+
+.examsCard .accordion-button:not(.collapsed) {
+  color: #198754;
+  background-color: #ffffff;
+  box-shadow: 0px 2px 12px #198754;
+}
+
+.examsCard .accordion-button:focus {
+  box-shadow: 0px 2px 12px #198754;
+}
 
 .examLists {
-  max-height: 30rem;
+  max-height: 33rem;
   overflow-y: scroll;
-  scrollbar-width: thin;
+  scrollbar-width: none;
 }
 
 .examLists::-webkit-scrollbar {
-  display: thin;
+  display: none;
+}
+
+/* !!! */
+/* # GRADES INDEX */
+
+.gradesCard {
+  background-color: #f8f9fa;
+  border: 0px !important;
+  border-radius: 15px;
+  box-shadow: 0px 2px 12px #198754;
+}
+
+.averages {
+  color: #198754;
+  background-color: #ffffff;
+  border: 0px !important;
+  box-shadow: 0px 2px 5px #198754;
 }

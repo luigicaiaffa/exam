@@ -24,10 +24,10 @@
   <body>
     <!-- # Header -->
     <header th:fragment="header">
-      <nav class="navbar navbar-expand-lg bg-body-tertiary">
+      <nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top">
         <div class="container-fluid">
-          <a class="navbar-brand" th:href="@{/}"
-            ><i class="fa-solid fa-book-open fs-2"></i
+          <a class="navbar-brand text-success" th:href="@{/}"
+            ><i class="fa-solid fa-book-open fs-1"></i
           ></a>
           <button
             class="navbar-toggler"
@@ -59,18 +59,19 @@
               </li>
             </ul>
 
-            <ul class="navbar-nav d-flex align-items-center">
+            <ul class="navbar-nav gap-3 flex-row justify-content-end">
               <li class="nav-item">
                 <a
-                  class="nav-link"
+                  class="btn btn-sm btn-success"
                   th:href="@{/user/{id}(id = ${#authentication.principal.id})}"
-                  ><i class="fa-solid fa-user"></i
-                ></a>
+                >
+                  <i class="fa-solid fa-user"></i> Profilo
+                </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="/logout"
-                  ><button class="btn btn-sm btn-dark">Log out</button></a
-                >
+                <a class="btn btn-sm btn-success" href="/logout">
+                  <i class="fa-solid fa-right-from-bracket"></i> Logout
+                </a>
               </li>
             </ul>
           </div>
