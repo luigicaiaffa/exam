@@ -75,7 +75,8 @@ public class GradeService {
         List<Grade> grades = gradeRepository.findByExamCourseUserId(userId);
 
         if (grades.isEmpty()) {
-            return Map.of("arithmetic", new BigDecimal(0).setScale(2), "weighted", new BigDecimal(0).setScale(2));
+            return Map.of("arithmetic", new BigDecimal(0).setScale(2), "weighted", new BigDecimal(0).setScale(2),
+                    "totalCfu", new BigDecimal(0).setScale(2));
         }
 
         BigDecimal sum = new BigDecimal(0);
