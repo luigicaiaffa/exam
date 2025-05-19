@@ -10,112 +10,122 @@
 
     <div class="container">
       <main>
-        <div class="d-flex justify-content-between align-items-center mt-5">
-          <div>
-            <h1 th:if="${edit}">Modifica il tuo corso</h1>
-            <h1 th:unless="${edit}">Aggiungi un corso</h1>
+        <div class="card courseCards h-100">
+          <div class="card-body p-5">
+            <div
+              class="d-flex justify-content-between align-items-center pageTitle"
+            >
+              <div>
+                <h1 th:if="${edit}">Modifica il tuo corso</h1>
+                <h1 th:unless="${edit}">Registra un corso</h1>
+              </div>
+            </div>
+
+            <form
+              id="user-form"
+              method="POST"
+              th:action="${edit} ? @{/courses/edit/{id}(id = ${course.id})} : @{/courses/create}"
+              th:object="${course}"
+              class="row g-3 mt-3"
+            >
+              <input type="hidden" th:field="*{isPassed}" />
+
+              <div class="col-md-4">
+                <label for="name" class="form-label">Nome</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="name"
+                  th:field="*{name}"
+                  th:errorClass="is-invalid"
+                />
+                <div
+                  class="invalid-feedback"
+                  th:if="${#fields.hasErrors('name')}"
+                >
+                  <ul>
+                    <li
+                      th:each="error : ${#fields.errors('name')}"
+                      th:text="${error}"
+                    ></li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <label for="cfu" class="form-label">CFU</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="cfu"
+                  th:field="*{cfu}"
+                  th:errorClass="is-invalid"
+                />
+                <div
+                  class="invalid-feedback"
+                  th:if="${#fields.hasErrors('cfu')}"
+                >
+                  <ul>
+                    <li
+                      th:each="error : ${#fields.errors('cfu')}"
+                      th:text="${error}"
+                    ></li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <label for="courseYear" class="form-label">Anno</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="courseYear"
+                  th:field="*{courseYear}"
+                  th:errorClass="is-invalid"
+                />
+                <div
+                  class="invalid-feedback"
+                  th:if="${#fields.hasErrors('courseYear')}"
+                >
+                  <ul>
+                    <li
+                      th:each="error : ${#fields.errors('courseYear')}"
+                      th:text="${error}"
+                    ></li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="col-md-12">
+                <label for="isOptional" class="form-check-label"
+                  >Corso opzionale</label
+                >
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  id="isOptional"
+                  th:field="*{isOptional}"
+                  th:errorClass="is-invalid"
+                />
+                <div
+                  class="invalid-feedback"
+                  th:if="${#fields.hasErrors('isOptional')}"
+                >
+                  <ul>
+                    <li
+                      th:each="error : ${#fields.errors('isOptional')}"
+                      th:text="${error}"
+                    ></li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="mt-4">
+                <button type="submit" class="btn btn-success">Salva</button>
+              </div>
+            </form>
           </div>
         </div>
-
-        <hr />
-
-        <form
-          id="user-form"
-          method="POST"
-          th:action="${edit} ? @{/courses/edit/{id}(id = ${course.id})} : @{/courses/create}"
-          th:object="${course}"
-          class="row g-3 mt-3"
-        >
-          <input type="hidden" th:field="*{isPassed}" />
-
-          <div class="col-md-4">
-            <label for="name" class="form-label">Nome</label>
-            <input
-              type="text"
-              class="form-control"
-              id="name"
-              th:field="*{name}"
-              th:errorClass="is-invalid"
-            />
-            <div class="invalid-feedback" th:if="${#fields.hasErrors('name')}">
-              <ul>
-                <li
-                  th:each="error : ${#fields.errors('name')}"
-                  th:text="${error}"
-                ></li>
-              </ul>
-            </div>
-          </div>
-
-          <div class="col-md-4">
-            <label for="cfu" class="form-label">CFU</label>
-            <input
-              type="number"
-              class="form-control"
-              id="cfu"
-              th:field="*{cfu}"
-              th:errorClass="is-invalid"
-            />
-            <div class="invalid-feedback" th:if="${#fields.hasErrors('cfu')}">
-              <ul>
-                <li
-                  th:each="error : ${#fields.errors('cfu')}"
-                  th:text="${error}"
-                ></li>
-              </ul>
-            </div>
-          </div>
-
-          <div class="col-md-4">
-            <label for="courseYear" class="form-label">Anno</label>
-            <input
-              type="number"
-              class="form-control"
-              id="courseYear"
-              th:field="*{courseYear}"
-              th:errorClass="is-invalid"
-            />
-            <div
-              class="invalid-feedback"
-              th:if="${#fields.hasErrors('courseYear')}"
-            >
-              <ul>
-                <li
-                  th:each="error : ${#fields.errors('courseYear')}"
-                  th:text="${error}"
-                ></li>
-              </ul>
-            </div>
-          </div>
-
-          <div class="col-md-12">
-            <label for="isOptional" class="form-check-label"
-              >Corso opzionale</label
-            >
-            <input
-              type="checkbox"
-              class="form-check-input"
-              id="isOptional"
-              th:field="*{isOptional}"
-              th:errorClass="is-invalid"
-            />
-            <div
-              class="invalid-feedback"
-              th:if="${#fields.hasErrors('isOptional')}"
-            >
-              <ul>
-                <li
-                  th:each="error : ${#fields.errors('isOptional')}"
-                  th:text="${error}"
-                ></li>
-              </ul>
-            </div>
-          </div>
-
-          <div class="mt-4">
-            <button type="submit" class="btn btn-success">Salva</button>
-          </div>
-        </form>
       </main>
     </div>
 

@@ -10,70 +10,77 @@
 
     <div class="container">
       <main>
-        <div class="d-flex justify-content-between align-items-center mt-5">
-          <div>
-            <h1 th:if="${edit}">Modifica il tuo voto</h1>
-            <h1 th:unless="${edit}">Aggiungi un voto</h1>
+        <div class="card courseCards h-100">
+          <div class="card-body p-5">
+            <div
+              class="d-flex justify-content-between align-items-center pageTitle"
+            >
+              <div>
+                <h1 th:if="${edit}">Modifica il tuo voto</h1>
+                <h1 th:unless="${edit}">Aggiungi un voto</h1>
+              </div>
+            </div>
+
+            <form
+              id="user-form"
+              method="POST"
+              th:action="${edit} ? @{/grades/edit/{id}(id = ${grade.id})} : @{/grades/create}"
+              th:object="${grade}"
+              class="row g-3 mt-3"
+            >
+              <input type="hidden" th:field="*{exam.id}" />
+              <input th:if="${edit}" type="hidden" th:field="*{exam}" />
+
+              <div class="col-md-4">
+                <label for="value" class="form-label">Voto</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="value"
+                  th:field="*{value}"
+                  th:errorClass="is-invalid"
+                />
+                <div
+                  class="invalid-feedback"
+                  th:if="${#fields.hasErrors('value')}"
+                >
+                  <ul>
+                    <li
+                      th:each="error : ${#fields.errors('value')}"
+                      th:text="${error}"
+                    ></li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="col-md-12">
+                <label for="hasHonors" class="form-check-label">Lode</label>
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  id="hasHonors"
+                  th:field="*{hasHonors}"
+                  th:errorClass="is-invalid"
+                />
+                <div
+                  class="invalid-feedback"
+                  th:if="${#fields.hasErrors('hasHonors')}"
+                >
+                  <ul>
+                    <li
+                      th:each="error : ${#fields.errors('hasHonors')}"
+                      th:text="${error}"
+                    ></li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="mt-4">
+                <button type="submit" class="btn btn-success">Salva</button>
+              </div>
+            </form>
           </div>
         </div>
-
-        <hr />
-
-        <form
-          id="user-form"
-          method="POST"
-          th:action="${edit} ? @{/grades/edit/{id}(id = ${grade.id})} : @{/grades/create}"
-          th:object="${grade}"
-          class="row g-3 mt-3"
-        >
-          <input type="hidden" th:field="*{exam.id}" />
-          <input th:if="${edit}" type="hidden" th:field="*{exam}" />
-  
-          <div class="col-md-4">
-            <label for="value" class="form-label">Voto</label>
-            <input
-              type="number"
-              class="form-control"
-              id="value"
-              th:field="*{value}"
-              th:errorClass="is-invalid"
-            />
-            <div class="invalid-feedback" th:if="${#fields.hasErrors('value')}">
-              <ul>
-                <li
-                  th:each="error : ${#fields.errors('value')}"
-                  th:text="${error}"
-                ></li>
-              </ul>
-            </div>
-          </div>
-
-          <div class="col-md-12">
-            <label for="hasHonors" class="form-check-label">Lode</label>
-            <input
-              type="checkbox"
-              class="form-check-input"
-              id="hasHonors"
-              th:field="*{hasHonors}"
-              th:errorClass="is-invalid"
-            />
-            <div
-              class="invalid-feedback"
-              th:if="${#fields.hasErrors('hasHonors')}"
-            >
-              <ul>
-                <li
-                  th:each="error : ${#fields.errors('hasHonors')}"
-                  th:text="${error}"
-                ></li>
-              </ul>
-            </div>
-          </div>
-
-          <div class="mt-4">
-            <button type="submit" class="btn btn-success">Save</button>
-          </div>
-        </form>
       </main>
     </div>
 
