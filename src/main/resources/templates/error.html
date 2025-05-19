@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
   <head>
-    <title>Error Page</title>
+    <title>Error</title>
 
     <div th:replace="~{fragments/fragments :: styles}"></div>
   </head>
@@ -10,14 +10,13 @@
 
     <div class="container">
       <main>
-        <div className="card courseCards h-100">
+        <div class="card courseCards h-100 w-50 mx-auto">
           <div
-            className="card-body d-flex flex-column justify-content-center align-items-center text-success"
+            class="p-5 card-body text-center"
           >
-            <h1 className="fw-bold">500</h1>
-            <h2 className="fw-bold">Internal Server Error</h2>
-
-            <div class="mt-2">[[${error}]]</div>
+            <h1 class="fw-bold" th:text="${status}"></h1>
+            <h2 class="fw-semibold" th:text="${error}"></h2>
+            <p class="text-secondary mt-3" th:text="${message}"></p>
           </div>
         </div>
       </main>
